@@ -1,0 +1,59 @@
+resources:
+  containers:
+  - container: linux_jaci #Jaci's Linux, from (https://github.com/JacisNonsense/azure-native-linux)
+    image: jaci/azure-native-linux:2018.12.06
+  - container: wpilib2019
+    image: wpilib/roborio-cross-ubuntu:2019-18.04
+  - container: raspbian
+    image:  wpilib/raspbian-cross-ubuntu:18.04
+
+jobs:
+
+- job: windows_VS2017_Win2016
+  pool:
+    vmImage: 'VS2017-Win2016'
+  steps:
+  - template: azure-init.yml
+  - script: git submodule update --init
+  - task: Gradle@2
+    inputs:
+      workingDirectory: ''
+      gradleWrapperFile: 'gradlew'
+      gradleOptions: '-Xmx3072m'
+      publishJUnitResults: false
+      testResultsFiles: '**/TEST-*.xml'
+      tasks: 'clean build'
+      options: '-Pno-roborio'
+
+- job: macOS
+  pool:
+    vmImage: 'macOS-10.13'
+  steps:
+  - template: azure-init.yml
+  - script: git submodule update --init
+  - task: Gradle@2
+    inputs:
+      workingDirectory: ''
+      gradleWrapperFile: 'gradlew'
+      gradleOptions: '-Xmx3072m'
+      publishJUnitResults: false
+      testResultsFiles: '**/TEST-*.xml'
+      tasks: 'clean build'
+      options: '-Pno-roborio'
+
+- job: linux16
+  pool: 
+    vmImage: 'Ubuntu-16.04'
+  container: linux_jaci
+  steps:
+  - script: sudo apt-get install -y libusb-1.0-0-dev
+  - script: git submodule update --init
+  - task: Gradle@2
+    inputs:
+      workingDirectory: ''
+      gradleWrapperFile: 'gradlew'
+      gradleOptions: '-Xmx3072m'
+      publishJUnitResults: false
+      testResultsFiles: '**/TEST-*.xml'
+      tasks: 'clean build'
+      options: '-Pno-roborio'
