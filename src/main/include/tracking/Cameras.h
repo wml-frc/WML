@@ -14,7 +14,7 @@
 #include <cscore.h>
 
 namespace wml {
-  struct CameraSetup {
+  struct VisionCameraSetup {
 
     // Camera Used
 
@@ -31,10 +31,9 @@ namespace wml {
      */
     void CamSetup (int Port, int ResHeight, int ResWidth, std::string CamName);
 
-
   };
 
-  struct KinectSetup {
+  struct VisionKinectSetup {
     //@todo
   };
 };

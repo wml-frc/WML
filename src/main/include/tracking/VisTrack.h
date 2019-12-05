@@ -27,7 +27,13 @@ namespace wml {
 
     /**
      * Track using retro reflective tape, Using low exposure and Green pixle filtering
+     * Using the defaults for the colour spectrum and exposure settings.
      */
-    void RetroTrack()
+    void RetroTrack(cv::Mat Img, int ErosionSize);
+
+    /**
+     * Track using your own adjusted settings for the colour spectrum and exposure
+     */
+    void CustomTrack(cv::Mat Img, int HSVColourLowRange, int HSVColourHighRange, int CamExposure, int ErosionSize);
   };
 };
