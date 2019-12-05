@@ -15,16 +15,18 @@ cv::Mat wml::VisionConfig::SetupVision(int CamPort, int FPS, int ResHeight, int 
   return ImageSrc;
 }
 
-cv::Mat wml::VisionConfig::RetroTrack(cv::Mat Img, int ErosionSize) {
+cv::Mat wml::VisionConfig::RetroTrack(cv::Mat Img, int ErosionSize, int DialationSize) {
   if (visionCameraSetup.cameraSetup.sink.GrabFrame(Img) != 0) {
     cv::cvtColor(Img, imgTracking, cv::COLOR_BGR2HSV); // Uses HSV Spectrum
 
     // Keeps Only green pixles
     cv::inRange(imgTracking, cv::Scalar(RETRO_HSV_MIN, RETRO_VALUE_MIN, RETRO_VALUE_MIN), cv::Scalar(RETRO_HSV_MAX, RETRO_VALUE_MAX, RETRO_VALUE_MAX), imgTracking);
 
-    cv::erode(imgTracking, imgTracking, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(ErosionSize, ErosionSize)));
-    cv::dilate(imgTracking, imgTracking, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(ErosionSize, ErosionSize)));
-
+    // Removes pixles at a certain size, And dilates the image to get rid of gaps
+    if (ErosionSize > 0) {
+      cv::erode(imgTracking, imgTracking, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(ErosionSize, ErosionSize)));
+      cv::dilate(imgTracking, imgTracking, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(DialationSize, DialationSize)));
+    }
   } else {
     std::cout << "Error Getting Image" << std::endl;
   }
@@ -32,16 +34,18 @@ cv::Mat wml::VisionConfig::RetroTrack(cv::Mat Img, int ErosionSize) {
   return imgTracking;
 }
 
-cv::Mat wml::VisionConfig::CustomTrack(cv::Mat Img, int HSVColourLowRange, int HSVColourHighRange, int ValueColourLowRange, int ValueColourHighRange, int CamExposure, int ErosionSize, cs::UsbCamera cam) {
+cv::Mat wml::VisionConfig::CustomTrack(cv::Mat Img, int HSVColourLowRange, int HSVColourHighRange, int ValueColourLowRange, int ValueColourHighRange, int CamExposure, int ErosionSize, int DialationSize, cs::UsbCamera cam) {
   if (visionCameraSetup.cameraSetup.sink.GrabFrame(Img) != 0) {
     cv::cvtColor(Img, imgTracking, cv::COLOR_BGR2HSV); // Uses HSV Spectrum
 
     // Keeps Only green pixles
     cv::inRange(imgTracking, cv::Scalar(HSVColourLowRange, ValueColourLowRange, ValueColourLowRange), cv::Scalar(HSVColourHighRange, ValueColourHighRange, ValueColourHighRange), imgTracking);
-
-    cv::erode(imgTracking, imgTracking, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(ErosionSize, ErosionSize)));
-    cv::dilate(imgTracking, imgTracking, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(ErosionSize, ErosionSize)));
-
+    
+    // Removes pixles at a certain size, And dilates the image to get rid of gaps
+    if (ErosionSize > 0) {
+      cv::erode(imgTracking, imgTracking, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(ErosionSize, ErosionSize)));
+      cv::dilate(imgTracking, imgTracking, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(DialationSize, DialationSize)));
+    }
   } else {
     std::cout << "Error Getting Image" << std::endl;
   }

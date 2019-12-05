@@ -21,7 +21,7 @@
 namespace wml {
   class VisionConfig {
     public:
-      cv::Mat ImageSrc;
+      static cv::Mat ImageSrc;
       cv::Mat imgTracking;
       cs::UsbCamera cam;
       
@@ -35,12 +35,12 @@ namespace wml {
        * Track using retro reflective tape, Using low exposure and Green pixle filtering
        * Using the defaults for the colour spectrum and exposure settings.
        */
-      cv::Mat RetroTrack(cv::Mat Img, int ErosionSize);
+      cv::Mat RetroTrack(cv::Mat Img, int ErosionSize, int DialationSize);
 
       /**
        * Track using your own adjusted settings for the colour spectrum and exposure
        */
-      cv::Mat CustomTrack(cv::Mat Img, int HSVColourLowRange, int HSVColourHighRange, int ValueColourLowRange, int ValueColourHighRange, int CamExposure, int ErosionSize, cs::UsbCamera cam);
+      cv::Mat CustomTrack(cv::Mat Img, int HSVColourLowRange, int HSVColourHighRange, int ValueColourLowRange, int ValueColourHighRange, int CamExposure, int ErosionSize, int DialationSize, cs::UsbCamera cam);
 
     private:
 
