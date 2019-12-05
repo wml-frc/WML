@@ -47,8 +47,18 @@ namespace wml {
   struct VisionDetectionType {
 
     /**
-     * Gives the centroid figure in pixle x,y;
+     * Gives the centroid figure in pixle x,y
      */
     void CentroidPushBack(cv::Mat img);
+
+    /**
+     * Calculates the centroid in pixle x,y and outputs angle & distance of rectangle 
+     */
+    void RectanglePushBack(cv::Mat img);
+
+    /**
+     * Calculates the centroid in pixle x,y and outputs the distance of the circle 
+     */
+    void CirclePushBack(cv::Mat img);
   };
 };

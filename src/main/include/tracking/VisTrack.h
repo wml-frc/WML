@@ -7,9 +7,13 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
 #include "opencv2/core/core.hpp"
-#include "tracking/Cameras.h"
 #include <stdio.h>
 #include <iostream>
+
+// Tracking Libraires
+#include "VisionCameras.h"
+#include "VisionProcessingType.h"
+#include "VisionOutput.h"
 
 #include <cameraserver/CameraServer.h>
 #include <cscore.h>
