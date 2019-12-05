@@ -27,4 +27,5 @@ namespace wml {
      */
     void RobotOutput(cv::Mat ProcessedImg);
   };
+  ImageOutput imageOutput;
 };
