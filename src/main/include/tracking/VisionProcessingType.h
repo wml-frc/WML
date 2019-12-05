@@ -68,4 +68,4 @@ namespace wml {
     VisionDetectionType visionDetectionType;
 
   };
-};
+}

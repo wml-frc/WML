@@ -49,4 +49,4 @@ namespace wml {
     KinectSetup kinectSetup;
 
   };
-};
+}
