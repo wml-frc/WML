@@ -30,4 +30,5 @@ namespace wml {
     };
     ImageOutput imageOutput;
   };
+  ImageOutput imageOutput;
 };
