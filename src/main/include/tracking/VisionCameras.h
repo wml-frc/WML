@@ -16,24 +16,37 @@
 namespace wml {
   struct VisionCameraSetup {
 
-    // Camera Used
+    struct CameraSetup {
 
-    /**
-     * Sets the Camera up on Camera Server
-     */
-    cs::UsbCamera cam;
-    cs::CvSink sink;
-    int ResWidth;
-    int ResHeight;
+      
+      cs::CvSink sink{"USB"};
+      cs::CvSource output;
+      cs::VideoMode video_modeStartup;
+      cv::Mat *ImgTracking;
+      bool CamStartUp = true;
 
-    /** 
-     * Sets up the camera up using a Port, Height, Width and the Name of the Camera e.g Front
-     */
-    void CamSetup (int Port, int ResHeight, int ResWidth, std::string CamName);
+      /** 
+       * Sets up the camera up using a Port, Framerate, Height, Width, Exposure level and the Name of the Camera e.g Front
+       */
+      cs::UsbCamera CamSetup(int Port, double FPS, int ResHeight, int ResWidth, int Exposure, std::string CamName);
 
-  };
+      /**
+       * Get's the Video Mode from the camera
+       */
+      auto VideoMode(cs::UsbCamera cam, std::string camName);
 
-  struct VisionKinectSetup {
-    //@todo
+
+      /**
+       * Returns the image as a Mat from the Camera
+       */
+      cv::Mat ImageReturn(cs::UsbCamera cam, std::string camName);
+    };
+    CameraSetup cameraSetup;
+
+    struct KinectSetup {
+      //@todo
+    };
+    KinectSetup kinectSetup;
+
   };
 };

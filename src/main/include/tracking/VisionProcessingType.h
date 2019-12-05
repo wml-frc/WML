@@ -15,50 +15,57 @@
 
 namespace wml {
 
-  struct  VisionEdgeDetection {
+  struct VisionProcessing {
 
-    /**
-     * Using OpenCV's Canny operation to detect edges, Then placing those detections ontop of image.
-     */
-    void CannyTrack(cv::Mat img, int Threshold);
+    struct VisionEdgeDetection {
 
-    /**
-     * Detect contours using point to point algorithms, And store within vectors
-     */
-    void ContourDetect(cv::Mat img);
+      /**
+       * Using OpenCV's Canny operation to detect edges, Then placing those detections ontop of image.
+       */
+      void CannyTrack(cv::Mat img, int Threshold);
 
-    //@Todo, Allow a different edge track for on Rio services
-  };
+      /**
+       * Detect contours using point to point algorithms, And store within vectors
+       */
+      void ContourDetect(cv::Mat img);
 
-  struct VisionHullGeneration {
+      //@Todo, Allow a different edge track for on Rio services
+    };
+    VisionEdgeDetection visionEdgeDetection;
 
-    /**
-     * Draws a shell/hull around the object, usefull for detecting centroids of objects
-     * Or using the shell to calculate object specific outputs. e.g, angle of rectangle or size of circle.
-     */
-    void GetHull(cv::Mat img);
+    struct VisionHullGeneration {
 
-    /**
-     * Draws a bounding box around an object
-     */
-    void BoundingBox(cv::Mat img);
-  };
+      /**
+       * Draws a shell/hull around the object, usefull for detecting centroids of objects
+       * Or using the shell to calculate object specific outputs. e.g, angle of rectangle or size of circle.
+       */
+      void GetHull(cv::Mat img);
 
-  struct VisionDetectionType {
+      /**
+       * Draws a bounding box around an object
+       */
+      void BoundingBox(cv::Mat img);
+    };
+    VisionHullGeneration visionHullGeneration;
 
-    /**
-     * Gives the centroid figure in pixle x,y
-     */
-    void CentroidPushBack(cv::Mat img);
+    struct VisionDetectionType {
 
-    /**
-     * Calculates the centroid in pixle x,y and outputs angle & distance of rectangle 
-     */
-    void RectanglePushBack(cv::Mat img);
+      /**
+       * Gives the centroid figure in pixle x,y
+       */
+      void CentroidDetect(cv::Mat img);
 
-    /**
-     * Calculates the centroid in pixle x,y and outputs the distance of the circle 
-     */
-    void CirclePushBack(cv::Mat img);
+      /**
+       * Calculates the centroid in pixle x,y and outputs angle & distance of rectangle 
+       */
+      void RectangleDetect(cv::Mat img);
+
+      /**
+       * Calculates the centroid in pixle x,y and outputs the distance of the circle 
+       */
+      void CircleDetect(cv::Mat img);
+    };
+    VisionDetectionType visionDetectionType;
+
   };
 };

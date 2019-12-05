@@ -19,25 +19,32 @@
 #include <cscore.h>
 
 namespace wml {
-  struct VisionConfig {
+  class VisionConfig {
+    public:
+      cv::Mat imgTracking;
+      
+      /** 
+       * Sets up vision using OpenCV & Camera Servers
+       */
+      cv::Mat SetupVision(int CamPort, int FPS, int ResHeight, int ResWidth, int Exposure, std::string CamName, bool RetroTrack);
 
-    cv::Mat imgOrigin;
-    
-    /** 
-     * Sets up vision using OpenCV & Camera Servers
-     */
-    void SetupVision(int CamPort, int ResHeight, int ResWidth, std::string Name);
 
+      /**
+       * Track using retro reflective tape, Using low exposure and Green pixle filtering
+       * Using the defaults for the colour spectrum and exposure settings.
+       */
+      cv::Mat RetroTrack(cv::Mat Img, int ErosionSize);
 
-    /**
-     * Track using retro reflective tape, Using low exposure and Green pixle filtering
-     * Using the defaults for the colour spectrum and exposure settings.
-     */
-    void RetroTrack(cv::Mat Img, int ErosionSize);
+      /**
+       * Track using your own adjusted settings for the colour spectrum and exposure
+       */
+      cv::Mat CustomTrack(cv::Mat Img, int HSVColourLowRange, int HSVColourHighRange, int ValueColourLowRange, int ValueColourHighRange, int CamExposure, int ErosionSize, cs::UsbCamera cam);
 
-    /**
-     * Track using your own adjusted settings for the colour spectrum and exposure
-     */
-    void CustomTrack(cv::Mat Img, int HSVColourLowRange, int HSVColourHighRange, int CamExposure, int ErosionSize);
+    private:
+
+      // Instances
+      VisionCameraSetup visionCameraSetup;
+      VisionOutput visionOutput;
+      VisionProcessing visionProcessing;
   };
 };

@@ -14,17 +14,20 @@
 #include <cscore.h>
 
 namespace wml {
-  struct ImageOutput {
+  struct VisionOutput {
+    struct ImageOutput {
     
-    /**
-     * Outputs the Image to a window when running the program locally
-     */ 
-    void DesktopOutput(cv::Mat ProcessedImg);
+      /**
+       * Outputs the Image to a window when running the program locally
+       */ 
+      void DesktopOutput(cv::Mat ProcessedImg);
 
 
-    /** 
-     * Outputs the Image to CS when running on Sub Processor
-     */
-    void RobotOutput(cv::Mat ProcessedImg);
+      /** 
+       * Outputs the Image to CS when running on Sub Processor
+       */
+      void RobotOutput(cv::Mat ProcessedImg);
+    };
+    ImageOutput imageOutput;
   };
 };
