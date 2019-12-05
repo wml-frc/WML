@@ -16,6 +16,18 @@
 
 namespace wml {
   struct VisionConfig {
-    //@todo
+
+    cv::Mat imgOrigin;
+    
+    /** 
+     * Sets up vision using OpenCV & Camera Servers
+     */
+    void SetupVision(int CamPort, int ResHeight, int ResWidth, std::string Name);
+
+
+    /**
+     * Track using retro reflective tape, Using low exposure and Green pixle filtering
+     */
+    void RetroTrack()
   };
 };

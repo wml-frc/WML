@@ -30,6 +30,8 @@ namespace wml {
      * Sets up the camera up using a Port, Height, Width and the Name of the Camera e.g Front
      */
     void CamSetup (int Port, int ResHeight, int ResWidth, std::string CamName);
+
+
   };
 
   struct KinectSetup {
