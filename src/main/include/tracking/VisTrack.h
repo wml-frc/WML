@@ -21,6 +21,7 @@
 namespace wml {
   class VisionConfig {
     public:
+      cv::Mat ImageSrc;
       cv::Mat imgTracking;
       cs::UsbCamera cam;
       

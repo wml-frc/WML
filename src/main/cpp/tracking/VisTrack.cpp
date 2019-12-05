@@ -7,11 +7,9 @@ const int RETRO_VALUE_MIN = 100;
 const int RETRO_VALUE_MAX = 255;
 
 cv::Mat wml::VisionConfig::SetupVision(int CamPort, int FPS, int ResHeight, int ResWidth, int Exposure, std::string Name, bool RetroTrack) {
-
   if (RetroTrack == true){ Exposure = -100; }
   cam = visionCameraSetup.cameraSetup.CamSetup(CamPort, FPS, ResHeight, ResWidth, Exposure, Name);
 
-  cv::Mat ImageSrc;
   ImageSrc = visionCameraSetup.cameraSetup.ImageReturn(cam, Name);
 
   return ImageSrc;
