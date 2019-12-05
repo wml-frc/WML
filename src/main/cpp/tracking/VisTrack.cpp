@@ -35,6 +35,19 @@ cv::Mat wml::VisionConfig::RetroTrack(cv::Mat Img, int ErosionSize) {
   return imgTracking;
 }
 
-cv::Mat wml::VisionConfig::CustomTrack(cv::Mat Img, int HSVColourLowRange, int HSVColourHighRange, int CamExposure, int ErosionSize, cs::UsbCamera cam) {
+cv::Mat wml::VisionConfig::CustomTrack(cv::Mat Img, int HSVColourLowRange, int HSVColourHighRange, int ValueColourLowRange, int ValueColourHighRange, int CamExposure, int ErosionSize, cs::UsbCamera cam) {
+  if (visionCameraSetup.sink.GrabFrame(Img) != 0) {
+    cv::cvtColor(Img, imgTracking, cv::COLOR_BGR2HSV); // Uses HSV Spectrum
 
+    // Keeps Only green pixles
+    cv::inRange(imgTracking, cv::Scalar(HSVColourLowRange, ValueColourLowRange, ValueColourLowRange), cv::Scalar(HSVColourHighRange, ValueColourHighRange, ValueColourHighRange), imgTracking);
+
+    cv::erode(imgTracking, imgTracking, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(ErosionSize, ErosionSize)));
+    cv::dilate(imgTracking, imgTracking, cv::getStructuringElement(cv::MORPH_ELLIPSE, cv::Size(ErosionSize, ErosionSize)));
+
+  } else {
+    std::cout << "Error Getting Image" << std::endl;
+  }
+
+  return imgTracking;
 }

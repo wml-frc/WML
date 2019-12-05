@@ -38,7 +38,7 @@ namespace wml {
     /**
      * Track using your own adjusted settings for the colour spectrum and exposure
      */
-    cv::Mat CustomTrack(cv::Mat Img, int HSVColourLowRange, int HSVColourHighRange, int CamExposure, int ErosionSize, cs::UsbCamera cam);
+    cv::Mat CustomTrack(cv::Mat Img, int HSVColourLowRange, int HSVColourHighRange, int ValueColourLowRange, int ValueColourHighRange, int CamExposure, int ErosionSize, cs::UsbCamera cam);
   };
   VisionConfig visionConfig;
 };
