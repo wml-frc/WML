@@ -26,7 +26,7 @@ namespace wml {
     /** 
      * Sets up vision using OpenCV & Camera Servers
      */
-    cv::Mat SetupVision(int CamPort, int FPS, int ResHeight, int ResWidth, int Exposure, std::string CamName, bool *RetroTrack);
+    cv::Mat SetupVision(int CamPort, int FPS, int ResHeight, int ResWidth, int Exposure, std::string CamName, bool RetroTrack);
 
 
     /**

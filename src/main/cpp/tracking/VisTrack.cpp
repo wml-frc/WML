@@ -6,10 +6,10 @@ const int RETRO_HSV_MAX = 78;
 const int RETRO_VALUE_MIN = 100;
 const int RETRO_VALUE_MAX = 255;
 
-cv::Mat wml::VisionConfig::SetupVision(int CamPort, int FPS, int ResHeight, int ResWidth, int Exposure, std::string Name, bool *RetroTrack) {
+cv::Mat wml::VisionConfig::SetupVision(int CamPort, int FPS, int ResHeight, int ResWidth, int Exposure, std::string Name, bool RetroTrack) {
   cs::UsbCamera cam;
 
-  if (*RetroTrack == true){ Exposure = -100; }
+  if (RetroTrack == true){ Exposure = -100; }
   cam = visionCameraSetup.CamSetup(CamPort, FPS, ResHeight, ResWidth, Exposure, Name);
 
   cv::Mat ImageSrc;
