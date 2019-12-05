@@ -22,6 +22,7 @@ namespace wml {
   class VisionConfig {
     public:
       cv::Mat imgTracking;
+      cs::UsbCamera cam;
       
       /** 
        * Sets up vision using OpenCV & Camera Servers
