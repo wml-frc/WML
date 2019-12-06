@@ -43,8 +43,8 @@ namespace wml {
       cv::Mat CustomTrack(cv::Mat Img, int HSVColourLowRange, int HSVColourHighRange, int ValueColourLowRange, int ValueColourHighRange, int CamExposure, int ErosionSize, int DialationSize, cs::UsbCamera cam);
 
       // Instances
-      VisionCameraSetup visionCameraSetup;
-      VisionOutput visionOutput;
-      VisionProcessing visionProcessing;
+      VisionCameraSetup CamSetup;
+      VisionOutput Output;
+      VisionProcessing Processing;
   };
 }
