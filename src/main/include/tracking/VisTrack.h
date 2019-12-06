@@ -19,7 +19,7 @@
 #include <cscore.h>
 
 namespace wml {
-  class VisionConfig {
+  class VisionTracking {
     public:
       cv::Mat ImageSrc;
       cv::Mat imgTracking;
