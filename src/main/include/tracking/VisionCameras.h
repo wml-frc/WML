@@ -14,7 +14,7 @@
 #include <cscore.h>
 
 namespace wml {
-  struct VisionCameraSetup {
+  struct VisionCamera {
 
     struct Camera {
 
@@ -41,7 +41,7 @@ namespace wml {
        */
       cv::Mat ImageReturn(cs::UsbCamera cam, std::string camName);
     };
-    Camera camera;
+    Camera cam;
 
     struct KinectSetup {
       //@todo
