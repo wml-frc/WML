@@ -43,7 +43,7 @@ namespace wml {
     };
     Camera cam;
 
-    struct KinectSetup {
+    struct Kinect {
       //@todo
     };
     Kinect kinect;
