@@ -16,7 +16,7 @@
 namespace wml {
   struct VisionCameraSetup {
 
-    struct CameraSetup {
+    struct Camera {
 
       
       cs::CvSink sink{"USB"};
@@ -41,12 +41,12 @@ namespace wml {
        */
       cv::Mat ImageReturn(cs::UsbCamera cam, std::string camName);
     };
-    CameraSetup cameraSetup;
+    Camera camera;
 
     struct KinectSetup {
       //@todo
     };
-    KinectSetup kinectSetup;
+    Kinect kinect;
 
   };
 }
