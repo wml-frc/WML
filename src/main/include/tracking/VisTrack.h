@@ -47,6 +47,4 @@ namespace wml {
       VisionOutput visionOutput;
       VisionProcessing visionProcessing;
   };
-
-  VisionConfig visionConfig;
 }
