@@ -8,15 +8,15 @@ const int RETRO_VALUE_MAX = 255;
 
 cv::Mat wml::VisionTracking::SetupVision(int CamPort, int FPS, int ResHeight, int ResWidth, int Exposure, std::string Name, bool RetroTrack) {
   if (RetroTrack == true){ Exposure = -100; }
-  cam = CamSetup.cameraSetup.CamSetup(CamPort, FPS, ResHeight, ResWidth, Exposure, Name);
+  cam = Camera.cam.CamSetup(CamPort, FPS, ResHeight, ResWidth, Exposure, Name);
 
-  ImageSrc = CamSetup.cameraSetup.ImageReturn(cam, Name);
+  ImageSrc = Camera.cam.ImageReturn(cam, Name);
 
   return ImageSrc;
 }
 
 cv::Mat wml::VisionTracking::RetroTrack(cv::Mat Img, int ErosionSize, int DialationSize) {
-  if (CamSetup.cameraSetup.sink.GrabFrame(Img) != 0) {
+  if (Camera.cam.sink.GrabFrame(Img) != 0) {
     cv::cvtColor(Img, imgTracking, cv::COLOR_BGR2HSV); // Uses HSV Spectrum
 
     // Keeps Only green pixles
@@ -35,7 +35,7 @@ cv::Mat wml::VisionTracking::RetroTrack(cv::Mat Img, int ErosionSize, int Dialat
 }
 
 cv::Mat wml::VisionTracking::CustomTrack(cv::Mat Img, int HSVColourLowRange, int HSVColourHighRange, int ValueColourLowRange, int ValueColourHighRange, int CamExposure, int ErosionSize, int DialationSize, cs::UsbCamera cam) {
-  if (CamSetup.cameraSetup.sink.GrabFrame(Img) != 0) {
+  if (Camera.cam.sink.GrabFrame(Img) != 0) {
     cv::cvtColor(Img, imgTracking, cv::COLOR_BGR2HSV); // Uses HSV Spectrum
 
     // Keeps Only green pixles
