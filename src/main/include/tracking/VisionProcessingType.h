@@ -1,4 +1,4 @@
-#pragma once
+#pragma once 
 
 #include <opencv2/opencv.hpp>
 #include "opencv2/objdetect.hpp"
@@ -10,41 +10,62 @@
 #include <stdio.h>
 #include <iostream>
 
-// Tracking Libraires
-#include "VisionCameras.h"
-#include "VisionProcessingType.h"
-#include "VisionOutput.h"
-
 #include <cameraserver/CameraServer.h>
 #include <cscore.h>
 
 namespace wml {
-  class VisionTracking {
-    public:
-      cv::Mat ImageSrc;
-      cv::Mat imgTracking;
-      cs::UsbCamera cam;
-      
-      /** 
-       * Sets up vision using OpenCV & Camera Servers
-       */
-      cv::Mat SetupVision(int CamPort, int FPS, int ResHeight, int ResWidth, int Exposure, std::string CamName, bool RetroTrack);
 
+  struct VisionProcessing {
+
+    struct VisionEdgeDetection {
 
       /**
-       * Track using retro reflective tape, Using low exposure and Green pixle filtering
-       * Using the defaults for the colour spectrum and exposure settings.
+       * Using OpenCV's Canny operation to detect edges, Then placing those detections ontop of image.
        */
-      cv::Mat RetroTrack(cv::Mat Img, int ErosionSize, int DialationSize);
+      void CannyTrack(cv::Mat img, int Threshold);
 
       /**
-       * Track using your own adjusted settings for the colour spectrum and exposure
+       * Detect contours using point to point algorithms, And store within vectors
        */
-      cv::Mat CustomTrack(cv::Mat Img, int HSVColourLowRange, int HSVColourHighRange, int ValueColourLowRange, int ValueColourHighRange, int CamExposure, int ErosionSize, int DialationSize, cs::UsbCamera cam);
+      void ContourDetect(cv::Mat img);
 
-      // Instances
-      VisionCamera Camera;
-      VisionOutput Output;
-      VisionProcessing Processing;
+      //@Todo, Allow a different edge track for on Rio services
+    };
+    VisionEdgeDetection visionEdgeDetection;
+
+    struct VisionHullGeneration {
+
+      /**
+       * Draws a shell/hull around the object, usefull for detecting centroids of objects
+       * Or using the shell to calculate object specific outputs. e.g, angle of rectangle or size of circle.
+       */
+      void GetHull(cv::Mat img);
+
+      /**
+       * Draws a bounding box around an object
+       */
+      void BoundingBox(cv::Mat img);
+    };
+    VisionHullGeneration visionHullGeneration;
+
+    struct VisionDetectionType {
+
+      /**
+       * Gives the centroid figure in pixle x,y
+       */
+      void CentroidDetect(cv::Mat img);
+
+      /**
+       * Calculates the centroid in pixle x,y and outputs angle & distance of rectangle 
+       */
+      void RectangleDetect(cv::Mat img);
+
+      /**
+       * Calculates the centroid in pixle x,y and outputs the distance of the circle 
+       */
+      void CircleDetect(cv::Mat img);
+    };
+    VisionDetectionType visionDetectionType;
+
   };
 }
