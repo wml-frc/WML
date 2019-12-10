@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cmath>
 #include <string>
 
 #include "devices/StateDevice.h"
@@ -52,7 +53,7 @@ namespace wml {
     double GetFeedforward();
 
     double GetSetpoint(); // Do we need that?
-    double GetHeight();
+    double GetHeight(double encoderValue = INFINITY);
 
     ElevatorConfig &GetConfig();
     

@@ -49,9 +49,9 @@ double wml::Elevator::GetSetpoint() {
   return _controller.GetSetpoint();
 }
 
-double wml::Elevator::GetHeight() {
+double wml::Elevator::GetHeight(double encoderValue) {
   double radius = _config.spoolRadius;
-  double rotations = _config.spool.encoder->GetEncoderRotations();
+  double rotations = encoderValue == INFINITY ? _config.spool.encoder->GetEncoderRotations() : encoderValue;
   double height = 6.283 * radius * rotations;
   return height;
 }
