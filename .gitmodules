@@ -1,4 +1,3 @@
-[submodule "wml"]
+[submodule "vision"]
 	path = src/vision
-	url = https://github.com/wml-frc/VisionTracking
-	branch = master
+	url = https://github.com/wml-frc/vision.git
