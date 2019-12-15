@@ -1,0 +1,4 @@
+[submodule "wml"]
+	path = src/vision
+	url = https://github.com/wml-frc/VisionTracking
+	branch = master
