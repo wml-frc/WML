@@ -1,3 +1,0 @@
-[submodule "vision"]
-	path = src/vision
-	url = https://github.com/wml-frc/vision.git
