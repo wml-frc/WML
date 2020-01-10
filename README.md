@@ -7,17 +7,17 @@
 ### Setting up WML in your own project
 - First you will need to 'install' the submodule to your root directory. Navigate to your root dir and install via `git submodule add https://github.com/wml-frc/WML.git`.
 
-- Once complete you will need to apply the project to your own codebase. Every team has their own style of programming, building & deploying. But in general most will have a build.gradle and settings.gradle, and you would apply the library via using one of the two. Our style utilises 3 files; the build.gradle and settings.gradle files,as well as a teams.gradle file. This is left over from when our team used to be both 5663 & 5333, and allowed multiple projects with different team numbers to easily co-exist in the same root project. Our code is still setup this way (partially for customary reasons), however it is definately not a requirement to use a teams.gradle file, or 3-file structure.
+- Once complete you will need to apply the project to your own codebase. Every team has their own style of programming, building & deploying. But in general most will have a `build.gradle` and `settings.gradle`, and you would apply the library via using one of the two. Our style utilises 3 files; the build.gradle and settings.gradle files,as well as a `teams.gradle` file. This is left over from when our team used to be both 5663 & 5333, and allowed multiple projects with different team numbers to easily co-exist in the same root project. Our code is still setup this way (partially for customary reasons), however it is definately not a requirement to use a `teams.gradle` file, or 3-file structure.
 
 #### Adding WML to your project's gradle config
-- Add the doxygen plugin to top of your build.gradle file (required by WML currently - hopefully will be optional soon):
+- Add the doxygen plugin to top of your `build.gradle` file (required by WML currently - hopefully will be optional soon):
 ```gradle
 plugins {
   id 'org.ysb33r.doxygen' version '0.5' apply false
 }
 ```
 
-- Inside teams.gradle (or whatever you choose to call it) add:
+- Inside `teams.gradle` (or whatever you choose to call it) add:
 ```gradle
 wpi.deps.vendor.loadFrom(project(':wml'))
 
@@ -47,7 +47,7 @@ if (!project.hasProperty('no-wml-check'))
   tasks.check.dependsOn(':wml:check') 
 ```
 
-- And include the wml gradle file in the bottom line of your settings.gradle:
+- And include the wml gradle file in the bottom line of your `settings.gradle`:
 ```gradle
 include 'wml', '4788' // replace with your teamnumber, or however you have gradle setup
 ```
