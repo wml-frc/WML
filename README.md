@@ -2,7 +2,7 @@
   <img src="https://avatars1.githubusercontent.com/u/58220426?s=200&v=4" alt=""/>
 </p>
 
-## A modularity-based library designed for use in the First Robotics Competition.
+## A modularity-based library designed for use in the FIRST Robotics Competition.
 
 ### Setting up WML in your own project
 - First you will need to 'install' the submodule to your root directory. Navigate to your root dir and install via `git submodule add https://github.com/wml-frc/WML.git`.
