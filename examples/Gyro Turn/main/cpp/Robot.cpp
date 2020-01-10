@@ -3,7 +3,7 @@
 #include <iostream>
 
 using namespace frc;
-using namespace curtinfrc;
+using namespace wml;
 
 double lastTimestamp;
 
@@ -11,9 +11,9 @@ void Robot::RobotInit() {
   lastTimestamp = Timer::GetFPGATimestamp();
 
 
-  curtinfrc::DrivetrainConfig drivetrainConfig{
+  wml::DrivetrainConfig drivetrainConfig{
     leftGearbox, rightGearbox,                              // The left and right gearboxes
-    &navx.Angular(curtinfrc::sensors::AngularAxis::YAW),    // The appropriate gyro is the navx's YAW axis
+    &navx.Angular(wml::sensors::AngularAxis::YAW),    // The appropriate gyro is the navx's YAW axis
 
     // Values reflect Team 5333's robot from the 2019 FRC Season (DeepSpace) - all measurements in SI Units (m and kg)
     0.71,     // Distance between left and right wheels

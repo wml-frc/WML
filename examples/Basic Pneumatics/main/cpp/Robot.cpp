@@ -3,7 +3,7 @@
 #include <iostream>
 
 using namespace frc;
-using namespace curtinfrc;
+using namespace wml;
 
 double lastTimestamp;
 
