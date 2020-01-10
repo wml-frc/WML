@@ -53,8 +53,8 @@ include 'wml', '4788' // replace with your teamnumber, or however you have gradl
 ```
 
 
-### Using the library [Examples](wml/src/example/)
-- Added to the library is an example folder that overtime will have more and more examples inside of it. But I'm aware that there are not many examples, especially compared to the breadth of the content in the library.
+### Using the library examples
+- Added to the library is an [example folder](wml/examples/) that overtime will have more and more examples inside of it. But I'm aware that there are not many examples, especially compared to the breadth of the content in the library.
 
 - I recommend looking at code that uses the library to get a better idea of what to do. (e.g. the CurtinFRC [2020 CodeBase](https://github.com/CurtinFRC/2020-InfiniteRecharge))
 
