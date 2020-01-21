@@ -1,32 +1,40 @@
-apply plugin: 'cpp'
-apply plugin: 'google-test-test-suite'
-apply plugin: 'edu.wpi.first.GradleRIO'
-apply plugin: "org.ysb33r.doxygen"
+plugins {
+  id "cpp"
+  id "google-test-test-suite"
+  id "edu.wpi.first.GradleRIO"
+  id 'org.ysb33r.doxygen'
+}
+
+// Override these in your root gradle file
+def includeSrcInIncludeRoot = false
+def includeDesktopSupport = false
+
+// logger.warn(String.valueOf(includeSrcInIncludeRoot))
+// logger.warn(String.valueOf(includeDesktopSupport))
 
 model {
   components {
     wml(NativeLibrarySpec) {
-      targetPlatform wpi.platforms.desktop
       targetPlatform wpi.platforms.roborio
+      if (includeDesktopSupport) {
+        targetPlatform wpi.platforms.desktop
+      }
 
-      binaries.all {
-        sources {
-          cpp(CppSourceSet) {
-            def target = targetPlatform.name == wpi.platforms.roborio ? 'robot' : 'simulation'
-            source {
-              srcDir 'src/main/cpp'
-              srcDir "src/${target}/cpp"
-              include '**/*.cpp'
-            }
-            exportedHeaders {
-              srcDir 'src/main/include'
-              srcDir "src/${target}/include"
-            }
+      sources.cpp {
+        source {
+          srcDir 'src/main/cpp'
+          include '**/*.cpp', '**/*.cc'
+        }
+        exportedHeaders {
+          srcDir 'src/main/include'
+          if (includeSrcInIncludeRoot) {
+            srcDir 'src/main/cpp'
           }
         }
       }
 
-      useLibrary(it, 'wpilib')
+      // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
+      wpi.deps.wpilib(it)
       wpi.deps.vendor.cpp(it)
     }
   }
@@ -38,10 +46,12 @@ model {
       sources.cpp {
         source {
           srcDir 'src/test/cpp'
+          include '**/*.cpp'
         }
       }
 
-      useLibrary(it, 'wpilib', 'googletest')
+      wpi.deps.wpilib(it)
+      wpi.deps.googleTest(it)
       wpi.deps.vendor.cpp(it)
     }
   }
@@ -49,7 +59,7 @@ model {
 
 doxygen {
   executables {
-      doxygen version : '1.8.13'
+    doxygen version : '1.8.13'
   }
 
   generate_html true
