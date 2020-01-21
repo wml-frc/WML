@@ -2,13 +2,13 @@
 
 #include <string>
 
-#include "devices/StateDevice.h"
+#include "../actuators/ActuatorBase.h"
 
 namespace wml {
   namespace actuators {
-    enum BinaryActuatorState { kReverse = 0, kForward };
+    enum class BinaryActuatorState { kReverse = 0, kForward };
 
-    class BinaryActuator : public devices::StateDevice<BinaryActuatorState> {
+    class BinaryActuator : public BoundedActuator<BinaryActuatorState, BinaryActuatorState> {
      public:
       BinaryActuator(std::string name = "<Binary Actuator>", BinaryActuatorState initialState = kReverse) : StateDevice(name, initialState) {};
       using ActuatorState = BinaryActuatorState;
@@ -25,19 +25,19 @@ namespace wml {
         return "<state error>";
       };
 
-      void SetTarget(BinaryActuatorState state) { SetState(state); if (_lastState != _state) Init(); };
-      virtual void UpdateActuator(double dt) = 0;
-      virtual void Stop() {};
-      virtual bool IsDone() { return true; };
+      void Set(BinaryActuatorState state) { SetState(state); if (_lastState != _state) Init(); };
+      virtual void Stop() override {};
+      virtual bool IsDone() override { return true; };
 
-      BinaryActuatorState Get() { return GetState(); };
+      virtual BinaryActuatorState Get() override { return GetState(); };
 
      protected:
-      virtual void Init() {};
+      virtual void InitBinaryActuator(BinaryActuatorState newState, BinaryActuatorState oldState) {};
+      virtual void UpdateBinaryActuator(double dt) {};
 
      private:
-      virtual void OnStateChange(BinaryActuatorState newState, BinaryActuatorState oldState) { Init(); };
-      virtual void OnStatePeriodic(BinaryActuatorState state, double dt) { UpdateActuator(dt); if (IsDone()) Stop(); };
+      virtual void InitActuatorBase(BinaryActuatorState newState, BinaryActuatorState oldState) final { InitBinaryActuator(newState, oldState); };
+      virtual void UpdateActuatorBase(double dt) final { UpdateBinaryActuator(dt); };
     };
   } // ns actuators
 } // ns wml
