@@ -1,9 +1,11 @@
 #pragma once
 
 #include <frc/filters/LinearDigitalFilter.h>
-#include <frc/circular_buffer.h>
+#include <wpi/circular_buffer.h>
 
 #include <functional>
+#include <initializer_list>
+#include <utility>
 #include <vector>
 
 namespace wml {
@@ -46,7 +48,8 @@ namespace control {
    */
   class LinearFilter : public Filter {
    public:
-    LinearFilter(wpi::ArrayRef<double> gainsFF, wpi::ArrayRef<double> gainsFB);
+    LinearFilter(std::initializer_list<double> gainsFF, std::initializer_list<double> gainsFB);
+    LinearFilter(std::vector<double> &&ff, std::vector<double> &&fb);   // LinearFilter(std::move(ff), std::move(fb));
 
     double Get(double input) override;
     void Reset() override;
@@ -56,7 +59,7 @@ namespace control {
     static LinearFilter MovingAverage(int samples);
 
    private:
-    frc::circular_buffer<double> _bufferFF, _bufferFB;
+    wpi::circular_buffer<double> _bufferFF, _bufferFB;
     std::vector<double> _gainsFF, _gainsFB;
   };
 }  // namespace control
