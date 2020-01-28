@@ -2,8 +2,10 @@
 
 using namespace wml::control;
 
-LinearFilter::LinearFilter(wpi::ArrayRef<double> gainsFF, wpi::ArrayRef<double> gainsFB) :
+LinearFilter::LinearFilter(std::initializer_list<double> gainsFF, std::initializer_list<double> gainsFB) :
   _bufferFF(gainsFF.size()), _bufferFB(gainsFB.size()), _gainsFF(gainsFF), _gainsFB(gainsFB) {}
+LinearFilter::LinearFilter(std::vector<double> &&ff, std::vector<double> &&fb) :
+  _bufferFF(ff.size()), _bufferFB(fb.size()), _gainsFF(ff), _gainsFB(fb) {}
 
 double LinearFilter::Get(double input) {
   double ret = 0;
@@ -37,5 +39,6 @@ LinearFilter LinearFilter::HighPass(double time_const, double period) {
 
 LinearFilter LinearFilter::MovingAverage(int samples) {
   std::vector<double> gains(samples, 1.0 / samples);
-  return LinearFilter(gains, {});
+  std::vector<double> empty{};
+  return LinearFilter(std::move(gains), std::move(empty));
 }
