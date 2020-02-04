@@ -1,16 +1,17 @@
 #include "WMLRev.h"
 
-#include <frc/RobotController.h>
-
 using namespace wml;
 
 // SPARK MAX
 
-SparkMax::SparkMax(int port, MotorType motorType, int encoderTicksPerRotation) : actuators::MotorVoltageController(this), Encoder::Encoder(encoderTicksPerRotation) {
-  _handle = new rev::CANSparkMax(port, (rev::CANSparkMax::MotorType)motorType);
+SparkMax::SparkMax(int port, MotorType motorType, rev::CANEncoder::EncoderType encoderType, int encoderTicksPerRotation) : actuators::MotorVoltageController(this), Encoder::Encoder(encoderTicksPerRotation), _handle(port, (rev::CANSparkMax::MotorType)motorType) {
+  if (encoderTicksPerRotation > 0) _encoder = new rev::CANEncoder(_handle, encoderType, encoderTicksPerRotation);
+
   _port = port;
   _motorType = motorType;
 }
+
+SparkMax::SparkMax(int port, MotorType motorType, int encoderTicksPerRotation) : SparkMax(port, motorType, rev::CANEncoder::EncoderType::kHallSensor, encoderTicksPerRotation) {}
 
 // SparkMax::~SparkMax() {
 //   delete _handle;
@@ -21,37 +22,37 @@ int SparkMax::GetPort() {
 }
 
 void SparkMax::SetInverted(bool invert) {
-  _handle->SetInverted(invert);
+  _handle.SetInverted(invert);
 }
 
 bool SparkMax::GetInverted() const {
-  return _handle->GetInverted();
+  return _handle.GetInverted();
 }
 
 void SparkMax::Disable() {
-  _handle->Disable();
+  _handle.Disable();
 }
 
 void SparkMax::Set(double speed) {
-  _handle->Set(speed);
+  _handle.Set(speed);
 }
 
 int SparkMax::GetSensorPosition() {
-  return _handle->GetEncoder().GetPosition();
+  return _encoder->GetPosition();
 }
 
 int SparkMax::GetSensorVelocity() {
-  return _handle->GetEncoder().GetVelocity();
+  return _encoder->GetVelocity();
 }
 
 void SparkMax::ZeroEncoder() {
-  _handle->GetEncoder().SetPosition(0);
+  _encoder->SetPosition(0);
 }
 
 // not .robot
 
 void SparkMax::StopMotor() {
-  _handle->StopMotor();
+  _handle.StopMotor();
 }
 
 void SparkMax::PIDWrite(double output) {
@@ -67,5 +68,5 @@ int SparkMax::GetEncoderRawTicks() {
 }
 
 double SparkMax::GetEncoderTickVelocity() {
-  return GetSensorVelocity() * _handle->GetEncoder().GetCPR() / 60;
+  return GetSensorVelocity() * GetEncoderTicksPerRotation() / 60;
 }

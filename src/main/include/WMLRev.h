@@ -2,6 +2,7 @@
 
 #include <frc/SpeedController.h>
 #include <rev/CANSparkMax.h>
+#include <rev/CANEncoder.h>
 
 #include <functional>
 
@@ -26,7 +27,8 @@ namespace wml {
      * 
      * @param port The device ID of the SPARK MAX on the CAN Bus.
      */
-    SparkMax(int port, MotorType motorType, int encoderTicksPerRotation = 2048);
+    SparkMax(int port, MotorType motorType, rev::CANEncoder::EncoderType encoderType, int encoderTicksPerRotation);
+    SparkMax(int port, MotorType motorType, int encoderTicksPerRotation = -1);
     // ~SparkMax();
 
     /**
@@ -89,9 +91,11 @@ namespace wml {
     void ZeroEncoder() override;
     
    private:
+    rev::CANSparkMax _handle;
+    rev::CANEncoder *_encoder = nullptr;
+    
     int _port;
     MotorType _motorType;
-    rev::CANSparkMax *_handle;
     double _value;
   };
 
