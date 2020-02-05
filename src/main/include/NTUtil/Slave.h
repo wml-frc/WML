@@ -41,8 +41,15 @@ namespace wml {
       __NTUTIL__SLAVE__MACRO_FACTORY__(std::vector<double>, DoubleArray)
       __NTUTIL__SLAVE__MACRO_FACTORY__(std::vector<std::string>, StringArray)
 
+
+      template <std::enable_if<false>* = nullptr>
+      Slave(std::shared_ptr<nt::NetworkTable> table, std::string name, void* *value); // T *value
+
       Slave(const Slave &other) : Slave(other._table, other._name, other._val) {}
       ~Slave() { _table->RemoveEntryListener(_listener); }
+
+      std::enable_if_t<false>
+      Override(void* newVal); // T newVal
       
      private:
       std::shared_ptr<nt::NetworkTable> _table;
