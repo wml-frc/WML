@@ -6,7 +6,7 @@
 
 namespace wml {
   namespace actuators {
-    class Compressor : public BinaryActuator, protected frc::Compressor {
+    class Compressor : protected frc::Compressor, public BinaryActuator {
       public:
       Compressor(std::string name = "<Compressor>", BinaryActuatorState initialState = actuators::kReverse) : frc::Compressor(), BinaryActuator(name, initialState) { SetClosedLoopControl(false); };
       Compressor(int pcmID, std::string name = "<Compressor>", BinaryActuatorState initialState = actuators::kReverse) : frc::Compressor(pcmID), BinaryActuator(name, initialState) { SetClosedLoopControl(false); };
