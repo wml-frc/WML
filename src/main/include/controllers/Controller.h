@@ -4,6 +4,8 @@
 
 namespace wml {
   namespace controllers {
+    using RumbleType = frc::GenericHID::RumbleType;
+
     class ConstructableGenericHID : public frc::GenericHID { // Constructable GenericHID class
      public:
       using frc::GenericHID::GenericHID;
@@ -20,6 +22,8 @@ namespace wml {
       virtual double GetRawAxis(int axis) const { return _cont.GetRawAxis(axis); };
       virtual bool GetRawButton(int button) const { return _cont.GetRawButton(button); };
       virtual int GetPOV(int POV) const { return _cont.GetPOV(POV); };
+
+      void SetRumble(RumbleType type, double value) { _cont.SetRumble(type, value); };
 
      protected:
       ConstructableGenericHID _cont;
@@ -56,6 +60,8 @@ namespace wml {
       virtual bool GetButton(int button = 1) { return GetRawButton(button); };
       virtual int GetPOVAngle(int pov = 0) { return GetRawPOVAngle(pov); };
       virtual POVPos GetPOV(int pov = 0) { return (POVPos)GetRawPOVAngle(pov); };
+
+      void SetRumble(RumbleType type, double value) { _cont->SetRumble(type, value); };
 
      protected:
       GenericHID *_cont;
