@@ -79,7 +79,7 @@ void SmartController::Map(tAxis map_axis, std::vector<tButton> virt_buttons) {
   if (Exists(map_axis)) {
     if (Exists(virt_buttons, false)) {
       std::vector<inputs::AxisSelectorButton*> buttons = inputs::MakeAxisSelectorButtons(GetObj(map_axis), virt_buttons.size());
-      for (int i = 0; i < buttons.size(); i++) {
+      for (unsigned int i = 0; i < buttons.size(); i++) {
         if (virt_buttons.at(i) != noButton) _buttons[virt_buttons.at(i).id] = buttons.at(i);
       }
 
@@ -103,7 +103,7 @@ void SmartController::Map(std::pair<tButton, tButton> map_buttons, std::vector<t
   if (Exists(std::vector<tButton>({ map_buttons.first, map_buttons.second }))) {
     if (Exists(virt_buttons, false)) {
       std::vector<inputs::ButtonSelectorButton*> buttons = inputs::MakeButtonSelectorButtons({ GetObj(map_buttons.first), GetObj(map_buttons.second) }, virt_buttons.size(), wrap);
-      for (int i = 0; i < buttons.size(); i++) {
+      for (unsigned int i = 0; i < buttons.size(); i++) {
         if (virt_buttons.at(i) != noButton) _buttons[virt_buttons.at(i).id] = buttons.at(i);
       }
 
