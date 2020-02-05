@@ -7,7 +7,7 @@
 
 namespace wml {
   namespace actuators {
-    class BinaryServo : public BinaryActuator, protected frc::Servo {
+    class BinaryServo : protected frc::Servo, public BinaryActuator {
      public:
       BinaryServo(int channel, int forwardPos, int reversePos, std::string name = "<Binary Servo>") : frc::Servo(channel), BinaryActuator(name), _forwardPos(forwardPos), _reversePos(reversePos) {};
 
@@ -17,7 +17,6 @@ namespace wml {
       
      private:
       int _forwardPos, _reversePos; // Forward and Reverse positions on the servo, in degrees
-
     };
   } // ns actuators
 } // ns wml
