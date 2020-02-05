@@ -28,6 +28,8 @@ double NavXGyro::GetActualAngle() const {
     case AngularAxis::YAW:
       return _navx._impl->GetAngle();
   }
+
+  return 0;
 }
 
 double NavXGyro::GetRate() const {
@@ -39,4 +41,6 @@ double NavXGyro::GetRate() const {
     case AngularAxis::YAW:
       return _navx._impl->GetRate();
   }
+
+  return 0;
 }
