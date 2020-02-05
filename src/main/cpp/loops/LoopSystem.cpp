@@ -12,7 +12,7 @@ void LoopSystem::UpdateOnce() {
 
 void LoopSystem::StartLoop(unsigned int hz) {
   _lastNotifierCall = frc::Timer::GetFPGATimestamp();
-  _notifier.StartPeriodic(1.0 / hz);
+  _notifier.StartPeriodic((units::second_t)(1.0 / hz));
   _notifierRunning = true;
 }
 
