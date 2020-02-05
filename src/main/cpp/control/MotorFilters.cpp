@@ -3,7 +3,7 @@
 using namespace wml;
 
 control::CurrentFFFilter::CurrentFFFilter(double min, double max, Gearbox &gb)
-    : _min_curr(min), _max_curr(max), _gearbox(gb) {}
+    : _gearbox(gb), _min_curr(min), _max_curr(max) {}
 
 double control::CurrentFFFilter::Get(double voltage) {
   double angular_vel = _gearbox.encoder->GetEncoderAngularVelocity();
@@ -32,7 +32,7 @@ static double accel_to_current(wml::Gearbox &gb, double mass, double radius, dou
 
 control::AccelerationFFFilter::AccelerationFFFilter(double min, double max, Gearbox &gb, double radius,
                                                     double mass)
-    : _mass(mass), _radius(radius), CurrentFFFilter(accel_to_current(gb, mass, radius, min), accel_to_current(gb, mass, radius, max), gb) {}
+    : CurrentFFFilter(accel_to_current(gb, mass, radius, min), accel_to_current(gb, mass, radius, max), gb), _radius(radius), _mass(mass) {}
 
 void control::AccelerationFFFilter::SetLimits(double min, double max) {
   CurrentFFFilter::SetLimits(accel_to_current(_gearbox, _mass, _radius, min), accel_to_current(_gearbox, _mass, _radius, max));
