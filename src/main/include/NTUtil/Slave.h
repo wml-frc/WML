@@ -2,6 +2,7 @@
 
 #include <type_traits>
 #include <string>
+#include <vector>
 
 #include <networktables/NetworkTable.h>
 
@@ -30,9 +31,15 @@ namespace wml {
     template <typename T>
     class Slave {
      public:
-      __NTUTIL__SLAVE__MACRO_FACTORY__(double, Double)
       __NTUTIL__SLAVE__MACRO_FACTORY__(bool, Boolean)
+      __NTUTIL__SLAVE__MACRO_FACTORY__(double, Double)
       __NTUTIL__SLAVE__MACRO_FACTORY__(std::string, String)
+
+      // __NTUTIL__SLAVE__MACRO_FACTORY__(std::string, Raw)
+
+      __NTUTIL__SLAVE__MACRO_FACTORY__(std::vector<int>, BooleanArray)
+      __NTUTIL__SLAVE__MACRO_FACTORY__(std::vector<double>, DoubleArray)
+      __NTUTIL__SLAVE__MACRO_FACTORY__(std::vector<std::string>, StringArray)
 
       Slave(const Slave &other) : Slave(other._table, other._name, other._val) {}
       ~Slave() { _table->RemoveEntryListener(_listener); }
