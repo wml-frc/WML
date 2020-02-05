@@ -18,7 +18,7 @@ namespace wml {
 
     class BinaryEncoderMotor : public BinaryActuator {
      public:
-      BinaryEncoderMotor(BinaryEncoderMotorConfig config, BinaryActuatorState initialState = kReverse) : _config(config), BinaryActuator(config.name, initialState) {};
+      BinaryEncoderMotor(BinaryEncoderMotorConfig config, BinaryActuatorState initialState = kReverse) : BinaryActuator(config.name, initialState), _config(config) {};
 
       virtual void UpdateActuator(double dt) override;
       virtual void Stop() override;
