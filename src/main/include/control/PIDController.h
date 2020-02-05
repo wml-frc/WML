@@ -1,6 +1,6 @@
 #pragma once
 
-#include "NTUtil.h"
+#include "NTUtil/Slave.h"
 #include "Filter.h"
 
 #include <string>
@@ -26,7 +26,7 @@ namespace control {
     double _kP, _kI, _kD, _kF;
     std::string _name;
 
-    wpi::SmallVector<NTBoundDouble, 4> _ntbounds;
+    wpi::SmallVector<NTUtil::Slave<double>, 4> _ntbounds;
   };
 
   class PIDController {
