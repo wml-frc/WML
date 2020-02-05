@@ -26,10 +26,10 @@ namespace sensors {
   class DigitalEncoder : public Encoder {
    public:
     DigitalEncoder(int channelA, int channelB, int ticksPerRotation)
-        : _channelA(channelA),
+        : Encoder(ticksPerRotation),
+          _channelA(channelA),
           _channelB(channelB),
-          _nativeEncoder(channelA, channelB),
-          Encoder(ticksPerRotation){};
+          _nativeEncoder(channelA, channelB){};
 
     int GetEncoderRawTicks() override;
     double GetEncoderTickVelocity() override;

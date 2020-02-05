@@ -77,6 +77,7 @@ void wml::Elevator::OnStatePeriodic(wml::ElevatorState state, double dt) {
 
    case wml::ElevatorState::kMoving:
     if (_controller.IsDone()) SetHold(); // Good enough EPS for now
+    /* FALLTHRU */
    case wml::ElevatorState::kStationary:
     voltage = _controller.Calculate(GetHeight(), dt, GetFeedforward());
     break;

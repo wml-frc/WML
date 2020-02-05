@@ -39,7 +39,7 @@ double PIDGains::GetkF() const {
 
 // PIDController
 
-PIDController::PIDController(PIDGains gains, double setpoint) : _gains(gains), _setpoint(setpoint), _lastError(0), _filterPos(LinearFilter::MovingAverage(20)), _filterVel(LinearFilter::MovingAverage(20)) {}
+PIDController::PIDController(PIDGains gains, double setpoint) : _gains(gains), _filterPos(LinearFilter::MovingAverage(20)), _filterVel(LinearFilter::MovingAverage(20)), _setpoint(setpoint), _lastError(0) {}
 
 void PIDController::SetSetpoint(double setpoint, bool reset) {
   if (reset) Reset();

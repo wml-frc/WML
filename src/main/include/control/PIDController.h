@@ -22,10 +22,10 @@ namespace control {
     double GetkF() const;
 
    private:
-    std::shared_ptr<nt::NetworkTable> _table;
-    double _kP, _kI, _kD, _kF;
     std::string _name;
+    double _kP, _kI, _kD, _kF;
 
+    std::shared_ptr<nt::NetworkTable> _table;
     wpi::SmallVector<NTUtil::Slave<double>, 4> _ntbounds;
   };
 
