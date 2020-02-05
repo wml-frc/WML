@@ -12,10 +12,10 @@ class NTBoundDouble {
   void Override(double newVal);
   
  private:
-  double *_val;
-  std::string _name;
   std::shared_ptr<nt::NetworkTable> _table;
   nt::NetworkTableEntry _entry;
   NT_EntryListener _listener;
+  std::string _name;
+  double *_val;
 };
 }  // namespace wml

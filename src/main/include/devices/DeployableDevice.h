@@ -15,7 +15,7 @@ namespace wml {
       actuators::BinaryActuator &actuator;
       const bool canEject;
 
-      DeployableDeviceConfig(actuators::BinaryActuator &actuatorIn, bool canEjectIn = false, std::string nameIn = "<Deployable Device>") : actuator(actuatorIn), name(nameIn), canEject(canEjectIn) {};
+      DeployableDeviceConfig(actuators::BinaryActuator &actuatorIn, bool canEjectIn = false, std::string nameIn = "<Deployable Device>") : name(nameIn), actuator(actuatorIn), canEject(canEjectIn) {};
     };
 
     class DeployableDevice : public StateDevice<DeployableDeviceState> {

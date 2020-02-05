@@ -6,11 +6,11 @@
 
 namespace wml {
   namespace actuators {
-    class DoubleSolenoid : public BinaryActuator, protected frc::DoubleSolenoid {
+    class DoubleSolenoid : protected frc::DoubleSolenoid, public BinaryActuator {
      public:
       static constexpr double StandardActuationTime = 0.2;
-      DoubleSolenoid(int forwardChannel, int reverseChannel, double actuationTime, std::string name = "<DoubleSolenoid>", BinaryActuatorState initialState = actuators::kReverse) : frc::DoubleSolenoid(forwardChannel, reverseChannel), _actuationTime(actuationTime), BinaryActuator(name, initialState) {};
-      DoubleSolenoid(int pcmID, int forwardChannel, int reverseChannel, double actuationTime, std::string name = "<DoubleSolenoid>", BinaryActuatorState initialState = actuators::kReverse) : frc::DoubleSolenoid(pcmID, forwardChannel, reverseChannel), _actuationTime(actuationTime), BinaryActuator(name, initialState) {};
+      DoubleSolenoid(int forwardChannel, int reverseChannel, double actuationTime, std::string name = "<DoubleSolenoid>", BinaryActuatorState initialState = actuators::kReverse) : frc::DoubleSolenoid(forwardChannel, reverseChannel), BinaryActuator(name, initialState), _actuationTime(actuationTime) {};
+      DoubleSolenoid(int pcmID, int forwardChannel, int reverseChannel, double actuationTime, std::string name = "<DoubleSolenoid>", BinaryActuatorState initialState = actuators::kReverse) : frc::DoubleSolenoid(pcmID, forwardChannel, reverseChannel), BinaryActuator(name, initialState), _actuationTime(actuationTime) {};
 
       virtual void UpdateActuator(double dt) override;
       virtual void Stop() final {};

@@ -17,7 +17,7 @@ namespace wml {
 
     class BinaryLimitMotor : public BinaryActuator {
      public:
-      BinaryLimitMotor(BinaryLimitMotorConfig config, BinaryActuatorState initialState = kReverse) : _config(config), BinaryActuator(config.name, initialState) {};
+      BinaryLimitMotor(BinaryLimitMotorConfig config, BinaryActuatorState initialState = kReverse) : BinaryActuator(config.name, initialState), _config(config) {};
 
       virtual void UpdateActuator(double dt) override;
       virtual void Stop() override;

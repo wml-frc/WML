@@ -84,11 +84,11 @@ namespace wml {
     Gearbox &GetRight();
 
    private:
+    DrivetrainConfig _config;
+
     control::PIDController _pidLeft, _pidRight;
     std::pair<double, double> _setpoint;
     std::function<std::pair<double,double>(Drivetrain &,double)> _externalLoop;
-
-    DrivetrainConfig _config;
 
     Usage<DrivetrainConfig>::Scoped _usage{&_config};
   };
