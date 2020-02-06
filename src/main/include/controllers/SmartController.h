@@ -27,7 +27,7 @@ namespace wml {
     };
 
     struct tRumble : public tFeedback { tRumble(int cont, RumbleType type) : tFeedback(cont, type) {}; };
-    const tRumble noRumble(-1, -1);
+    const tRumble noRumble(-1, RumbleType::kNoneRumble);
 
 
     struct SmartControllerConfig {
