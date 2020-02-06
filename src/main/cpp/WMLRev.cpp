@@ -64,7 +64,7 @@ double SparkMax::Get() const {
 }
 
 int SparkMax::GetEncoderRawTicks() {
-  return GetSensorPosition();
+  return GetSensorPosition() * GetEncoderTicksPerRotation();
 }
 
 double SparkMax::GetEncoderTickVelocity() {
