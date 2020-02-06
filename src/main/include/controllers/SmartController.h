@@ -60,7 +60,7 @@ namespace wml {
 
       void Map(std::pair<tButton, tButton> map_buttons, std::vector<tButton> virt_buttons, bool wrap = false);
 
-      void Map(tPOV map_POV, std::vector<tButton> virt_buttons);
+      void Map(tPOV map_POV, std::map<Controller::POVPos, tButton> virt_buttons);
 
 
       // Controller::Get overrides

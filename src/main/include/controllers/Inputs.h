@@ -1,6 +1,7 @@
 #pragma once
 
 #include <utility>
+#include <map>
 #include <vector>
 
 #include "controllers/Controller.h"
@@ -207,13 +208,13 @@ namespace wml {
       // @TODO: POV casts;
       class POVButton : public ContButton {
        public:
-        POVButton(ContPOV *pov, int id) : _pov(pov), _id(id) {};
+        POVButton(ContPOV *pov, Controller::POVPos id) : _pov(pov), _id(id) {};
 
         virtual bool Get() override;
 
        private:
         ContPOV *_pov;
-        const int _id;
+        const Controller::POVPos _id;
       };
 
       // class POVField : public Field { // uhhhhh, needs to be stored as FieldAxis, so...
@@ -229,7 +230,7 @@ namespace wml {
 
       std::vector<ButtonSelectorButton*> MakeButtonSelectorButtons(std::pair<ContButton*, ContButton*> buttons, int n, bool wrap = false); // returns n
 
-      std::vector<POVButton*> MakePOVButtons(ContPOV *pov);                             // returns 8
+      std::map<Controller::POVPos, POVButton*> MakePOVButtons(ContPOV *pov);            // returns 9
     } // ns inputs
   } // ns controllers
 } // ns wml
