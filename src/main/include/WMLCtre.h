@@ -1,5 +1,5 @@
-// Bindings to CTRE's Phoenix API, since they don't provide working simulation builds.
-// See src/main/cpp, src/robot/cpp, and src/simulation/cpp for implementations.
+// ~~Bindings to CTRE's Phoenix API, since they don't provide working simulation builds.~~
+// ~~See src/main/cpp, src/robot/cpp, and src/simulation/cpp for implementations.~~
 
 #pragma once
 
@@ -15,7 +15,7 @@
 namespace wml {
 
   /**
-   * Curtin FRC Wrapper around the CTRE Talon SRX.
+   * Wrapper around the CTRE Talon SRX.
    */
   class TalonSrx : public wml::actuators::MotorVoltageController, public frc::SpeedController, public wml::sensors::Encoder {
    public:
