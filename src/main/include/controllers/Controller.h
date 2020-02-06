@@ -61,7 +61,7 @@ namespace wml {
       virtual int GetPOVAngle(int pov = 0) { return GetRawPOVAngle(pov); };
       virtual POVPos GetPOV(int pov = 0) { return (POVPos)GetRawPOVAngle(pov); };
 
-      void SetRumble(RumbleType type, double value) { _cont->SetRumble(type, value); };
+      virtual void SetRumble(RumbleType type, double value) { _cont->SetRumble(type, value); };
 
      protected:
       GenericHID *_cont;
