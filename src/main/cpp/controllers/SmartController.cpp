@@ -114,12 +114,14 @@ void SmartController::Map(std::pair<tButton, tButton> map_buttons, std::vector<t
 }
 
 
-void SmartController::Map(tPOV map_POV, std::vector<tButton> virt_buttons) {
+void SmartController::Map(tPOV map_POV, std::map<Controller::POVPos, tButton> virt_buttons) {
   if (Exists(map_POV)) {
-    if (Exists(virt_buttons, false)) {
-      std::vector<inputs::POVButton*> buttons = inputs::MakePOVButtons(GetObj(map_POV));
-      for (int i = 0; i < 8; i++) {
-        if (virt_buttons.at(i) != noButton) _buttons[virt_buttons.at(i).id] = buttons.at(i);
+    std::vector<tButton> virt_buttons_b;
+    for(auto pair : virt_buttons) virt_buttons_b.push_back(pair.second);
+    if (Exists(virt_buttons_b, false)) {
+      std::map<Controller::POVPos, inputs::POVButton*> buttons = inputs::MakePOVButtons(GetObj(map_POV));
+      for (auto pair : virt_buttons) {
+        if (pair.second != noButton) _buttons[pair.second.id] = buttons.at(pair.first);
       }
 
       // _POVs.erase(_POVs.find(map_POV.id));

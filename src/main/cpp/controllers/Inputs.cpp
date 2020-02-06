@@ -134,10 +134,17 @@ std::vector<ButtonSelectorButton*> wml::controllers::inputs::MakeButtonSelectorB
 }
 
 
-std::vector<POVButton*> wml::controllers::inputs::MakePOVButtons(ContPOV *pov) {
-  std::vector<POVButton*> buttons;
-
-  for (int i = 0; i < 8; i++) buttons.push_back(new POVButton(pov, i + 1));
-
+std::map<wml::controllers::Controller::POVPos, POVButton*> wml::controllers::inputs::MakePOVButtons(ContPOV *pov) {
+  std::map<wml::controllers::Controller::POVPos, POVButton*> buttons {
+    { Controller::POVPos::kNone, new POVButton(pov, Controller::POVPos::kNone) },
+    { Controller::POVPos::kTop, new POVButton(pov, Controller::POVPos::kTop) },
+    { Controller::POVPos::kTopRight, new POVButton(pov, Controller::POVPos::kTopRight) },
+    { Controller::POVPos::kRight, new POVButton(pov, Controller::POVPos::kRight) },
+    { Controller::POVPos::kBottomRight, new POVButton(pov, Controller::POVPos::kBottomRight) },
+    { Controller::POVPos::kBottom, new POVButton(pov, Controller::POVPos::kBottom) },
+    { Controller::POVPos::kBottomLeft, new POVButton(pov, Controller::POVPos::kBottomLeft) },
+    { Controller::POVPos::kLeft, new POVButton(pov, Controller::POVPos::kLeft) },
+    { Controller::POVPos::kTopLeft, new POVButton(pov, Controller::POVPos::kTopLeft) },
+  };
   return buttons;
 }
