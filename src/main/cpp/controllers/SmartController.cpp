@@ -152,7 +152,15 @@ wml::controllers::Controller::POVPos SmartController::Get(tPOV pov) {
 
 
 
-// --------------------------------------------- UPDATE FUNCS ---------------------------------------------
+// ------------------------------------------- FEEDBACK SETTERS --------------------------------------------
+
+void SmartController::Set(tRumble rumble, double value) {
+  _cont->SetRumble(rumble.type, value);
+}
+
+
+
+// --------------------------------------------- UPDATE FUNCS ----------------------------------------------
 
 void SmartController::UpdateButtonSelectors() {
   for (auto pair : _buttons) UpdateButtonSelector(tButton(-1, pair.first));

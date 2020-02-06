@@ -25,6 +25,8 @@ namespace wml {
       bool Get(std::vector<tButton> buttons, SmartController::ButtonMode mode = SmartController::RAW);
       int Get(tPOV pov);
 
+      void Set(tRumble rumble, double value);
+
       void Update() { for (auto cont : m_conts) cont.get().Update(); };
 
       SmartController &GetController(int cont);

@@ -34,6 +34,12 @@ int wml::controllers::SmartControllerGroup::Get(tPOV pov) {
 }
 
 
+void wml::controllers::SmartControllerGroup::Set(tRumble rumble, double value) {
+  if (rumble == noRumble) return;
+  GetController(rumble.cont).Set(rumble, value);
+}
+
+
 wml::controllers::SmartController &wml::controllers::SmartControllerGroup::GetController(int cont) {
   return m_conts[cont - 1];
 }
