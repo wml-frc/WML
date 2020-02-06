@@ -73,18 +73,18 @@ namespace wml {
     double Get() const override;
 
     /**
-     * Get the current sensor position, in encoder ticks.
+     * Get the current sensor position, in rotations.
      * 
-     * @return The current sensor position, in encoder ticks.
+     * @return The current sensor position, in rotations.
      */
-    int GetSensorPosition();
+    double GetSensorPosition();
 
     /**
      * Get the current sensor velocity, in RPM.
      * 
      * @return The current sensor velocity, in RPM.
      */
-    int GetSensorVelocity();
+    double GetSensorVelocity();
 
     int GetEncoderRawTicks() override;
     double GetEncoderTickVelocity() override;

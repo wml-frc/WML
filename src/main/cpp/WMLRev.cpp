@@ -37,11 +37,11 @@ void SparkMax::Set(double speed) {
   _handle.Set(speed);
 }
 
-int SparkMax::GetSensorPosition() {
+double SparkMax::GetSensorPosition() {
   return _encoder->GetPosition();
 }
 
-int SparkMax::GetSensorVelocity() {
+double SparkMax::GetSensorVelocity() {
   return _encoder->GetVelocity();
 }
 
