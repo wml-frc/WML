@@ -22,7 +22,7 @@ struct Gearbox {
   /**
    * The Encoder. May be null, depending on the consumer of this structure.
    */
-  sensors::Encoder *encoder;
+  sensors::Encoder *encoder = nullptr;
 
   /**
    * The gearbox reduction, as a ratio

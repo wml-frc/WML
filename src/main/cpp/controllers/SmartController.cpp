@@ -123,12 +123,13 @@ void SmartController::Map(std::pair<tButton, tButton> map_buttons, std::vector<t
 }
 
 
-void SmartController::Map(tPOV map_POV, std::vector<tButton> virt_buttons, bool force) {
-  if (!Exists(map_POV)) return;
 
-  std::vector<inputs::POVButton*> buttons = inputs::MakePOVButtons(GetObj(map_POV));
-  for (int i = 0; i < 8; i++) {
-    if (virt_buttons.at(i) != noButton) Map(virt_buttons.at(i), buttons.at(i), force);
+void SmartController::Map(tPOV map_POV, std::map<Controller::POVPos, tButton> virt_buttons, bool force) {
+  if (!Exists(map_POV)) return;
+  
+  std::map<Controller::POVPos, inputs::POVButton*> buttons = inputs::MakePOVButtons(GetObj(map_POV));
+  for (auto pair : virt_buttons) {
+    if (pair.second != noButton) Map(pair.second, buttons.at(pair.first), force);
   }
 
   // _POVs.erase(_POVs.find(map_POV.id));
@@ -159,7 +160,15 @@ wml::controllers::Controller::POVPos SmartController::Get(tPOV pov) {
 
 
 
-// --------------------------------------------- UPDATE FUNCS ---------------------------------------------
+// ------------------------------------------- FEEDBACK SETTERS --------------------------------------------
+
+void SmartController::Set(tRumble rumble, double value) {
+  _cont->SetRumble(rumble.type, value);
+}
+
+
+
+// --------------------------------------------- UPDATE FUNCS ----------------------------------------------
 
 void SmartController::UpdateButtonSelectors() {
   for (auto pair : _buttons) UpdateButtonSelector(tButton(-1, pair.first));

@@ -11,6 +11,25 @@
 
 namespace wml {
   namespace controllers {
+    struct tFeedback {
+      int cont;
+      RumbleType type;
+
+      bool operator== (const tFeedback comp) {
+        return this->cont == comp.cont && this->type == comp.type;
+      };
+
+      bool operator!= (const tFeedback comp) {
+        return !(*this == comp);
+      };
+
+      tFeedback(int contIn, RumbleType typeIn) : cont(contIn), type(typeIn) {};
+    };
+
+    struct tRumble : public tFeedback { tRumble(int cont, RumbleType type) : tFeedback(cont, type) {}; };
+    const tRumble noRumble(-1, RumbleType::kNoneRumble);
+
+
     struct SmartControllerConfig {
       const int nAxi;
       const int nButtons;
@@ -46,7 +65,7 @@ namespace wml {
 
       void Map(std::pair<tButton, tButton> map_buttons, std::vector<tButton> virt_buttons, bool wrap = false, bool force = false);
 
-      void Map(tPOV map_POV, std::vector<tButton> virt_buttons, bool force = false);
+      void Map(tPOV map_POV, std::map<Controller::POVPos, tButton> virt_buttons, bool force = false);
 
 
       // Controller::Get overrides
@@ -62,6 +81,11 @@ namespace wml {
       int GetButtonCount() const { return _buttons.size(); };
       int GetAxisCount() const { return _axes.size(); };
       int GetPOVCount() const { return _POVs.size(); };
+
+
+      virtual void SetRumble(RumbleType type, double value) override { Set(tRumble(-1, type), value); };
+
+      virtual void Set(tRumble rumble, double value);
 
 
       void Update() { UpdateButtonSelectors(); };

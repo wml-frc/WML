@@ -3,7 +3,7 @@
 using namespace wml::sensors;
 
 double Encoder::GetEncoderRotations() {
-  return GetEncoderTicks() / (double)_encoderTicksPerRotation;
+  return GetEncoderTicks() / (double)GetEncoderTicksPerRotation();
 }
 
 int Encoder::GetEncoderTicks() {
@@ -19,7 +19,7 @@ void Encoder::ZeroEncoder() {
 }
 
 double Encoder::GetEncoderAngularVelocity() {
-  return GetEncoderTickVelocity() / _encoderTicksPerRotation * 2 * 3.1415926;
+  return GetEncoderTickVelocity() / (double)GetEncoderTicksPerRotation() * 2 * 3.1415926;
 }
 
 int DigitalEncoder::GetEncoderRawTicks() {
