@@ -120,7 +120,7 @@ std::vector<AxisSelectorButton*> wml::controllers::inputs::MakeAxisSelectorButto
 }
 
 
-std::vector<FieldAxis*> wml::controllers::inputs::MakeFieldAxi(Field *field) {
+std::pair<FieldAxis*, FieldAxis*> wml::controllers::inputs::MakeFieldAxi(Field *field) {
   return { new FieldAxis(field, Field::FieldAxisType::primary), new FieldAxis(field, Field::FieldAxisType::secondary) };
 }
 

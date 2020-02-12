@@ -50,7 +50,7 @@ namespace wml {
         kRight = 90,
         kBottomRight = 135,
         kBottom = 180,
-        kBottomLeft = 215,
+        kBottomLeft = 225,
         kLeft = 270,
         kTopLeft = 315
       };

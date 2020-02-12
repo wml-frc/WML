@@ -226,7 +226,7 @@ namespace wml {
       std::vector<AxisButton*> MakeAxisButton(ContAxis *axis, double threshold = 0.3);  // returns 1
       std::vector<AxisSelectorButton*> MakeAxisSelectorButtons(ContAxis *axis, int n);  // returns n
 
-      std::vector<FieldAxis*> MakeFieldAxi(Field *field);                               // returns 2
+      std::pair<FieldAxis*, FieldAxis*> MakeFieldAxi(Field *field);                               // returns 2
 
       std::vector<ButtonSelectorButton*> MakeButtonSelectorButtons(std::pair<ContButton*, ContButton*> buttons, int n, bool wrap = false); // returns n
 

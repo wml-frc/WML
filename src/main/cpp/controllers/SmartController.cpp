@@ -5,7 +5,7 @@ using namespace wml::controllers;
 
 bool SmartController::Exists(tAxis axis, bool value) {
   try {
-    _axi.at(axis.id);
+    _axes.at(axis.id);
   } catch (std::out_of_range) {
     return !value;
   }
@@ -53,7 +53,7 @@ bool SmartController::Exists(std::vector<tPOV> povs, bool value) {
 
 
 inputs::ContAxis *SmartController::GetObj(tAxis axis) {
-  return Exists(axis) ? _axi.at(axis.id) : nullptr;
+  return Exists(axis) ? _axes.at(axis.id) : nullptr;
 }
 
 inputs::ContButton *SmartController::GetObj(tButton button) {
@@ -65,68 +65,74 @@ inputs::ContPOV *SmartController::GetObj(tPOV pov) {
 }
 
 
-void SmartController::Map(tAxis map_axis, tButton virt_button, double threshold) {
-  if (Exists(map_axis)) {
-    if (Exists(virt_button, false)) {
-      _buttons[virt_button.id] = inputs::MakeAxisButton(GetObj(map_axis), threshold).at(0);
+void SmartController::Map(tAxis axis, inputs::ContAxis *newAxis, bool force) {
+  if (!force) if (Exists(axis)) return;
 
-      // _axi.erase(_axi.find(map_axis.id));
-    }
-  }
+  _axes[axis.id] = newAxis;
 }
 
-void SmartController::Map(tAxis map_axis, std::vector<tButton> virt_buttons) {
-  if (Exists(map_axis)) {
-    if (Exists(virt_buttons, false)) {
-      std::vector<inputs::AxisSelectorButton*> buttons = inputs::MakeAxisSelectorButtons(GetObj(map_axis), virt_buttons.size());
-      for (unsigned int i = 0; i < buttons.size(); i++) {
-        if (virt_buttons.at(i) != noButton) _buttons[virt_buttons.at(i).id] = buttons.at(i);
-      }
+void SmartController::Map(tButton button, inputs::ContButton *newButton, bool force) {
+  if (!force) if (Exists(button)) return;
 
-      // _axi.erase(_axi.find(map_axis.id));
-    }
+  _buttons[button.id] = newButton;
+}
+
+void SmartController::Map(tPOV pov, inputs::ContPOV *newPOV, bool force) {
+  if (!force) if (Exists(pov)) return;
+
+  _POVs[pov.id] = newPOV;
+}
+
+
+void SmartController::Map(tAxis map_axis, tButton virt_button, double threshold, bool force) {
+  if (!Exists(map_axis)) return;
+
+  Map(virt_button, inputs::MakeAxisButton(GetObj(map_axis), threshold).at(0), force);
+  // _axes.erase(_axes.find(map_axis.id));
+}
+
+void SmartController::Map(tAxis map_axis, std::vector<tButton> virt_buttons, bool force) {
+  if (!Exists(map_axis)) return;
+  
+  std::vector<inputs::AxisSelectorButton*> buttons = inputs::MakeAxisSelectorButtons(GetObj(map_axis), virt_buttons.size());
+  for (unsigned int i = 0; i < buttons.size(); i++) {
+    if (virt_buttons.at(i) != noButton) Map(virt_buttons.at(i), buttons.at(i), force);
   }
+  // _axes.erase(_axes.find(map_axis.id));
 }
 
 void SmartController::PairAxis(tAxis primary_axis, tAxis secondary_axis, bool squared) {
-  if (Exists(primary_axis)) {
-    if (Exists(secondary_axis)) {
-      std::vector<inputs::FieldAxis*> axi = inputs::MakeFieldAxi(new inputs::Field(std::make_pair<inputs::ContAxis*, inputs::ContAxis*>(GetObj(primary_axis), GetObj(secondary_axis)), squared));
-      _axi[primary_axis.id] = axi.at(0);
-      _axi[secondary_axis.id] = axi.at(1);
-    }
-  }
+  if (!Exists(primary_axis) || !Exists(secondary_axis)) return;
+
+  std::pair<inputs::FieldAxis*, inputs::FieldAxis*> axi = inputs::MakeFieldAxi(new inputs::Field(std::make_pair<inputs::ContAxis*, inputs::ContAxis*>(GetObj(primary_axis), GetObj(secondary_axis)), squared));
+  Map(primary_axis, axi.first, true);
+  Map(secondary_axis, axi.second, true);
 }
 
 
-void SmartController::Map(std::pair<tButton, tButton> map_buttons, std::vector<tButton> virt_buttons, bool wrap) {
-  if (Exists(std::vector<tButton>({ map_buttons.first, map_buttons.second }))) {
-    if (Exists(virt_buttons, false)) {
-      std::vector<inputs::ButtonSelectorButton*> buttons = inputs::MakeButtonSelectorButtons({ GetObj(map_buttons.first), GetObj(map_buttons.second) }, virt_buttons.size(), wrap);
-      for (unsigned int i = 0; i < buttons.size(); i++) {
-        if (virt_buttons.at(i) != noButton) _buttons[virt_buttons.at(i).id] = buttons.at(i);
-      }
+void SmartController::Map(std::pair<tButton, tButton> map_buttons, std::vector<tButton> virt_buttons, bool wrap, bool force) {
+  if (!Exists(std::vector<tButton>({ map_buttons.first, map_buttons.second }))) return;
 
-      // _buttons.erase(_buttons.find(map_buttons.first.id));
-      // _buttons.erase(_buttons.find(map_buttons.second.id));
-    }
+  std::vector<inputs::ButtonSelectorButton*> buttons = inputs::MakeButtonSelectorButtons({ GetObj(map_buttons.first), GetObj(map_buttons.second) }, virt_buttons.size(), wrap);
+  for (unsigned int i = 0; i < buttons.size(); i++) {
+    if (virt_buttons.at(i) != noButton) Map(virt_buttons.at(i), buttons.at(i), force);
   }
+
+  // _buttons.erase(_buttons.find(map_buttons.first.id));
+  // _buttons.erase(_buttons.find(map_buttons.second.id));
 }
 
 
-void SmartController::Map(tPOV map_POV, std::map<Controller::POVPos, tButton> virt_buttons) {
-  if (Exists(map_POV)) {
-    std::vector<tButton> virt_buttons_b;
-    for(auto pair : virt_buttons) virt_buttons_b.push_back(pair.second);
-    if (Exists(virt_buttons_b, false)) {
-      std::map<Controller::POVPos, inputs::POVButton*> buttons = inputs::MakePOVButtons(GetObj(map_POV));
-      for (auto pair : virt_buttons) {
-        if (pair.second != noButton) _buttons[pair.second.id] = buttons.at(pair.first);
-      }
 
-      // _POVs.erase(_POVs.find(map_POV.id));
-    }
+void SmartController::Map(tPOV map_POV, std::map<Controller::POVPos, tButton> virt_buttons, bool force) {
+  if (!Exists(map_POV)) return;
+  
+  std::map<Controller::POVPos, inputs::POVButton*> buttons = inputs::MakePOVButtons(GetObj(map_POV));
+  for (auto pair : virt_buttons) {
+    if (pair.second != noButton) Map(pair.second, buttons.at(pair.first), force);
   }
+
+  // _POVs.erase(_POVs.find(map_POV.id));
 }
 
 
