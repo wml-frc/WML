@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef  __WML__REV__
+
 #include <frc/SpeedController.h>
 #include <rev/CANSparkMax.h>
 #include <rev/CANEncoder.h>
@@ -100,3 +102,5 @@ namespace wml {
   };
 
 }
+
+#endif

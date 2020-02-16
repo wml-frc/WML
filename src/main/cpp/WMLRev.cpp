@@ -1,5 +1,7 @@
 #include "WMLRev.h"
 
+#ifdef __WML__REV__
+
 using namespace wml;
 
 // SPARK MAX
@@ -70,3 +72,5 @@ int SparkMax::GetEncoderRawTicks() {
 double SparkMax::GetEncoderTickVelocity() {
   return GetSensorVelocity() * GetEncoderTicksPerRotation() / 60;
 }
+
+#endif
