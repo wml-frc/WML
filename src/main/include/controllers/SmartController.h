@@ -39,7 +39,7 @@ namespace wml {
     class SmartController : public Controller {
      public:
       SmartController(GenericHID *cont, SmartControllerConfig contConfig) : Controller(cont) {
-        for (int i = 0; i < contConfig.nAxi; i++) _axi[i] = new inputs::Axis(new Controller(static_cast<Controller>(*this)), i);
+        for (int i = 0; i < contConfig.nAxi; i++) _axes[i] = new inputs::Axis(new Controller(static_cast<Controller>(*this)), i);
         for (int i = 1; i <= contConfig.nButtons; i++) _buttons[i] = new inputs::Button(new Controller(static_cast<Controller>(*this)), i);
         for (int i = 0; i < contConfig.nPOVs; i++) _POVs[i] = new inputs::POV(new Controller(static_cast<Controller>(*this)), i);
       };
@@ -54,13 +54,18 @@ namespace wml {
       bool Exists(std::vector<tPOV> pov, bool value = true);
 
 
-      void Map(tAxis map_axis, tButton virt_button, double threshold = 0.3);
-      void Map(tAxis map_axis, std::vector<tButton> virt_buttons);
+      void Map(tAxis axis, inputs::ContAxis *newAxis, bool force = false);
+      void Map(tButton button, inputs::ContButton *newButton, bool force = false);
+      void Map(tPOV pov, inputs::ContPOV *newPOV, bool force = false);
+
+
+      void Map(tAxis map_axis, tButton virt_button, double threshold = 0.3, bool force = false);
+      void Map(tAxis map_axis, std::vector<tButton> virt_buttons, bool force = false);
       void PairAxis(tAxis primary_axis, tAxis secondary_axis, bool squared = false);
 
-      void Map(std::pair<tButton, tButton> map_buttons, std::vector<tButton> virt_buttons, bool wrap = false);
+      void Map(std::pair<tButton, tButton> map_buttons, std::vector<tButton> virt_buttons, bool wrap = false, bool force = false);
 
-      void Map(tPOV map_POV, std::map<Controller::POVPos, tButton> virt_buttons);
+      void Map(tPOV map_POV, std::map<Controller::POVPos, tButton> virt_buttons, bool force = false);
 
 
       // Controller::Get overrides
@@ -74,7 +79,7 @@ namespace wml {
       virtual POVPos Get(tPOV pov);
 
       int GetButtonCount() const { return _buttons.size(); };
-      int GetAxisCount() const { return _axi.size(); };
+      int GetAxisCount() const { return _axes.size(); };
       int GetPOVCount() const { return _POVs.size(); };
 
 
@@ -99,7 +104,7 @@ namespace wml {
       inputs::ContPOV *GetObj(tPOV pov);
 
      private:
-      std::map<int, inputs::ContAxis*> _axi;
+      std::map<int, inputs::ContAxis*> _axes;
       std::map<int, inputs::ContButton*> _buttons;
       std::map<int, inputs::ContPOV*> _POVs;
     };
