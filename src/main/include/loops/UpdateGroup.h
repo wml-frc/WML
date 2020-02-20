@@ -16,6 +16,15 @@ namespace wml {
 
       virtual void Update(double dt) override;
 
+
+      // operators, because why not
+
+      void operator()();
+      void operator()(double dt);
+
+      UpdateGroup& operator+=(LoopSystem *rhs); // uses default dtPriority
+      UpdateGroup& operator+=(std::function<void(double)> rhs);
+
      private:
       std::vector<std::function<void(double)>> _funcs;
     };

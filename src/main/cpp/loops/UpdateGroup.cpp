@@ -14,3 +14,10 @@ void UpdateGroup::Register(std::function<void(double)> func) {
 void UpdateGroup::Update(double dt) {
   for (auto func : _funcs) func(dt);
 }
+
+
+void UpdateGroup::operator()() { UpdateOnce(); }
+void UpdateGroup::operator()(double dt) { Update(dt); }
+
+UpdateGroup& UpdateGroup::operator+=(LoopSystem *rhs) { Register(rhs); return *this; }
+UpdateGroup& UpdateGroup::operator+=(std::function<void(double)> rhs) { Register(rhs); return *this; }
