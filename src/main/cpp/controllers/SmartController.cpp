@@ -147,10 +147,21 @@ double SmartController::Get(tAxis axis) {
 bool SmartController::Get(tButton button, SmartController::ButtonMode mode) {
   if (Exists(button, false)) return false;
 
-  if (mode == ButtonMode::RAW) return GetObj(button)->Get();
-  else if (mode == ButtonMode::ONRISE) return GetObj(button)->GetOnRise();
-  else if (mode == ButtonMode::ONFALL) return GetObj(button)->GetOnFall();
-  else return false;
+  switch (mode) {
+   case ButtonMode::RAW:
+    return GetObj(button)->Get();
+
+   case ButtonMode::ONRISE:
+    return GetObj(button)->GetOnRise();
+
+   case ButtonMode::ONFALL:
+    return GetObj(button)->GetOnFall();
+
+   case ButtonMode::ONCHANGE:
+    return GetObj(button)->GetOnChange();
+  }
+
+  return false;
 }
 
 wml::controllers::Controller::POVPos SmartController::Get(tPOV pov) {

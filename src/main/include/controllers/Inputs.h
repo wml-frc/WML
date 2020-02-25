@@ -92,15 +92,16 @@ namespace wml {
 
       class ContButton {
        public:
-        ContButton() : _toggles({ Toggle(ToggleEvent::ONRISE), Toggle(ToggleEvent::ONFALL, false) }) {};
+        ContButton() : _rise(ToggleEvent::ONRISE), _fall(ToggleEvent::ONFALL, false), _change(ToggleEvent::ONCHANGE) {};
         
         virtual bool Get() = 0;
 
-        bool GetOnRise() { return _toggles.first.Update(Get()); };
-        bool GetOnFall() { return _toggles.second.Update(Get()); };
+        bool GetOnRise() { return _rise.Update(Get()); };
+        bool GetOnFall() { return _fall.Update(Get()); };
+        bool GetOnChange() { return _change.Update(Get()); };
 
        private:
-        std::pair<Toggle, Toggle> _toggles;
+        Toggle _rise, _fall, _change;
       };
 
       class Button : public ContInput<bool>, public ContButton {
