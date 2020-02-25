@@ -40,7 +40,8 @@ namespace wml {
       enum ButtonMode {
         RAW = 0,
         ONRISE = 1,
-        ONFALL = -1
+        ONFALL = -1,
+        ONCHANGE = 2
       };
 
       enum POVPos {

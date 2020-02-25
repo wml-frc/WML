@@ -2,9 +2,9 @@
 
 namespace wml {
   enum ToggleEvent {
-    ONFALL,
-    ONRISE,
-    ONCHANGE
+    ONFALL    = -1,
+    ONRISE    =  1,
+    ONCHANGE  =  2
   };
 
   class Toggle {
