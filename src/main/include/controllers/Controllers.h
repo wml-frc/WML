@@ -22,7 +22,7 @@ namespace wml {
 
       double Get(tAxis axis);
       bool Get(tButton button, SmartController::ButtonMode mode = SmartController::RAW);
-      bool Get(std::vector<tButton> buttons, SmartController::ButtonMode mode = SmartController::RAW);
+      bool Get(tButtonList buttons, SmartController::ButtonMode mode = SmartController::RAW);
       int Get(tPOV pov);
 
       void Set(tRumble rumble, double value);
