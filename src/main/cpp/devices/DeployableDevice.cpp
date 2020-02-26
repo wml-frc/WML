@@ -95,8 +95,6 @@ void DeployableDevice::SetStowed() {
 }
 
 void DeployableDevice::OnStatePeriodic(DeployableDeviceState state, double dt) {
-  _config.actuator.Update(dt);
-
   switch (state) {
    case kIntaking:
     IntakingPeriodic();
@@ -132,4 +130,6 @@ void DeployableDevice::OnStatePeriodic(DeployableDeviceState state, double dt) {
     StowedPeriodic();
     break;
   }
+
+  _config.actuator.Update(dt);
 }
