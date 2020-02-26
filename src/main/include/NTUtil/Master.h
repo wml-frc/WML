@@ -48,7 +48,7 @@ namespace wml {
 
       Master(const Master &other) : Master(other._table, other._name, other._val) {}
 
-      virtual void Update(double dt) override { _Update(dt); };
+      virtual void Update(double dt) override { _Update(dt, (T*)nullptr); };
       
      private:
       std::shared_ptr<nt::NetworkTable> _table;
