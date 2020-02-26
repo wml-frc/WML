@@ -29,6 +29,7 @@ namespace wml {
     struct tAxis : public tInput { tAxis(int cont, int id) : tInput(cont, id) {}; };
     const tAxis noAxis(-1, -1);
     struct tButton : public tInput { tButton(int cont, int id) : tInput(cont, id) {}; };
+    typedef std::vector<tButton> tButtonList;
     const tButton noButton(-1, -1);
     struct tPOV : public tInput { tPOV(int cont, int id) : tInput(cont, id) {}; };
     const tPOV noPOV(-1, -1);

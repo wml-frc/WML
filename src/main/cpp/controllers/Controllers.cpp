@@ -20,7 +20,7 @@ bool wml::controllers::SmartControllerGroup::Get(tButton button, SmartController
   return GetController(button.cont).Get(button, mode);
 }
 
-bool wml::controllers::SmartControllerGroup::Get(std::vector<tButton> buttons, SmartController::ButtonMode mode) {
+bool wml::controllers::SmartControllerGroup::Get(tButtonList buttons, SmartController::ButtonMode mode) {
   bool val = false;
 
   for (auto button : buttons) val |= Get(button, mode);
