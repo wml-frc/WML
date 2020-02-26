@@ -24,9 +24,9 @@ int StartRobot() {
 }
 
 #ifndef RUNNING_FRC_TESTS
-#define CURTINFRC_ROBOT_MAIN(RobotClz) int main() { wml::StartRobot<RobotClz>(); }
+#define WML_ROBOT_MAIN(RobotClz) int main() { wml::StartRobot<RobotClz>(); }
 #else
-#define CURTINFRC_ROBOT_MAIN(RobotClz)
+#define WML_ROBOT_MAIN(RobotClz)
 #endif
 
 }  // ns wml
