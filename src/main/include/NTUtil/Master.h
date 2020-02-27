@@ -24,13 +24,15 @@ Master(std::shared_ptr<nt::NetworkTable> table, std::string name, MainT *value) 
 
 #define __NTUTIL__MASTER__METHOD_FACTORY__(MainT, LongT)                          \
 std::enable_if_t<std::is_convertible<T, MainT>::value>                            \
-_Update(double dt, MainT *dummy = nullptr) { _entry.ForceSet##LongT(*_val); }
+_Update(MainT *dummy = nullptr) { _entry.ForceSet##LongT(*_val); }
 
 
 namespace wml {
   namespace NTUtil {
+    class MasterBase : public loops::LoopSystem {};
+
     template <typename T>
-    class Master : public loops::LoopSystem {
+    class Master : public MasterBase {
      public:
       __NTUTIL__MASTER__MACRO_FACTORY__(bool, Boolean)
       __NTUTIL__MASTER__MACRO_FACTORY__(double, Double)
@@ -48,7 +50,7 @@ namespace wml {
 
       Master(const Master &other) : Master(other._table, other._name, other._val) {}
 
-      virtual void Update(double dt) override { _Update(dt, (T*)nullptr); };
+      virtual void Update(double dt) override { _Update((T*)nullptr); };
       
      private:
       std::shared_ptr<nt::NetworkTable> _table;
