@@ -5,12 +5,10 @@ plugins {
   id 'org.ysb33r.doxygen'
 }
 
-// Override these in your root gradle file
-def includeSrcInIncludeRoot = false
-def includeDesktopSupport = false
-
-// logger.warn(String.valueOf(includeSrcInIncludeRoot))
-// logger.warn(String.valueOf(includeDesktopSupport))
+// Override these in your project gradle file
+includeSrcInIncludeRoot = project.findProperty('includeSrcInIncludeRoot') ?: false
+includeDesktopSupport = project.findProperty('includeDesktopSupport') ?: false
+includeWMLRevSupport = project.findProperty('includeWMLRevSupport') ?: false
 
 model {
   components {
@@ -23,12 +21,24 @@ model {
       sources.cpp {
         source {
           srcDir 'src/main/cpp'
+
+          if (includeWMLRevSupport) {
+            srcDir 'src/rev/cpp'
+          }
+
           include '**/*.cpp', '**/*.cc'
         }
         exportedHeaders {
           srcDir 'src/main/include'
           if (includeSrcInIncludeRoot) {
             srcDir 'src/main/cpp'
+          }
+
+          if (includeWMLRevSupport) {
+            srcDir 'src/rev/include'
+            if (includeSrcInIncludeRoot) {
+              srcDir 'src/rev/cpp'
+            }
           }
         }
       }
@@ -65,4 +75,5 @@ doxygen {
   generate_html true
   javadoc_autobrief true
   source project.file('src/main/include')
+  source project.file('src/rev/include')
 }

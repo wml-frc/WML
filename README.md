@@ -17,13 +17,26 @@ plugins {
 }
 ```
 
-- Inside `teams.gradle` (or whatever you choose to call it) add:
+- Inside your project file (e.g. `teams.gradle`) add:
 ```gradle
+def includeSrcInIncludeRoot = false
+def includeDesktopSupport = false
+
+def includeWMLRevSupport = false
+
+project(':wml').ext.setProperty('includeSrcInIncludeRoot', includeSrcInIncludeRoot)
+project(':wml').ext.setProperty('includeDesktopSupport', includeDesktopSupport)
+project(':wml').ext.setProperty('includeWMLRevSupport', includeWMLRevSupport)
+
+// ...
+
 wpi.deps.vendor.loadFrom(project(':wml'))
+
+// ...
 
 model {
   components {
-    "frcUserProgram${project.name}"(NativeExecutableSpec) {
+    frcUserProgram(NativeExecutableSpec) {
       // ...
       binaries.all {
         lib project: ':wml', library: 'wml', linkage: 'static'
@@ -31,9 +44,8 @@ model {
       // ...
     }
   }
-
   testSuites {
-    "frcUserProgramTest${project.name}"(GoogleTestTestSuiteSpec) {
+    frcUserProgramTest(GoogleTestTestSuiteSpec) {
       // ...
       binaries.all {
         lib project: ':wml', library: 'wml', linkage: 'static'
@@ -43,6 +55,9 @@ model {
   }
 }
 
+// ...
+
+// optional:
 if (!project.hasProperty('no-wml-check'))
   tasks.check.dependsOn(':wml:check') 
 ```
@@ -63,4 +78,4 @@ Or read the source code of the library; it has a few comments inside there. But 
 That being said, if you have an issue or question feel free to contact us. We don't have lives... we're programmers.
 
 
-<sub><sup>readme written by [@CJBuchel](https://github.com/CJBuchel), 9/01/20</sup></sub>
+<sub><sup>readme written by [@CJBuchel](https://github.com/CJBuchel), 4/03/20</sup></sub>
