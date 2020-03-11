@@ -12,9 +12,8 @@ inline can::TalonSRX *NativeSrx(const TalonSrx *srx) {
   return static_cast<can::TalonSRX *>(srx->_handle);
 }
 
-TalonSrx::TalonSrx(int port, int encoderTicksPerRotation) : actuators::MotorVoltageController(this), Encoder::Encoder(encoderTicksPerRotation) {
+TalonSrx::TalonSrx(actuators::Port port, int encoderTicksPerRotation) : actuators::MotorVoltageController(this), Encoder::Encoder(encoderTicksPerRotation), _port(port) {
   _handle = (void *)new can::TalonSRX(port);
-  _port = port;
 }
 
 TalonSrx::~TalonSrx() {
@@ -25,7 +24,7 @@ void TalonSrx::SetUpdateRate(int hz) {
   NativeSrx(this)->SetControlFramePeriod(ctre::phoenix::motorcontrol::ControlFrame::Control_3_General, 1000 / hz);
 }
 
-int TalonSrx::GetPort() {
+actuators::Port TalonSrx::GetPort() {
   return NativeSrx(this)->GetDeviceID();
 }
 
@@ -49,6 +48,10 @@ void TalonSrx::Set(double speed) {
 void TalonSrx::Set(TalonSrx::ControlMode mode, double value) {
   NativeSrx(this)->Set(mode, value);
   _value = value;
+}
+
+double TalonSrx::GetCurrent() {
+  return NativeSrx(this)->GetSupplyCurrent();
 }
 
 TalonSrx::ControlMode TalonSrx::GetMode() {
@@ -84,9 +87,8 @@ inline can::VictorSPX *NativeSpx(const VictorSpx *srx) {
   return static_cast<can::VictorSPX *>(srx->_handle);
 }
 
-VictorSpx::VictorSpx(int port) : actuators::MotorVoltageController(this) {
+VictorSpx::VictorSpx(actuators::Port port) : actuators::MotorVoltageController(this), _port(port) {
   _handle = (void *)new can::VictorSPX(port);
-  _port = port;
 }
 
 VictorSpx::~VictorSpx() {
@@ -97,7 +99,7 @@ void VictorSpx::SetUpdateRate(int hz) {
   NativeSpx(this)->SetControlFramePeriod(ctre::phoenix::motorcontrol::ControlFrame::Control_3_General, 1000 / hz);
 }
 
-int VictorSpx::GetPort() {
+actuators::Port VictorSpx::GetPort() {
   return NativeSpx(this)->GetDeviceID();
 }
 
