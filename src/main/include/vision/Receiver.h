@@ -9,8 +9,9 @@
 namespace wml {
   namespace vision {
     struct Receiver {
-      Receiver(std::shared_ptr<nt::NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("VisionTracking")) : _ex(table, "offsetX", &ex), _ey(table, "offsetY", &ey), _RES_HEIGHT(table, "RES_HEIGHT", &RES_HEIGHT), _RES_WIDTH(table, "RES_WIDTH", &RES_WIDTH) {};
+      Receiver(std::shared_ptr<nt::NetworkTable> table = nt::NetworkTableInstance::GetDefault().GetTable("VisionTracking")) : _active(table, "Vision Active", &active), _ex(table, "offsetX", &ex), _ey(table, "offsetY", &ey), _RES_HEIGHT(table, "RES_HEIGHT", &RES_HEIGHT), _RES_WIDTH(table, "RES_WIDTH", &RES_WIDTH) {};
 
+      bool active;
       double ex, ey;
       double RES_HEIGHT, RES_WIDTH;
 
@@ -19,6 +20,7 @@ namespace wml {
       };
 
      private:
+      wml::NTUtil::Slave<bool> _active;
       wml::NTUtil::Slave<double> _ex, _ey;
       wml::NTUtil::Slave<double> _RES_HEIGHT, _RES_WIDTH;
     };
