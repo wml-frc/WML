@@ -1,5 +1,6 @@
 #pragma once
 
+#include <frc/PowerDistributionPanel.h>
 #include <frc/SpeedController.h>
 #include <frc/SpeedControllerGroup.h>
 
@@ -28,6 +29,16 @@ namespace actuators {
      * Get whether the output is inverted
      */
     virtual bool GetInverted() = 0;
+
+    /**
+     * Get the physical port of the Voltage Controller.
+     */
+    virtual int GetPhysicalPort() = 0;
+
+    /**
+     * Get the current output.
+     */
+    virtual double GetCurrent() { return frc::PowerDistributionPanel(0).GetCurrent(GetPhysicalPort()); };
   };
 
   /**
@@ -43,6 +54,8 @@ namespace actuators {
 
     void SetInverted(bool invert) override;
     bool GetInverted() override;
+
+    virtual int GetPhysicalPort() override { return -1; }; // override me!
 
     double GetBusVoltage();
 

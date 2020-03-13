@@ -7,6 +7,7 @@
 #include <functional>
 
 #include "sensors/Encoder.h"
+#include "actuators/Port.h"
 #include "actuators/VoltageController.h"
 
 namespace wml {
@@ -27,14 +28,17 @@ namespace wml {
      * 
      * @param port The device ID of the SPARK MAX on the CAN Bus.
      */
-    SparkMax(int port, MotorType motorType, rev::CANEncoder::EncoderType encoderType, int encoderTicksPerRotation);
-    SparkMax(int port, MotorType motorType, int encoderTicksPerRotation = -1);
+    SparkMax(actuators::Port port, MotorType motorType, rev::CANEncoder::EncoderType encoderType, int encoderTicksPerRotation);
+    SparkMax(actuators::Port port, MotorType motorType, int encoderTicksPerRotation = -1);
     // ~SparkMax();
 
     /**
-     * Get the CAN Device ID of the SPARK MAX.
+     * Get the CAN Device ID (and Physical Port) of the SPARK MAX.
      */
-    int GetPort();
+    actuators::Port GetPort();
+
+    // Override
+    virtual int GetPhysicalPort() override { return GetPort()._PDP; };
 
     /**
      * Set or unset this SPARK MAX as 'inverted' for all calls to .Set().
@@ -94,7 +98,7 @@ namespace wml {
     rev::CANSparkMax _handle;
     rev::CANEncoder *_encoder = nullptr;
     
-    int _port;
+    actuators::Port _port;
     MotorType _motorType;
     double _value;
   };

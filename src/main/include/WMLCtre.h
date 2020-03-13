@@ -10,6 +10,7 @@
 #include <functional>
 
 #include "sensors/Encoder.h"
+#include "actuators/Port.h"
 #include "actuators/VoltageController.h"
 
 namespace wml {
@@ -25,9 +26,9 @@ namespace wml {
     /**
      * Create a new Talon SRX.
      * 
-     * @param port The device ID of the Talon SRX on the CAN Bus.
+     * @param port The device ID of the Talon SRX on the CAN Bus (and on the PDP (optional)).
      */
-    TalonSrx(int port, int encoderTicksPerRotation = 2048);
+    TalonSrx(actuators::Port port, int encoderTicksPerRotation = 2048);
     ~TalonSrx();
 
     /**
@@ -36,9 +37,12 @@ namespace wml {
     void SetUpdateRate(int hz);
 
     /**
-     * Get the CAN Device ID of the Talon SRX.
+     * Get the CAN Device ID (and Physical Port) of the Talon SRX.
      */
-    int GetPort();
+    actuators::Port GetPort();
+
+    // Override
+    virtual int GetPhysicalPort() override { return GetPort()._PDP; };
 
     /**
      * Set or unset this Talon SRX as 'inverted' for all calls to .Set().
@@ -92,6 +96,13 @@ namespace wml {
     double Get() const override;
 
     /**
+     * Get the supply current to the Talon SRX.
+     * 
+     * @returns The supply current for the Talon SRX. Should be identical to the value from the PDP.
+     */
+    virtual double GetCurrent() override;
+
+    /**
      * Get the current sensor position, in encoder ticks.
      * 
      * @return The current sensor position, in encoder ticks.
@@ -132,7 +143,7 @@ namespace wml {
      */
     void ModifyConfig(std::function<void(Configuration &)> func);
     
-    int _port;
+    actuators::Port _port;
     void *_handle;
     double _value;
   };
@@ -150,7 +161,7 @@ namespace wml {
      * 
      * @param port The device ID of the Victor SPX on the CAN Bus.
      */
-    VictorSpx(int port);
+    VictorSpx(actuators::Port port);
     ~VictorSpx();
 
     /**
@@ -159,9 +170,12 @@ namespace wml {
     void SetUpdateRate(int hz);
 
     /**
-     * Get the CAN Device ID of the Victor SPX.
+     * Get the CAN Device ID (and Physical Port) of the Victor SPX.
      */
-    int GetPort();
+    actuators::Port GetPort();
+
+    // Override
+    virtual int GetPhysicalPort() override { return GetPort()._PDP; };
 
     /**
      * Set or unset this Victor SPX as 'inverted' for all calls to .Set().
@@ -236,7 +250,7 @@ namespace wml {
      */
     void ModifyConfig(std::function<void(Configuration &)> func);
     
-    int _port;
+    actuators::Port _port;
     void *_handle;
     double _value;
   };
