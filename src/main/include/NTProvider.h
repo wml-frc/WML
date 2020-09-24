@@ -8,8 +8,6 @@
 #include "sensors/BinarySensor.h"
 #include "sensors/DoubleSensor.h"
 
-#include "devices/StateDevice.h"
-
 namespace wml {
   class NTProvider {
    public:
@@ -20,14 +18,10 @@ namespace wml {
     void Register(sensors::BinarySensor *binarySensor);
     void Register(sensors::DoubleSensor *doubleSensor);
 
-    void Register(devices::StateDeviceBase *stateDevice);
-
    private:
     std::shared_ptr<nt::NetworkTable> _table;
 
     std::vector<sensors::BinarySensor*> _binarySensors;
     std::vector<sensors::DoubleSensor*> _doubleSensors;
-
-    std::vector<devices::StateDeviceBase*> _stateDevices;
   };
 }

@@ -2,7 +2,6 @@
 
 using namespace wml;
 using namespace wml::sensors;
-using namespace wml::devices;
 
 
 void NTProvider::Update() {
@@ -11,10 +10,6 @@ void NTProvider::Update() {
 
   for (auto doubleSensor : _doubleSensors)
     _table->GetEntry(doubleSensor->GetName()).SetDouble(doubleSensor->GetScaled());
-
-
-  for (auto stateDevice : _stateDevices)
-    _table->GetEntry(stateDevice->GetName()).SetString(stateDevice->GetStateString());
 }
 
 
@@ -24,9 +19,4 @@ void NTProvider::Register(BinarySensor *binarySensor) {
 
 void NTProvider::Register(DoubleSensor *doubleSensor) {
   _doubleSensors.push_back(doubleSensor);
-}
-
-
-void NTProvider::Register(StateDeviceBase *stateDevice) {
-  _stateDevices.push_back(stateDevice);
 }
