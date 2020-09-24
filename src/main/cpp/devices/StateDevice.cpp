@@ -10,7 +10,16 @@ bool StateDevice::AddState(State *state) {
   return true;
 }
 
-bool StateDevice::AddConnection(StateConnection connection) {
+std::vector<bool> StateDevice::AddState(std::vector<State*> states) {
+  int statesSize = states.size();
+  std::vector<bool> ret(statesSize);
+
+  for (int i = 0; i < statesSize; i++) ret[i] = AddState(states[i]);
+
+  return ret;
+}
+
+bool StateDevice::AddConnection(StateDevice::StateConnection connection) {
   if (connection.originalState == connection.finalState) return false;
 
   if (connection.originalState == nullptr) return false;
@@ -20,9 +29,25 @@ bool StateDevice::AddConnection(StateConnection connection) {
   if (_states.count(connection.finalState) != 1) return false;
 
   if (_stateConnections.count(connection.originalState) == 1)
-    if (_stateConnections.at(connection.originalState).count(connection.finalState) == 1)
+    if (_stateConnections[connection.originalState].count(connection.finalState) == 1)
       return false;
 
-  _stateConnections.at(connection.originalState)[connection.finalState] = connection.func;
+  _stateConnections[connection.originalState][connection.finalState] = connection.func;
   return true;
+}
+
+std::vector<bool> StateDevice::AddConnection(std::vector<StateDevice::StateConnection> connections) {
+  int connectionsSize = connections.size();
+  std::vector<bool> ret(connectionsSize);
+
+  for (int i = 0; i < connectionsSize; i++) ret[i] = AddConnection(connections[i]);
+
+  return ret;
+}
+
+
+
+// Common Connections:
+std::vector<StateDevice::StateConnection> StateDevice::DualConnection(State *a, State *b, SDFunc<bool> onChange) {
+  return { StateDevice::StateConnection(a, b, onChange), StateDevice::StateConnection(b, a, onChange) };
 }

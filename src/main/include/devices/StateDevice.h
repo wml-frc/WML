@@ -3,25 +3,37 @@
 #include <functional>
 #include <map>
 #include <string>
+#include <vector>
 
 #include "Named.h"
 #include "devices/State.h"
 
 namespace wml {
   namespace devices {
-    struct StateConnection {
-      State *originalState;
-      State *finalState;
-      SDFunc<bool> func;
-    };
-
     class StateDevice : public Named {
      public:
-      StateDevice(std::string name) : Named(name) {};
+      StateDevice(std::string name = "<State Device>") : Named(name) {};
 
-      // ret false if fails
+      struct StateConnection {
+        State *originalState;
+        State *finalState;
+        SDFunc<bool> func;
+
+        StateConnection(State *originalState, State *finalState, SDFunc<bool> func) :
+          originalState(originalState),
+          finalState(finalState),
+          func(func) {};
+      };
+
       bool AddState(State *state);
+      std::vector<bool> AddState(std::vector<State*> states);
+
       bool AddConnection(StateConnection connection);
+      std::vector<bool> AddConnection(std::vector<StateConnection> connections);
+
+
+      // statics - i.e. common connections
+      static std::vector<StateConnection> DualConnection(State *a, State *b, SDFunc<bool> onChange);
 
      protected:
       std::map<State*, State*> _states;

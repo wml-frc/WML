@@ -12,7 +12,7 @@ namespace wml {
 
     class State : public Named {
      public:
-      State(std::string name, SDFunc<void> onEnterFunc = SDFunc<void>(), SDFunc<void> onExitFunc = SDFunc<void>()) :
+      State(std::string name = "<State>", SDFunc<void> onEnterFunc = SDFunc<void>(), SDFunc<void> onExitFunc = SDFunc<void>()) :
         Named(name),
         _onEnterFunc(onEnterFunc),
         _onExitFunc(onExitFunc) {};
