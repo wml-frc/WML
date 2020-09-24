@@ -1,46 +1,31 @@
 #pragma once
 
+#include <functional>
+#include <map>
 #include <string>
 
-#include "loops/LoopSystem.h"
+#include "Named.h"
+#include "devices/State.h"
 
 namespace wml {
   namespace devices {
-    class StateDeviceBase : public loops::LoopSystem {
-     public:
-      StateDeviceBase(std::string name = "<no name>") : _name(name) {};
-
-      virtual void Update(double dt) = 0;
-      virtual std::string GetStateString() = 0;
-
-      std::string GetName() { return _name; };
-    
-     private:
-      std::string _name;
+    struct StateConnection {
+      State *originalState;
+      State *finalState;
+      SDFunc<bool> func;
     };
 
-    template <typename StateType>
-    class StateDevice : public StateDeviceBase {
+    class StateDevice : public Named {
      public:
-      StateDevice(std::string name = "<State Device>", StateType initialState = (StateType)0) : StateDeviceBase(name), _state(initialState) {};
+      StateDevice(std::string name) : Named(name) {};
 
-      virtual void Update(double dt) final {
-        if (_state != _lastState) {
-          OnStateChange(_state, _lastState);
-          _lastState = _state;
-        }
-
-        OnStatePeriodic(_state, dt);
-      };
-
-      StateType GetState() { return _state; };
+      // ret false if fails
+      bool AddState(State *state);
+      bool AddConnection(StateConnection connection);
 
      protected:
-      void SetState(StateType state) { _state = state; };
-      StateType _state, _lastState;
-
-      virtual void OnStateChange(StateType newState, StateType oldState) {};
-      virtual void OnStatePeriodic(StateType state, double dt) = 0;
+      std::map<State*, State*> _states;
+      std::map<State*, std::map<State*, SDFunc<bool>>> _stateConnections; // state -> state -> bool()
     };
-  }  // namespace devices
-}  // namespace wml
+  }  // ns devices
+}  // ns wml
