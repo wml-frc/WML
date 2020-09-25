@@ -7,22 +7,25 @@
 
 namespace wml {
   namespace devices {
-    class StateDevice;
-    template <typename R> using SDFunc = std::function<R(StateDevice&)>;
+    namespace functions {
+      template <typename RT> using R = std::function<RT()>;
+      static const R<void> none = R<void>(); // empty function
+      static const R<bool> trueConst = []() { return true; }; // always returns true
+    } // ns functions
 
     class State : public Named {
      public:
-      State(std::string name = "<State>", SDFunc<void> onEnterFunc = SDFunc<void>(), SDFunc<void> onExitFunc = SDFunc<void>()) :
+      State(std::string name = "<State>", functions::R<void> onEnteR = functions::none, functions::R<void> onExitFunc = functions::none) :
         Named(name),
-        _onEnterFunc(onEnterFunc),
+        _onEnteR(onEnteR),
         _onExitFunc(onExitFunc) {};
 
-      SDFunc<void> GetOnEnterFunc() { return _onEnterFunc; };
-      SDFunc<void> GetOnExitFunc() { return _onExitFunc; };
+      functions::R<void> GetOnEnteR() { return _onEnteR; };
+      functions::R<void> GetOnExitFunc() { return _onExitFunc; };
 
      protected:
-      SDFunc<void> _onEnterFunc;
-      SDFunc<void> _onExitFunc;
+      functions::R<void> _onEnteR;
+      functions::R<void> _onExitFunc;
     };
   }  // ns devices
 }  // ns wml

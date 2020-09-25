@@ -7,37 +7,29 @@
 
 #include "Named.h"
 #include "devices/State.h"
+#include "devices/Connection.h"
 
 namespace wml {
   namespace devices {
     class StateDevice : public Named {
      public:
-      StateDevice(std::string name = "<State Device>") : Named(name) {};
-
-      struct StateConnection {
-        State *originalState;
-        State *finalState;
-        SDFunc<bool> func;
-
-        StateConnection(State *originalState, State *finalState, SDFunc<bool> func) :
-          originalState(originalState),
-          finalState(finalState),
-          func(func) {};
-      };
-
-      bool AddState(State *state);
-      std::vector<bool> AddState(std::vector<State*> states);
-
-      bool AddConnection(StateConnection connection);
-      std::vector<bool> AddConnection(std::vector<StateConnection> connections);
+      StateDevice(std::string name, std::vector<State*> states, std::vector<Connection<State>> connections);
+      StateDevice(std::vector<State*> states, std::vector<Connection<State>> connections) : StateDevice("<StateDevice>", states, connections) {};
 
 
       // statics - i.e. common connections
-      static std::vector<StateConnection> DualConnection(State *a, State *b, SDFunc<bool> onChange);
+      static std::vector<Connection<State>> DualConnection(State *a, State *b, constructorOptions::ConnectionOptions opt);
 
      protected:
       std::map<State*, State*> _states;
-      std::map<State*, std::map<State*, SDFunc<bool>>> _stateConnections; // state -> state -> bool()
+      std::map<State*, std::map<State*, Connection<State>>> _connections; // state -> state -> bool()
+
+     private:
+      bool AddState(State *state);
+      std::vector<bool> AddState(std::vector<State*> states);
+
+      bool AddConnection(Connection<State> connection);
+      std::vector<bool> AddConnection(std::vector<Connection<State>> connections);
     };
   }  // ns devices
 }  // ns wml
