@@ -11,6 +11,7 @@ resources:
   repositories:
   - repository: wmlEnvironmentBuild
     type: github
+    endpoint: wmlGitHubServiceConnection
     name: wml-frc/wmlEnvironmentBuild
     ref: master
     trigger:
@@ -19,6 +20,7 @@ resources:
   # WML repo
   - repository: WML
     type: github
+    endpoint: wmlGitHubServiceConnection
     name: wml-frc/WML
     ref: master
     trigger:
