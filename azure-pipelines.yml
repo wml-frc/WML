@@ -6,14 +6,34 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'ubuntu-latest'
+resources:
+  containers:
+  - container: wpilib2019
+    image: wpilib/roborio-cross-ubuntu:2019-18.04
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+jobs:
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- job: windows_VS2017_Win2016
+  pool:
+    vmImage: 'VS2017-Win2016'
+  steps:
+  - template: azure-init.yml
+  - script: git clone https://github.com/wml-frc/emlEncironmentBuild.git --recursive
+  - task: Gradle@2
+    inputs:
+      workingDirectory: ''
+      gradleWrapperFile: 'gradlew'
+      gradleOptions: '-Xmx3072m'
+      publishJUnitResults: false
+      testResultsFiles: '**/TEST-*.xml'
+      tasks: 'installRoboRioToolchain'
+  - task: Gradle@2
+    inputs:
+      workingDirectory: ''
+      gradleWrapperFile: 'gradlew'
+      gradleOptions: '-Xmx3072m'
+      publishJUnitResults: false
+      testResultsFiles: '**/TEST-*.xml'
+      tasks: 'clean :4788:build'
+      #options: '-Pno-roborio'
+
