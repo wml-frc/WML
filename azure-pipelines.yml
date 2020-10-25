@@ -7,33 +7,53 @@ trigger:
 - master
 
 resources:
+  # Environment repo
+  repositories:
+  - repository: wmlEnvironmentBuild
+    type: github
+    name: wml-frc/wmlEnvironmentBuild
+    ref: master
+    trigger:
+    - master
+
+  # WML repo
+  - repository: WML
+    type: github
+    name: wml-frc/WML
+    ref: master
+    trigger:
+    - master
+
   containers:
   - container: wpilib2019
     image: wpilib/roborio-cross-ubuntu:2019-18.04
 
-jobs:
+steps:
+- checkout: wmlEnvironmentBuild
 
-- job: windows_VS2017_Win2016
-  pool:
-    vmImage: 'VS2017-Win2016'
-  steps:
-  - template: azure-init.yml
-  - script: git clone https://github.com/wml-frc/emlEncironmentBuild.git --recursive
-  - task: Gradle@2
-    inputs:
-      workingDirectory: ''
-      gradleWrapperFile: 'gradlew'
-      gradleOptions: '-Xmx3072m'
-      publishJUnitResults: false
-      testResultsFiles: '**/TEST-*.xml'
-      tasks: 'installRoboRioToolchain'
-  - task: Gradle@2
-    inputs:
-      workingDirectory: ''
-      gradleWrapperFile: 'gradlew'
-      gradleOptions: '-Xmx3072m'
-      publishJUnitResults: false
-      testResultsFiles: '**/TEST-*.xml'
-      tasks: 'clean :4788:build'
-      #options: '-Pno-roborio'
+# jobs:
+
+# - job: windows_VS2017_Win2016
+#   pool:
+#     vmImage: 'VS2017-Win2016'
+#   steps:
+#   - template: azure-init.yml
+#   - script: git clone https://github.com/wml-frc/emlEncironmentBuild.git --recursive
+#   - task: Gradle@2
+#     inputs:
+#       workingDirectory: ''
+#       gradleWrapperFile: 'gradlew'
+#       gradleOptions: '-Xmx3072m'
+#       publishJUnitResults: false
+#       testResultsFiles: '**/TEST-*.xml'
+#       tasks: 'installRoboRioToolchain'
+#   - task: Gradle@2
+#     inputs:
+#       workingDirectory: ''
+#       gradleWrapperFile: 'gradlew'
+#       gradleOptions: '-Xmx3072m'
+#       publishJUnitResults: false
+#       testResultsFiles: '**/TEST-*.xml'
+#       tasks: 'clean :4788:build'
+#       #options: '-Pno-roborio'
 
