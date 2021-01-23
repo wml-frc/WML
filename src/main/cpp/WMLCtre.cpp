@@ -53,3 +53,31 @@ void VictorSpx::ModifyConfig(std::function<void(VictorSpx::Configuration &)> fun
   func(config);
   LoadConfig(config);
 }
+
+// Talon FX 
+
+void TalonFX::StopMotor() {
+  Disable();
+}
+
+void TalonFX::PIDWrite(double output) {
+  Set(output);
+}
+
+double TalonFX::Get() const {
+  return _value;
+}
+
+int TalonFX::GetEncoderRawTicks() {
+  return GetSensorPosition();
+}
+
+double TalonFX::GetEncoderTickVelocity() {
+  return (double)GetSensorVelocity() * 10;
+}
+
+void TalonFX::ModifyConfig(std::function<void(TalonFX::Configuration &)> func) {
+  TalonFX::Configuration config = SaveConfig();
+  func(config);
+  LoadConfig(config);
+}

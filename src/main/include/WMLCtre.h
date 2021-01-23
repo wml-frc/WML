@@ -255,4 +255,132 @@ namespace wml {
     double _value;
   };
 
+  class TalonFX : public wml::actuators::MotorVoltageController, public frc::SpeedController , public wml::sensors::Encoder {
+    public:
+      using Configuration = ctre::phoenix::motorcontrol::can::TalonFXConfiguration;
+      using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
+
+
+      /**
+       * Create a new Talon FX
+       * 
+       * @param port 
+       */
+      TalonFX(actuators::Port port, int encoderTicksPerRotation = 99); //change 
+      ~TalonFX();
+
+      /**
+       * Set the Talon FX Packet update rate in Hz
+       */
+      void SetUpdateRate(int hz);
+
+      /**
+       * Get the CAN Device ID (and physical port) of the Talon FX 
+       */
+      actuators::Port GetPort();
+
+      //override 
+      virtual int GetPhysicalPort() override { return GetPort()._PDP;};
+
+      /**
+       * Set or ununset this TalonFX as 'inverted' for all calls to .Set();
+       */
+      void SetInverted(bool invert) override;
+
+      /**
+       * Get whether this TalonFX is inverted 
+       */
+      bool GetInverted() const override;
+
+      /**
+       * Stop the motor 
+       */
+      void Disable() override;
+
+      /**
+       * Stop the motor 
+       */
+      void StopMotor() override;
+    
+      void PIDWrite(double output) override;
+
+      /**
+       * Set the speed of the Talon TX, in the range -1 Full Reverse, 0 Neutral and 1 Full forwards 
+       * @param speed the Speed -1 Full Reverse, 0 Neutral, 1 Full forwards 
+       */
+      void Set(double speed) override;
+
+      /**
+       * Set the value of the Talon FX in a given control mode
+       * 
+       * @param mode The control mode of the Talon FX see @ref ControlMode 
+       * @param value The value to set. Units dependent on value of mode 
+       */
+      void Set(ControlMode mode, double value);
+
+      /**
+       * Get the currently active control mode of the Talon FX
+       * 
+       * @returns the Control mode of the Talon FX. See @ref ControlMode
+       */
+      ControlMode GetMode();
+
+      /**
+       * Get the current value of the Talon FX 
+       * 
+       * @returns the value of the motor contoller, dependent on the active control mode.
+       */
+      double Get() const override;
+
+      /**
+       * Get the supply current to the Talon FX
+       * 
+       * @returns The supply current for the Talon FX. Should be identical to the value from the PDP.
+       */
+      virtual double GetCurrent() override;
+
+      /**
+       * Get the current sensor position, in encoder ticks. 
+       * 
+       * @return The current sensor position, in encoder ticks.
+       */
+      int GetSensorPosition();
+
+      /**
+       * Get the current sensor velocity, in encoder ticks per 100 millisecond
+       * 
+       * @return The current sensor velocity, in encoder ticks per 100 milliseconds.
+       */
+      int GetSensorVelocity();
+
+      int GetEncoderRawTicks() override;
+      double GetEncoderTickVelocity() override;
+      void ZeroEncoder() override;
+
+      /**
+       * Load a talon config 
+       * 
+       * @param Configuration the talon config 
+       */ 
+      void LoadConfig(Configuration &config);
+
+      /**
+       * Save (get) the current talon config 
+       * 
+       * @returns the current talon config 
+       */
+      Configuration SaveConfig();
+
+      /**
+       * Modify a talon configuration. This is the equivilent of calling @ref saveConfig(), changing 
+       * a value, followed by @ref LoadConfig(Configuration &).
+       * 
+       * @param func The Configurtation function. This is a function that takes in a configuration reference. 
+       */
+      void ModifyConfig(std::function<void(Configuration &)> func);
+
+      actuators::Port _port;
+      void *_handle;
+      double _value;
+  };
 }

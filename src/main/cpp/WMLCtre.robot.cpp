@@ -137,3 +137,78 @@ VictorSpx::Configuration VictorSpx::SaveConfig() {
   NativeSpx(this)->GetAllConfigs(config);
   return config;
 }
+
+
+//Talon FX 
+
+inline can::TalonFX *NativeFX(const TalonFX *fx) {
+  return static_cast<can::TalonFX *>(fx->_handle);
+}
+
+TalonFX::TalonFX(actuators::Port port, int encoderTicksPerRotation) : actuators::MotorVoltageController(this), Encoder::Encoder(encoderTicksPerRotation), _port(port) {
+  _handle = (void *)new can::TalonFX(port);
+}
+
+TalonFX::~TalonFX() {
+  delete NativeFX(this);
+}
+
+void TalonFX::SetUpdateRate(int hz) {
+  NativeFX(this)->SetControlFramePeriod(ctre::phoenix::motorcontrol::ControlFrame::Control_3_General, 1000 / hz);
+}
+
+actuators::Port TalonFX::GetPort() {
+  return NativeFX(this)->GetDeviceID();
+}
+
+void TalonFX::SetInverted(bool invert) {
+  NativeFX(this)->SetInverted(invert);
+  NativeFX(this)->SetSensorPhase(invert);
+}
+
+bool TalonFX::GetInverted() const {
+  return NativeFX(this)->GetInverted();
+}
+
+void TalonFX::Disable() {
+  NativeFX(this)->NeutralOutput();
+}
+
+void TalonFX::Set(double speed) {
+  Set(ControlMode::PercentOutput, speed);
+}
+
+void TalonFX::Set(TalonFX::ControlMode mode, double value) {
+  NativeFX(this)->Set(mode, value);
+  _value = value;
+}
+
+double TalonFX::GetCurrent() {
+  return NativeFX(this)->GetSupplyCurrent();
+}
+
+TalonFX::ControlMode TalonFX::GetMode() {
+  return NativeFX(this)->GetControlMode();
+}
+
+int TalonFX::GetSensorPosition() {
+  return NativeFX(this)->GetSelectedSensorPosition();
+}
+
+int TalonFX::GetSensorVelocity() {
+  return NativeFX(this)->GetSelectedSensorVelocity();
+}
+
+void TalonFX::ZeroEncoder() {
+  NativeFX(this)->SetSelectedSensorPosition(0);
+}
+
+void TalonFX::LoadConfig(TalonFX::Configuration &config) {
+  NativeFX(this)->ConfigAllSettings(config);
+}
+
+TalonFX::Configuration TalonFX::SaveConfig() {
+  TalonFX::Configuration config;
+  NativeFX(this)->GetAllConfigs(config);
+  return config;
+}
