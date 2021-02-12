@@ -54,7 +54,8 @@ void VictorSpx::ModifyConfig(std::function<void(VictorSpx::Configuration &)> fun
   LoadConfig(config);
 }
 
-// Talon FX 
+
+//Talon FX
 
 void TalonFX::StopMotor() {
   Disable();

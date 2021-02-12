@@ -139,7 +139,8 @@ VictorSpx::Configuration VictorSpx::SaveConfig() {
 }
 
 
-//Talon FX 
+//TalonFx 
+
 
 inline can::TalonFX *NativeFX(const TalonFX *fx) {
   return static_cast<can::TalonFX *>(fx->_handle);
