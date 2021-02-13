@@ -6,6 +6,10 @@
 #include <frc/SpeedController.h>
 #include <ctre/phoenix/motorcontrol/can/TalonSRX.h>
 #include <ctre/phoenix/motorcontrol/can/VictorSPX.h>
+// // #include <ctre/phoenix/motorcontrol/can/TalonFX.h>
+#include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
+
+// #include <ctre/Phoenix.h>
 
 #include <functional>
 
@@ -250,6 +254,59 @@ namespace wml {
      */
     void ModifyConfig(std::function<void(Configuration &)> func);
     
+    actuators::Port _port;
+    void *_handle;
+    double _value;
+  };
+
+  class TalonFX : public wml::actuators::MotorVoltageController, public frc::SpeedController, public wml::sensors::Encoder {
+   public:
+    using Configuration = ctre::phoenix::motorcontrol::can::TalonFXConfiguration;
+    using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
+
+    TalonFX(actuators::Port port, int encoderTicksPerRotation = 2048);
+    ~TalonFX();
+
+    void SetUpdateRate(int hz);
+
+    actuators::Port GetPort();
+
+    virtual int GetPhysicalPort() override { return GetPort()._PDP;};
+
+    void SetInverted(bool invert) override;
+
+    bool GetInverted() const override;
+
+    void Disable() override;
+
+    void StopMotor() override;
+
+    void PIDWrite(double output) override;
+
+    void Set(double speed) override;
+
+    void Set(ControlMode mode, double value);
+
+    ControlMode GetMode();
+
+    double Get() const override;
+
+    virtual double GetCurrent() override;
+
+    int GetSensorPosition();
+
+    int GetSensorVelocity();
+
+    int GetEncoderRawTicks() override;
+    double GetEncoderTickVelocity() override;
+    void ZeroEncoder() override;
+  
+    void LoadConfig(Configuration &config);
+
+    Configuration SaveConfig();
+
+    void ModifyConfig(std::function<void(Configuration &)> func);
+
     actuators::Port _port;
     void *_handle;
     double _value;
