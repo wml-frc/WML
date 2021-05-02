@@ -1,0 +1,79 @@
+plugins {
+	id 'cpp' 
+	id 'google-test-test-suite'
+	id "edu.wpi.first.GradleRIO"
+}
+
+dependencies {
+	simulation wpi.deps.sim.gui(wpi.platforms.desktop, true)
+	simulation wpi.deps.sim.driverstation(wpi.platforms.desktop, true)
+}
+
+model {
+	components {
+		wml(NativeLibrarySpec) {
+			targetPlatform wpi.platforms.desktop
+			targetPlatform wpi.platforms.roborio
+
+			sources.cpp {
+				source {
+					srcDir 'src/main/cpp'
+					srcDir 'src/rev/cpp'
+					include '**/*.cpp', '**/*.cc'
+				}
+
+				exportedHeaders {
+					srcDir 'src/main/include'
+					srcDir 'src/rev/include'
+				}
+			}
+
+			wpi.deps.vendor.cpp(it)
+			wpi.deps.wpilib(it)
+		}
+	}
+
+	// testSuites {
+	// 	wmlTest(GoogleTestTestSuiteSpec) {
+	// 		testing $.components.wml
+
+	// 		sources.cpp {
+	// 			source {
+	// 				srcDir 'src/test/cpp'
+	// 				include '**/*.cpp'
+	// 			}
+	// 		}
+
+	// 		wpi.deps.vendor.cpp(it)
+	// 		wpi.deps.wpilib(it)
+	// 		wpi.deps.googleTest(it)
+	// 	}
+	// }
+}
+
+
+// library {
+// 	linkage = [Linkage.SHARED, Linkage.STATIC]
+
+// 	targetMachines = [
+// 		machines.linux.x86_64, // Linux
+// 		machines.windows.x86, machines.windows.x86_64, // Windows
+// 		machines.macOS.x86_64
+// 	]
+
+// 	source {
+// 		def tree = project.fileTree("src/main/cpp")
+// 		tree.include "**/*.c"
+// 		tree.include "**/*.cc"
+// 		tree.include "**/*.cpp"
+
+// 		from tree
+// 	}
+
+// 	publicHeaders {
+// 		from file("src/main/include")
+// 	}
+
+// 	baseName = "WML"
+// }
+
