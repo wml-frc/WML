@@ -18,13 +18,13 @@ model {
 			sources.cpp {
 				source {
 					srcDir 'src/main/cpp'
-					srcDir 'src/rev/cpp'
+					// srcDir 'src/rev/cpp'
 					include '**/*.cpp', '**/*.cc'
 				}
 
 				exportedHeaders {
 					srcDir 'src/main/include'
-					srcDir 'src/rev/include'
+					// srcDir 'src/rev/include'
 				}
 			}
 
