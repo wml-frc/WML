@@ -1,0 +1,46 @@
+/** Zip souce files */
+task cppSourcesZip(type: Zip) {
+	destinationDirectory = outputsFolder
+	archiveBaseName = zipBaseName
+	classifier = "sources"
+
+	from('src/main/cpp') {
+		into '/'
+	}
+}
+
+/** Zip Header files */
+task cppHeadersZip(type: Zip) {
+	destinationDirectory = outputsFolder
+	archiveBaseName = zipBaseName
+	classifier = "headers"
+
+	ext.includeDirs = [
+		project.file('src/main/include')
+	]
+
+	ext.includeDirs.each {
+		from(it) {
+			into '/'
+		}
+	}
+}
+
+
+build.dependsOn cppHeadersZip
+build.dependsOn cppSourcesZip
+
+model {
+	publishing {
+		publications {
+			wml(MavenPublication) {
+				artifactId = baseArtifactId
+
+				artifact cppHeadersZip
+				artifact cppSourcesZip
+			}
+		}
+	}
+}
+
+publish.dependsOn build

@@ -1,0 +1,92 @@
+import groovy.json.JsonOutput
+
+Map<String, Object> vendorJson() {
+	return [
+		fileName: "WML.json",
+		name: "WML",
+		version: project.version,
+		uuid: "c60d5c07-4f05-4f90-b76f-abee0aee2a5a",
+		mavenUrls: [
+			mavenUrl
+		],
+
+		jsonUrl: "${mavenUrl}/${artifactGroupIdURL}/${depsArtifactId}/${project.version}/${depsArtifactId}-${project.version}.json",
+		cppDependencies: [
+			[
+				groupId: project.group,
+				artifactId: baseArtifactId,
+				version: project.version,
+				libName: "wml",
+				headerClassifier: "headers",
+				sharedLibrary: true,
+				skipInvalidPlatforms: true,
+				binaryPlatforms: []
+			]
+		]
+	]
+}
+
+Map<String, Object> vendorJsonLatest() {
+	return [
+		fileName: "WML-latest.json",
+		name: "WML",
+		version: project.version,
+		uuid: "c60d5c07-4f05-4f90-b76f-abee0aee2a5a",
+		mavenUrls: [
+			mavenUrl
+		],
+
+		jsonUrl: "${mavenUrl}/${artifactGroupIdURL}/${depsArtifactId}/latest/${depsArtifactId}-latest.json",
+		cppDependencies: [
+			[
+				groupId: project.group,
+				artifactId: baseArtifactId,
+				version: project.version,
+				libName: "wml",
+				headerClassifier: "headers",
+				sharedLibrary: true,
+				skipInvalidPlatforms: true,
+				binaryPlatforms: []
+			]
+		]
+	]
+}
+
+String vendorJsonString() {
+	return JsonOutput.prettyPrint(JsonOutput.toJson(vendorJson()))
+}
+
+String vendorJsonLatestString() {
+	return JsonOutput.prettyPrint(JsonOutput.toJson(vendorJsonLatest()))
+}
+
+task generateVendorDepsJson() {
+	def outfile = new File(buildDir, "WML.json")
+	def outfileLatest = new File(buildDir, "WML-latest.json")
+	outputs.file(outfile)
+	outputs.file(outfileLatest)
+
+	doLast {
+		outfile.text = vendorJsonString()
+		outfileLatest.text = vendorJsonLatestString()
+	}
+}
+
+publishing {
+	publications {
+		vendordeps(MavenPublication) {
+			artifactId 'WML-Deps'
+			artifact(generateVendorDepsJson.outputs.files.files[0]) {
+				builtBy generateVendorDepsJson
+			}
+		}
+
+		vendordepsLatest(MavenPublication) {
+			artifactId 'WML-Deps'
+			version = "latest"
+			artifact(generateVendorDepsJson.outputs.files.files[1]) {
+				builtBy generateVendorDepsJson
+			}
+		}
+	}
+}

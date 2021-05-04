@@ -1,0 +1,78 @@
+dependencies {
+	simulation wpi.deps.sim.gui(wpi.platforms.desktop, true)
+	simulation wpi.deps.sim.driverstation(wpi.platforms.desktop, true)
+}
+
+model {
+	components {
+		wml(NativeLibrarySpec) {
+			targetPlatform wpi.platforms.roborio
+			if (project.hasProperty("desktopSupport")) {
+				println "WML Desktop support enabled.... good luck :)"
+				targetPlatform wpi.platforms.desktop
+			} else {
+				println "Compilation desktop support disabled"
+			}
+
+			sources.cpp {
+				source {
+
+					srcDir "src/main/cpp"
+					// srcDir 'src/rev/cpp'
+					include '**/*.cpp', '**/*.cc'
+				}
+
+				exportedHeaders {
+					srcDir "src/main/include"
+					// srcDir 'src/rev/include'
+				}
+			}
+
+			wpi.deps.vendor.cpp(it)
+			wpi.deps.wpilib(it)
+		}
+	}
+
+	// testSuites {
+	// 	wmlTest(GoogleTestTestSuiteSpec) {
+	// 		testing $.components.wml
+
+	// 		sources.cpp {
+	// 			source {
+	// 				srcDir 'src/test/cpp'
+	// 				include '**/*.cpp'
+	// 			}
+	// 		}
+
+	// 		wpi.deps.vendor.cpp(it)
+	// 		wpi.deps.wpilib(it)
+	// 		wpi.deps.googleTest(it)
+	// 	}
+	// }
+}
+
+// library {
+// 	linkage = [Linkage.SHARED, Linkage.STATIC]
+
+// 	targetMachines = [
+// 		machines.linux.x86_64,
+// 		machines.windows.x86, machines.windows.x86_64,
+// 		machines.macOS.x86_64
+// 	]
+
+
+// 	source {
+// 		def cppTree = project.fileTree("src/main/cpp")
+// 		cppTree.include "**/*.c"
+// 		cppTree.include "**/*.cc"
+// 		cppTree.include "**/*.cpp"
+
+// 		from cppTree
+// 	}
+
+// 	publicHeaders {
+// 		from file("src/main/include")
+// 	}
+
+// 	baseName = "wml"
+// }

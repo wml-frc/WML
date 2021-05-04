@@ -1,58 +1,45 @@
 plugins {
 	id 'cpp' 
+	// id 'cpp-library'
 	id 'google-test-test-suite'
 	id "edu.wpi.first.GradleRIO"
+	id 'base'
+	id 'maven-publish'
 }
 
-dependencies {
-	simulation wpi.deps.sim.gui(wpi.platforms.desktop, true)
-	simulation wpi.deps.sim.driverstation(wpi.platforms.desktop, true)
-}
 
-model {
-	components {
-		wml(NativeLibrarySpec) {
-			targetPlatform wpi.platforms.roborio
-			if (project.hasProperty("desktopSupport")) {
-				println "WML Desktop support enabled.... good luck :)"
-				targetPlatform wpi.platforms.desktop
-			} else {
-				println "Compilation desktop support disabled"
-			}
+// Apply the main building lines
+apply from: "config.gradle"
+apply from: "wmlBuild.gradle"
+apply from: "vendor.gradle"
 
-			sources.cpp {
-				source {
-					srcDir 'src/main/cpp'
-					// srcDir 'src/rev/cpp'
-					include '**/*.cpp', '**/*.cc'
-				}
+allprojects {
+	group = artifactGroupId
+	version = artifactVersion
 
-				exportedHeaders {
-					srcDir 'src/main/include'
-					// srcDir 'src/rev/include'
+	publishing {
+		repositories {
+			maven {
+				if (localMaven) {
+					println "Using Local Maven"
+					name = "wml_maven"
+					url = "${buildDir}/maven"
+				} else {
+					println "Using Remove Maven - I sure hope you know what you're doing"
+					url = mavenUrl
+					credentials {
+						username = project.findProperty("gpr.user") ?: System.getenv("WML_USERNAME")
+						password = project.findProperty("gpr.key") ?: System.getenv("WML_TOKEN")
+					}
 				}
 			}
 
-			wpi.deps.vendor.cpp(it)
-			wpi.deps.wpilib(it)
+			publications.all {
+				groupId project.group
+			}
 		}
 	}
-
-	// testSuites {
-	// 	wmlTest(GoogleTestTestSuiteSpec) {
-	// 		testing $.components.wml
-
-	// 		sources.cpp {
-	// 			source {
-	// 				srcDir 'src/test/cpp'
-	// 				include '**/*.cpp'
-	// 			}
-	// 		}
-
-	// 		wpi.deps.vendor.cpp(it)
-	// 		wpi.deps.wpilib(it)
-	// 		wpi.deps.googleTest(it)
-	// 	}
-	// }
 }
 
+// Library Publishing
+apply from: "publish.gradle"

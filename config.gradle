@@ -1,0 +1,22 @@
+// Artifact Config
+ext.baseArtifactId = 'WML-cpp'
+ext.depsArtifactId = 'WML-Deps'
+ext.artifactGroupId = 'gradle.cpp'
+ext.artifactGroupIdURL = 'gradle/cpp'
+ext.zipBaseName = 'wml-cpp'
+
+if (project.hasProperty("remotePublish")) {
+	ext.localMaven = false
+} else {
+	ext.localMaven = true
+}
+
+
+// Zip config (output directory)
+ext.outputsFolder = file("$project.buildDir/outputs")
+
+// Maven url
+ext.mavenUrl = "https://panel.repsy.io/mvn/wml-frc/wml"
+
+// Version
+ext.artifactVersion = "2021.2.1.1" // (2021 <- Year, 2.1 <- WPI version 1 <- WML version)
