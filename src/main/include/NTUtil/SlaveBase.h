@@ -14,7 +14,7 @@ namespace wml {
      public:
       SlaveBase(std::shared_ptr<nt::NetworkTable> table, std::string name, T *value) : _table(table), _name(name), _val(value) {
         _entry = table->GetEntry(name);
-        ForceSetEntryValue(*value);
+        // ForceSetEntryValue(*value); // This breaks everything <- nathan your problem
         _listener = _entry.AddListener([=](const nt::EntryNotification &evt) {
           *_val = GetValue(evt.value);
         }, NT_NOTIFY_UPDATE);
