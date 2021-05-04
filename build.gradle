@@ -51,29 +51,3 @@ model {
 	// }
 }
 
-
-// library {
-// 	linkage = [Linkage.SHARED, Linkage.STATIC]
-
-// 	targetMachines = [
-// 		machines.linux.x86_64, // Linux
-// 		machines.windows.x86, machines.windows.x86_64, // Windows
-// 		machines.macOS.x86_64
-// 	]
-
-// 	source {
-// 		def tree = project.fileTree("src/main/cpp")
-// 		tree.include "**/*.c"
-// 		tree.include "**/*.cc"
-// 		tree.include "**/*.cpp"
-
-// 		from tree
-// 	}
-
-// 	publicHeaders {
-// 		from file("src/main/include")
-// 	}
-
-// 	baseName = "WML"
-// }
-

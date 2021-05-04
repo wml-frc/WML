@@ -1,0 +1,22 @@
+{
+    "fileName": "UDP_TransferNT-latest.json",
+    "name": "UDP_TransferNT",
+    "version": "2021.1.1",
+    "uuid": "d7e51e9d-c0f6-4f51-96f1-cf2beab44a24",
+    "mavenUrls": [
+        "https://panel.repsy.io/mvn/wml-frc/udp_transfernt"
+    ],
+    "jsonUrl": "https://panel.repsy.io/mvn/wml-frc/udp_transfernt/gradle/cpp/UDP_TransferNT-Deps/latest/UDP_TransferNT-Deps-latest.json",
+    "cppDependencies": [
+        {
+            "groupId": "gradle.cpp",
+            "artifactId": "UDP_TransferNT-cpp",
+            "version": "2021.1.1",
+            "libName": "UDP_TransferNT",
+            "headerClassifier": "headers",
+            "sharedLibrary": true,
+            "skipInvalidPlatforms": true,
+            "binaryPlatforms": []
+        }
+    ]
+}
