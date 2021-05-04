@@ -5,15 +5,20 @@ plugins {
 }
 
 dependencies {
-	simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
-	simulation wpi.deps.sim.driverstation(wpi.platforms.desktop, false)
+	simulation wpi.deps.sim.gui(wpi.platforms.desktop, true)
+	simulation wpi.deps.sim.driverstation(wpi.platforms.desktop, true)
 }
 
 model {
 	components {
 		wml(NativeLibrarySpec) {
-			targetPlatform wpi.platforms.desktop
 			targetPlatform wpi.platforms.roborio
+			if (project.hasProperty("desktopSupport")) {
+				println "WML Desktop support enabled.... good luck :)"
+				targetPlatform wpi.platforms.desktop
+			} else {
+				println "Compilation desktop support disabled"
+			}
 
 			sources.cpp {
 				source {
