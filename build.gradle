@@ -5,8 +5,8 @@ plugins {
 }
 
 dependencies {
-	simulation wpi.deps.sim.gui(wpi.platforms.desktop, true)
-	simulation wpi.deps.sim.driverstation(wpi.platforms.desktop, true)
+	simulation wpi.deps.sim.gui(wpi.platforms.desktop, false)
+	simulation wpi.deps.sim.driverstation(wpi.platforms.desktop, false)
 }
 
 model {

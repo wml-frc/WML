@@ -16,11 +16,11 @@ namespace wml {
         _entry = table->GetEntry(name);
         ForceSetEntryValue(*value);
         _listener = _entry.AddListener([=](const nt::EntryNotification &evt) {
-          *_val = GetEntryValue();
+          *_val = GetValue(evt.value);
         }, NT_NOTIFY_UPDATE);
       }
 
-      SlaveBase(const Slave<T> &other) : Slave(other._table, other._name, other._val) {}
+      SlaveBase(const SlaveBase<T> &other) : SlaveBase(other._table, other._name, other._val) {}
       ~SlaveBase() { _table->RemoveEntryListener(_listener); }
 
       void Override(T newVal) {
@@ -30,7 +30,7 @@ namespace wml {
 
      protected:
       virtual void ForceSetEntryValue(T newVal) = 0; // overrides the value in `_entry` using the appropriate typed method
-      virtual T GetEntryValue() = 0; // gets the value of `_entry` using the appropriate typed method
+      virtual T GetValue(std::shared_ptr<nt::Value> ntValue) = 0; // gets the value of `_entry` using the appropriate typed method
       
       std::shared_ptr<nt::NetworkTable> _table;
       nt::NetworkTableEntry _entry;

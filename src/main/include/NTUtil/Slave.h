@@ -1,6 +1,5 @@
 #pragma once
 
-#include <type_traits>
 #include <string>
 #include <vector>
 
@@ -9,21 +8,21 @@
 #include "NTUtil/SlaveBase.h"
 
 
-#define __NTUTIL__SLAVE__IMPLEMENTATION_FACTORY__(MainT, LongT)                     \
-template <>                                                                         \
-class Slave<MainT> : public SlaveBase<MainT> {                                      \
-  public:                                                                           \
-  /* using SlaveBase::SlaveBase; */                                                 \
- protected:                                                                         \ 
-  virtual void ForceSetEntryValue(MainT newVal) { _entry.ForceSet##LongT(newVal); } \
-  virtual MainT GetEntryValue() { return evt.value->Get##LongT(); }                 \
+#define __NTUTIL__SLAVE__IMPLEMENTATION_FACTORY__(MainT, LongT)                                 \
+template <>                                                                                     \
+class Slave<MainT> : public SlaveBase<MainT> {                                                  \
+  public:                                                                                       \
+   using SlaveBase::SlaveBase;                                                                  \
+ protected:                                                                                     \
+  virtual void ForceSetEntryValue(MainT newVal) { _entry.ForceSet##LongT(newVal); }             \
+  virtual MainT GetValue(std::shared_ptr<nt::Value> ntValue) { return ntValue->Get##LongT(); }  \
 };
 
 
 namespace wml {
   namespace NTUtil {
     template <typename T>
-    class Slave : public SlaveBase<T>;
+    class Slave : public SlaveBase<T> {};
 
     __NTUTIL__SLAVE__IMPLEMENTATION_FACTORY__(bool, Boolean)
     __NTUTIL__SLAVE__IMPLEMENTATION_FACTORY__(double, Double)
