@@ -1,13 +1,13 @@
 /** Zip souce files */
-task cppSourcesZip(type: Zip) {
-	destinationDirectory = outputsFolder
-	archiveBaseName = zipBaseName
-	classifier = "sources"
+// task cppSourcesZip(type: Zip) {
+// 	destinationDirectory = outputsFolder
+// 	archiveBaseName = zipBaseName
+// 	classifier = "sources"
 
-	from('src/main/cpp') {
-		into '/'
-	}
-}
+// 	from('src/main/cpp') {
+// 		into '/'
+// 	}
+// }
 
 /** Zip Header files */
 task cppHeadersZip(type: Zip) {
@@ -28,7 +28,7 @@ task cppHeadersZip(type: Zip) {
 
 
 build.dependsOn cppHeadersZip
-build.dependsOn cppSourcesZip
+// build.dependsOn cppSourcesZip
 
 model {
 	publishing {
@@ -36,8 +36,12 @@ model {
 			wml(MavenPublication) {
 				artifactId = baseArtifactId
 
-				artifact cppHeadersZip
-				artifact cppSourcesZip
+				artifact cppHeadersZip {
+					classifier = 'headers'
+				}
+
+				
+				// artifact cppSourcesZip
 			}
 		}
 	}

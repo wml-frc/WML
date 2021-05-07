@@ -39,6 +39,9 @@ allprojects {
 			}
 		}
 	}
+
+
+	/** Project compilation */
 }
 
 // Library Publishing

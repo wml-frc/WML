@@ -5,7 +5,7 @@
 #include <networktables/NetworkTable.h>
 
 #include "controllers/Inputs.h"
-#include "NTUtil/Slave.h"
+#include "ntUtil/Slave.h"
 
 namespace wml {
   namespace controllers {
@@ -18,7 +18,7 @@ namespace wml {
       
        private:
         bool buttonBool = false;
-        NTUtil::Slave<bool> buttonSlave;
+        ntUtil::Slave<bool> buttonSlave;
       };
 
       class NTAxis : public ContAxis {
@@ -29,7 +29,7 @@ namespace wml {
       
        private:
         double axisDouble = false;
-        NTUtil::Slave<double> axisSlave;
+        ntUtil::Slave<double> axisSlave;
       };
     } // ns inputs
   } // ns controllers

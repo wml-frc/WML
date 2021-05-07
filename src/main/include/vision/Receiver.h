@@ -4,7 +4,7 @@
 
 #include "networktables/NetworkTableInstance.h"
 
-#include "NTUtil/Slave.h"
+#include "ntUtil/Slave.h"
 
 namespace wml {
   namespace vision {
@@ -15,7 +15,7 @@ namespace wml {
       double yOffset;
 
      private:
-      wml::NTUtil::Slave<double> _xOffset, _yOffset;
+      wml::ntUtil::Slave<double> _xOffset, _yOffset;
     };
   }
 }

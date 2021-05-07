@@ -1,7 +1,27 @@
+import static org.apache.tools.ant.taskdefs.condition.Os.*
+
 dependencies {
 	simulation wpi.deps.sim.gui(wpi.platforms.desktop, true)
 	simulation wpi.deps.sim.driverstation(wpi.platforms.desktop, true)
 }
+
+[FAMILY_WINDOWS, FAMILY_UNIX, FAMILY_MAC].each { osName ->
+	// Create Task
+	tasks.create(osName) {
+		description "OS is ${osName}"
+		
+		// Add condition to check operating system.
+		onlyIf { isFamily(osName) }
+
+		doLast {
+			println "Execution Family: '${it.name}'"
+		}
+	}
+
+	// Add task as dependency for the os task
+	build.dependsOn(osName)
+}
+
 
 model {
 	components {
@@ -13,6 +33,11 @@ model {
 			} else {
 				println "Compilation desktop support disabled"
 			}
+
+			ext.osArch = System.properties['sun.arch.data.model']
+			println osArch
+			// println osName
+			
 
 			sources.cpp {
 				source {
@@ -26,6 +51,10 @@ model {
 					srcDir "src/main/include"
 					// srcDir 'src/rev/include'
 				}
+			}
+
+			binaries.all {
+				cppCompiler.args << '-fPIC'
 			}
 
 			wpi.deps.vendor.cpp(it)

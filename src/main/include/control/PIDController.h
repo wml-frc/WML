@@ -1,6 +1,6 @@
 #pragma once
 
-#include "NTUtil/Slave.h"
+#include "ntUtil/Slave.h"
 #include "Filter.h"
 
 #include <string>
@@ -26,7 +26,7 @@ namespace control {
     double _kP, _kI, _kD, _kF;
 
     std::shared_ptr<nt::NetworkTable> _table;
-    wpi::SmallVector<NTUtil::Slave<double>, 4> _ntbounds;
+    wpi::SmallVector<ntUtil::Slave<double>, 4> _ntbounds;
   };
 
   class PIDController {
