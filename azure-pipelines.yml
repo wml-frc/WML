@@ -100,8 +100,17 @@ jobs:
     inputs:
       workingDirectory: ''
       gradleWrapperFile: 'gradlew'
+      gradleOptions: '-Xmx4096m'
+      publishJUnitResults: false
+      testResultsFiles: '**/TEST-*.xml'
+      tasks: 'installRoborioToolchain'
+      options: '-PazureBuild'
+  - task: Gradle@2
+    inputs:
+      workingDirectory: ''
+      gradleWrapperFile: 'gradlew'
       tasks: 'doxygen'
-      options: '-Pno-roborio'
+      options: '-PazureBuild'
   - task: PublishBuildArtifacts@1
     inputs:
       artifactName: 'doxygen'
