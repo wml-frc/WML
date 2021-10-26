@@ -68,7 +68,8 @@ model {
 			}
 
 			binaries.all {
-				lib project: ':WML-Core', library: 'wml', linkage: 'shared'
+				lib project: ':WML-Core', library: 'WML-Core', linkage: 'shared'
+				lib project: ':WML-Rev', library: 'WML-Rev', linkage: 'shared'
 			}
 
 			wpi.deps.vendor.cpp(it)

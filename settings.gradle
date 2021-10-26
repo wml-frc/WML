@@ -26,5 +26,5 @@ pluginManagement {
 	}
 }
 
-include ':WML-Core'
+include ':WML-Core', ':WML-Rev'
 rootProject.name = 'WML'

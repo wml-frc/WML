@@ -1,6 +1,6 @@
 ext {
-	nativeName = 'WML-Core'
-	req_core = false
+	nativeName = 'WML-Rev'
+	req_core = true
 }
 
 apply from: "../shared/libraryBuild.gradle"

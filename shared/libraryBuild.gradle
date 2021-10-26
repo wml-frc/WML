@@ -1,0 +1,66 @@
+apply plugin: 'cpp'
+apply plugin: 'google-test-test-suite'
+apply plugin: 'edu.wpi.first.GradleRIO'
+
+dependencies {
+	simulation wpi.deps.sim.gui(wpi.platforms.desktop, true)
+	simulation wpi.deps.sim.driverstation(wpi.platforms.desktop, true)
+}
+
+ext {
+	baseID = nativeName
+}
+
+model {
+	components {
+		"${nativeName}"(NativeLibrarySpec) {
+			targetPlatform wpi.platforms.roborio
+
+			sources {
+				cpp {
+					source {
+						srcDir 'src/main/cpp'
+						include '**/*.cpp', '**/*.cc'
+					}
+
+					exportedHeaders {
+						srcDir 'src/main/include'
+						srcDir 'src/rev/include'
+
+						srcDir 'src/main/cpp'
+					}
+				}
+			}
+
+			binaries.all {
+				if (project.req_core) {
+					lib project: ':WML-Core', library: 'WML-Core', linkage: 'shared'
+				}
+			}
+
+			wpi.deps.vendor.cpp(it)
+			wpi.deps.wpilib(it)
+		}
+	}
+
+	testSuites {
+		"${nativeName}Test"(GoogleTestTestSuiteSpec) {
+			for(NativeComponentSpec c : $.components) {
+				if (c.name == nativeName) {
+					testing c
+					break
+				}
+			}
+
+			sources.cpp {
+				source {
+					srcDir 'src/test/cpp'
+					include '**/*.cpp'
+				}
+			}
+			wpi.deps.vendor.cpp(it)
+			wpi.deps.wpilib(it)
+			wpi.deps.googleTest(it)
+		}
+	}
+}
