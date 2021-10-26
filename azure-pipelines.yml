@@ -95,7 +95,6 @@ jobs:
 - job: doxygen
   pool:
     vmImage: 'Ubuntu-latest'
-  container: linux
   steps:
   - task: Gradle@2
     inputs:
