@@ -114,4 +114,4 @@ jobs:
   - task: PublishBuildArtifacts@1
     inputs:
       artifactName: 'doxygen'
-      pathtoPublish: build/docs/doxygen
+      pathtoPublish: build/docs
