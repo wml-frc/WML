@@ -91,3 +91,19 @@ jobs:
       testResultsFiles: '**/TEST-*.xml'
       tasks: 'clean build'
       options: '-PazureBuild'
+
+- job: doxygen
+  pool:
+    vmImage: 'Ubuntu-latest'
+  container: linux
+  steps:
+  - task: Gradle@2
+    inputs:
+      workingDirectory: ''
+      gradleWrapperFile: 'gradlew'
+      tasks: 'doxygen'
+      options: '-Pno-roborio'
+  - task: PublishBuildArtifacts@1
+    inputs:
+      artifactName: 'doxygen'
+      pathtoPublish: build/docs/doxygen/html
