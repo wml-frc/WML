@@ -60,6 +60,8 @@ model {
 include 'wml', '4788' // replace with your teamnumber, or however you have gradle setup
 ```
 
+### Doxygen
+- You can view the generated documentation by going to [azure](https://dev.azure.com/ConnorBuchel0890/WML/_build?definitionId=17&_a=summary) slecting the latest successful build. Then clicking the published artifact and downloading the zip folder.
 
 ### Library examples
 - Added to the library is an [example folder](/examples/). More examples are planned, however, I am aware that there are not many examples currently (especially compared to the breadth of the content in the library).
