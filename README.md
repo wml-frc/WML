@@ -2,6 +2,10 @@
   <img src="https://avatars1.githubusercontent.com/u/58220426?s=200&v=4" alt=""/>
 </p>
 
+
+#### Build Status
+[![Build Status](https://dev.azure.com/ConnorBuchel0890/WML/_apis/build/status/wml-frc.WML?branchName=master)](https://dev.azure.com/ConnorBuchel0890/WML/_build/latest?definitionId=7&branchName=master)
+
 ## A modularity-based library designed for use in the FIRST Robotics Competition.
 
 ### Setting up WML in your own project
