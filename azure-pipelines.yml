@@ -28,8 +28,17 @@ jobs:
       gradleOptions: '-Xmx4096m'
       publishJUnitResults: false
       testResultsFiles: '**/TEST-*.xml'
+      tasks: 'installRoborioToolchain'
+      options: '-PazureBuild'
+  - task: Gradle@2
+    inputs:
+      workingDirectory: ''
+      gradleWrapperFile: 'gradlew'
+      gradleOptions: '-Xmx4096m'
+      publishJUnitResults: false
+      testResultsFiles: '**/TEST-*.xml'
       tasks: 'clean build'
-      options: '-Pno-roborio -PazureBuild -Pforce -Ptoolchain-optional-roboRio'
+      options: '-PazureBuild'
 
 - job: windows
   pool:
@@ -45,8 +54,17 @@ jobs:
       gradleOptions: '-Xmx4096m'
       publishJUnitResults: false
       testResultsFiles: '**/TEST-*.xml'
+      tasks: 'installRoborioToolchain'
+      options: '-PazureBuild'
+  - task: Gradle@2
+    inputs:
+      workingDirectory: ''
+      gradleWrapperFile: 'gradlew'
+      gradleOptions: '-Xmx4096m'
+      publishJUnitResults: false
+      testResultsFiles: '**/TEST-*.xml'
       tasks: 'clean build'
-      options: '-Pno-roborio -PazureBuild -Pforce -Ptoolchain-optional-roboRio'
+      options: '-PazureBuild'
 
 - job: mac
   pool:
@@ -62,5 +80,14 @@ jobs:
       gradleOptions: '-Xmx4096m'
       publishJUnitResults: false
       testResultsFiles: '**/TEST-*.xml'
+      tasks: 'installRoborioToolchain'
+      options: '-PazureBuild'
+  - task: Gradle@2
+    inputs:
+      workingDirectory: ''
+      gradleWrapperFile: 'gradlew'
+      gradleOptions: '-Xmx4096m'
+      publishJUnitResults: false
+      testResultsFiles: '**/TEST-*.xml'
       tasks: 'clean build'
-      options: '-Pno-roborio -PazureBuild -Pforce -Ptoolchain-optional-roboRio'
+      options: '-PazureBuild'
