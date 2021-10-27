@@ -1,0 +1,6 @@
+ext {
+	nativeName = 'WML-Core'
+	req_core = false
+}
+
+apply from: "../shared/libraryBuild.gradle"

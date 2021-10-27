@@ -102,5 +102,4 @@ namespace wml {
     MotorType _motorType;
     double _value;
   };
-
 }

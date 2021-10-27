@@ -1,79 +1,100 @@
 plugins {
-  id "cpp"
-  id "google-test-test-suite"
-  id "edu.wpi.first.GradleRIO"
-  id 'org.ysb33r.doxygen'
+	id 'org.ysb33r.doxygen' version '0.7.0'
+	id 'cpp'
+	id 'google-test-test-suite'
+	id 'edu.wpi.first.GradleRIO'
 }
 
-// Override these in your project gradle file
-includeSrcInIncludeRoot = project.findProperty('includeSrcInIncludeRoot') ?: false
-includeDesktopSupport = project.findProperty('includeDesktopSupport') ?: false
-includeWMLRevSupport = project.findProperty('includeWMLRevSupport') ?: false
+allprojects {
+	plugins.withType(edu.wpi.first.toolchain.roborio.RoboRioToolchainPlugin).whenPluginAdded {
+		if (project.hasProperty('no-roborio'))
+			toolchainsPlugin.getByName('roboRio').optional = true
+	}
+
+	plugins.withType(NativeComponentPlugin).whenPluginAdded {
+		project.model {
+			binaries {
+				all {
+					if (it instanceof NativeBinarySpec) {
+						if (project.hasProperty('no-desktop') && targetPlatform.name == edu.wpi.first.toolchain.NativePlatforms.desktop) {
+							it.buildable = false
+						}
+						if (project.hasProperty('no-roborio') && targetPlatform.name == edu.wpi.first.toolchain.NativePlatforms.roborio) {
+							it.buildable = false
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+subprojects {
+	project.buildDir = rootProject.buildDir
+}
+
+def includeSrcInIncludeRoot = true
+
+// Set this to true to enable desktop support.
+def includeDesktopSupport = false
+
+dependencies {
+	simulation wpi.deps.sim.gui(wpi.platforms.desktop, true)
+	simulation wpi.deps.sim.driverstation(wpi.platforms.desktop, true)
+}
 
 model {
-  components {
-    wml(NativeLibrarySpec) {
-      targetPlatform wpi.platforms.roborio
-      if (includeDesktopSupport) {
-        targetPlatform wpi.platforms.desktop
-      }
+	components {
+		
+		wmlBuildEnv(NativeExecutableSpec) { // frc user
+			targetPlatform wpi.platforms.roborio
+			if (includeDesktopSupport) {
+				targetPlatform wpi.platforms.desktop
+			}
 
-      sources.cpp {
-        source {
-          srcDir 'src/main/cpp'
+			sources.cpp {
+				source {
+					srcDir 'src/main/cpp' // robot
+					include '**/*.cpp', '**/*.cc'
+				}
 
-          if (includeWMLRevSupport) {
-            srcDir 'src/rev/cpp'
-          }
+				exportedHeaders {
+					srcDir 'src/main/include' // robot
 
-          include '**/*.cpp', '**/*.cc'
-        }
-        exportedHeaders {
-          srcDir 'src/main/include'
-          if (includeSrcInIncludeRoot) {
-            srcDir 'src/main/cpp'
-          }
+					if (includeSrcInIncludeRoot) {
+						srcDir 'src/main/cpp' // robot
+					}
+				}
+			}
 
-          if (includeWMLRevSupport) {
-            srcDir 'src/rev/include'
-            if (includeSrcInIncludeRoot) {
-              srcDir 'src/rev/cpp'
-            }
-          }
-        }
-      }
+			binaries.all {
+				lib project: ':WML-Core', library: 'WML-Core', linkage: 'shared'
+				lib project: ':WML-Rev', library: 'WML-Rev', linkage: 'shared'
+			}
 
-      // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
-      wpi.deps.wpilib(it)
-      wpi.deps.vendor.cpp(it)
-    }
-  }
+			wpi.deps.vendor.cpp(it)
+			wpi.deps.wpilib(it)
+		} // frc user
+	}
 
-  testSuites {
-    wmlTest(GoogleTestTestSuiteSpec) {
-      testing $.components.wml
+	testSuites {
+		wmlBuildEnvTest(GoogleTestTestSuiteSpec) {
+			testing $.components.wmlBuildEnv
 
-      sources.cpp {
-        source {
-          srcDir 'src/test/cpp'
-          include '**/*.cpp'
-        }
-      }
+			sources.cpp {
+				source {
+					srcDir 'src/test/cpp'
+					include '**/*.cpp'
+				}
+			}
 
-      wpi.deps.wpilib(it)
-      wpi.deps.googleTest(it)
-      wpi.deps.vendor.cpp(it)
-    }
-  }
+			wpi.deps.vendor.cpp(it)
+			wpi.deps.wpilib(it)
+			wpi.deps.googleTest(it)
+		}
+	}
 }
 
-doxygen {
-  executables {
-    doxygen version : '1.8.13'
-  }
-
-  generate_html true
-  javadoc_autobrief true
-  source project.file('src/main/include')
-  source project.file('src/rev/include')
+wrapper {
+	gradleVersion = '6.8'
 }
