@@ -12,7 +12,7 @@
 ### Setting up WML in your own project
 - First you will need to 'install' the submodule to your root directory. Navigate to your root dir and install via `git submodule add https://github.com/wml-frc/WML.git`.
 
-- Once complete you will need to apply the project to your own codebase. Every team has their own style of programming, building & deploying. But in general most will have a `build.gradle` and `settings.gradle`, and you would apply the library via appending the the two.
+- Once complete you will need to apply the project to your own codebase. Every team has their own style of programming, building & deploying. But in general most will have a `build.gradle` and `settings.gradle`, and you would apply the library via appending the two.
 
 ### Adding WML to your project's gradle config
 
