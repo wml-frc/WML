@@ -55,11 +55,6 @@ model {
 ```
 - Note that `:WML-Rev` is not required if you are not using Rev products (Neo Motor) 
 
-- And include the wml gradle file in the bottom line of your `settings.gradle`:
-```gradle
-include 'wml', '4788' // replace with your teamnumber, or however you have gradle setup
-```
-
 ### Doxygen
 - You can view the generated documentation by going to [azure](https://dev.azure.com/ConnorBuchel0890/WML/_build?definitionId=17&_a=summary) slecting the latest successful build. Then clicking the published artifact and downloading the zip folder.
 
