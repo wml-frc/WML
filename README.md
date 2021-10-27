@@ -69,4 +69,4 @@ include 'wml', '4788' // replace with your teamnumber, or however you have gradl
 - I recommend looking at code that uses the library to get a better idea of what to do. (e.g. The Build environment we use for testing [Src](src/main))
 
 
-<sub><sup>readme written by [@CJBuchel](https://github.com/CJBuchel), 27/09/21</sup></sub>
+<sub><sup>readme written by [@CJBuchel](https://github.com/CJBuchel), 27/10/21</sup></sub>
