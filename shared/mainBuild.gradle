@@ -49,105 +49,96 @@ model {
 				targetPlatform NativePlatforms.desktop
 			}
 
-			if (!project.hasProperty("azureBuild") || project.hasProperty("masterPublish")) {
-				targetPlatform NativePlatforms.roborio
-			}
-
-			println "${nativeName} - Null Build: ${nullBuild}"
-
-			if (!nullBuild) {
-				sources {
-					cpp {
-						source {
-							if (overrideSrc) {
-								srcDir srcLoc
-							} else {
-								srcDir 'src/main/cpp'
-							}
+			targetPlatform NativePlatforms.roborio
+			sources {
+				cpp {
+					source {
+						if (overrideSrc) {
+							srcDir srcLoc
+						} else {
+							srcDir 'src/main/cpp'
 						}
+					}
 
-						exportedHeaders {
-							if (overrideSrc) {
-								srcDir headersLoc
-							} else {
-								srcDir 'src/main/include'
-							}
+					exportedHeaders {
+						if (overrideSrc) {
+							srcDir headersLoc
+						} else {
+							srcDir 'src/main/include'
 						}
 					}
 				}
+			}
 
-				binaries.all {
-					// println targetPlatform.name
+			binaries.all {
+				// println targetPlatform.name
 
-					if (req_proj_libs.size() >= 1) {
-						req_proj_libs.each { req_library ->
-							lib project: ":${req_library}", library: "${req_library}"
-						}
-					}
-
-					if (req_libs.size() >= 1) {
-						req_libs.each { req_library ->
-							lib library: "${req_library}"
-						}
-					}
-
-					if (desktopSupport) {
-						cppCompiler.define "WML_DESKTOP_SUPPORT"
+				if (req_proj_libs.size() >= 1) {
+					req_proj_libs.each { req_library ->
+						lib project: ":${req_library}", library: "${req_library}"
 					}
 				}
 
-				wpi.deps.vendor.cpp(it)
-				wpi.deps.wpilib(it)
+				if (req_libs.size() >= 1) {
+					req_libs.each { req_library ->
+						lib library: "${req_library}"
+					}
+				}
+
+				if (desktopSupport) {
+					cppCompiler.define "WML_DESKTOP_SUPPORT"
+				}
 			}
+
+			wpi.deps.vendor.cpp(it)
+			wpi.deps.wpilib(it)
 		}
 	}
 
 	testSuites {
-		if (!nullBuild) {
-			"${nativeName}Test"(GoogleTestTestSuiteSpec) {
-				for(NativeComponentSpec c : $.components) {
-					if (c.name == nativeName) {
-						testing c
-						break
-					}
+		"${nativeName}Test"(GoogleTestTestSuiteSpec) {
+			for(NativeComponentSpec c : $.components) {
+				if (c.name == nativeName) {
+					testing c
+					break
 				}
-
-				sources.cpp {
-					source {
-						if (overrideTestSrc) {
-							srcDir testSrcLoc
-						} else {
-							srcDir 'src/test/cpp'
-						}
-						include '**/*.cpp'
-					}
-				}
-
-				binaries.all {
-					lib library: "${nativeName}", linkage: 'static'
-
-					if (req_proj_libs.size() >= 1) {
-						req_proj_libs.each { req_library ->
-							lib project: ":${req_library}", library: "${req_library}"
-						}
-					}
-
-					if (req_libs.size() >= 1) {
-						req_libs.each { req_library ->
-							lib library: "${req_library}"
-						}
-					}
-
-					if (desktopSupport) {
-						cppCompiler.define "WML_DESKTOP_SUPPORT"
-					}
-				}
-
-				wpi.deps.vendor.cpp(it)
-				wpi.deps.wpilib(it)
-				wpi.deps.googleTest(it)
-
 			}
+
+			sources.cpp {
+				source {
+					if (overrideTestSrc) {
+						srcDir testSrcLoc
+					} else {
+						srcDir 'src/test/cpp'
+					}
+					include '**/*.cpp'
+				}
+			}
+
+			binaries.all {
+				lib library: "${nativeName}", linkage: 'static'
+
+				if (req_proj_libs.size() >= 1) {
+					req_proj_libs.each { req_library ->
+						lib project: ":${req_library}", library: "${req_library}"
+					}
+				}
+
+				if (req_libs.size() >= 1) {
+					req_libs.each { req_library ->
+						lib library: "${req_library}"
+					}
+				}
+
+				if (desktopSupport) {
+					cppCompiler.define "WML_DESKTOP_SUPPORT"
+				}
+			}
+
+			wpi.deps.vendor.cpp(it)
+			wpi.deps.wpilib(it)
+			wpi.deps.googleTest(it)
+
 		}
 	}
 }
