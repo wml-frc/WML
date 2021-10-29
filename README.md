@@ -10,7 +10,7 @@
 [![Build Status](https://dev.azure.com/ConnorBuchel0890/WML/_apis/build/status/wml-frc.WML?branchName=master)](https://dev.azure.com/ConnorBuchel0890/WML/_build/latest?definitionId=7&branchName=master)
 
 ## WML As FRC Vendor
-- WML Supports being included as a shared library (currently without `includeDesktopSupport`. Will be implemented in the future).
+- WML Supports being included as a shared library.
 
 - Follow the documentation provided by FRC for adding 3rd party libraries https://docs.wpilib.org/pt/latest/docs/software/vscode-overview/3rd-party-libraries.html.
 
