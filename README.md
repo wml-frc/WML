@@ -14,7 +14,7 @@
 
 - Follow the documentation provided by FRC for adding 3rd party libraries https://docs.wpilib.org/pt/latest/docs/software/vscode-overview/3rd-party-libraries.html.
 
-- The vendordep JSON files come in multiple parts and all are optinal. E.g `WML-Core` for the core components. `WML-Rev` for Rev support (Neo Motor's). And `UDP_TransferNT`, used for point to point networking with UDP. Mainly used for communications to and from [CJ-Vision](https://github.com/wml-frc/CJ-Vision) platforms.
+- The vendordep JSON files come in multiple parts and all are optional. E.g `WML-Core` for the core components. `WML-Rev` for Rev support (Neo Motor's). And `UDP_TransferNT`, used for point to point networking with UDP. Mainly used for communications to and from [CJ-Vision](https://github.com/wml-frc/CJ-Vision) platforms.
 
 - JSON URLS
 	- WML-Core: https://buchel.family/repository/wml/first/WML-Core/WML-Core-Deps/latest/WML-Core-Deps-latest.json
