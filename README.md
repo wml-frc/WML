@@ -80,7 +80,7 @@ model {
 ### Library examples
 - Added to the library is an [example folder](/examples/). More examples are planned, however, I am aware that there are not many examples currently (especially compared to the breadth of the content in the library).
 
-- I recommend looking at code that uses the library to get a better idea of what to do. (e.g. The Build environment we use for testing [Src](src/main))
+- I recommend looking at code that uses the library to get a better idea of what to do. (e.g. The Build environment we use for testing [Src](Robot/src/main))
 
 
 <sub><sup>readme written by [@CJBuchel](https://github.com/CJBuchel), 30/10/21</sup></sub>
