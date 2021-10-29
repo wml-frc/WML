@@ -75,7 +75,7 @@ model {
 
 				if (req_proj_libs.size() >= 1) {
 					req_proj_libs.each { req_library ->
-						lib project: ":${req_library}", library: "${req_library}"
+						lib project: ":${req_library}", library: "${req_library}", linkage: "static"
 					}
 				}
 

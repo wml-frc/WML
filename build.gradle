@@ -50,7 +50,7 @@ allprojects {
 						println "Using Gcc"
 						cppCompiler.args "-std=${cpp_version}"
 					} else if (toolChain in VisualCpp) {
-						// cppCompiler.args "/std=${cpp_version}"
+						cppCompiler.args "/std:${cpp_version}"
 					}
 					
 				}
