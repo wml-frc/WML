@@ -1,6 +1,18 @@
 ext {
 	nativeName = 'WML-Core'
-	req_core = false
+	req_proj_libs = []
+	req_libs = []
+	lang = 'cpp'
+	projectVersion = '2021.3.1'
+	baseUUID = 'a6d30c03-12a8-476d-8fdc-41dacdb7790f'
+
+	desktopSupport = false
+
+	overrideSrc = false
+	overrideTestSrc = false
+
+	srcZip = true
+	headerZip = true
 }
 
-apply from: "../shared/libraryBuild.gradle"
+apply from: rootProject.file('shared/mainBuild.gradle')

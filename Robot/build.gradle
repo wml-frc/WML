@@ -1,0 +1,8 @@
+ext {
+	nativeName = 'WML-Rev'
+	req_proj_libs = ['WML-Core', 'WML-Rev', 'UDP_TransferNT']
+	req_libs = []
+	teamNum = 0000
+}
+
+apply from: rootProject.file('shared/robot.gradle')

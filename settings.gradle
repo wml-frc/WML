@@ -3,6 +3,9 @@ import org.gradle.internal.os.OperatingSystem
 pluginManagement {
 	repositories {
 		mavenLocal()
+		mavenCentral()
+
+		// FRC Maven
 		gradlePluginPortal()
 		String frcYear = '2021'
 		File frcHome
@@ -23,8 +26,18 @@ pluginManagement {
 			name 'frcHome'
 			url frcHomeMaven
 		}
+
+		jcenter() // because maven wack aparently.... stupid java
 	}
 }
 
-include ':WML-Core', ':WML-Rev'
+
+// WML includes
+include 'WML-Core'
+include 'WML-Rev'
+include 'UDP_TransferNT'
+
+// Robot includes (not published)
+include "Robot"
+
 rootProject.name = 'WML'

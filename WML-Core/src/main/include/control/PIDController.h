@@ -1,6 +1,12 @@
 #pragma once
 
+#ifndef WML_DESKTOP_SUPPORT
 #include "NTUtil/Slave.h"
+#endif
+
+#include <networktables/NetworkTable.h>
+#include <networktables/NetworkTableInstance.h>
+
 #include "Filter.h"
 
 #include <string>
@@ -26,7 +32,10 @@ namespace control {
     double _kP, _kI, _kD, _kF;
 
     std::shared_ptr<nt::NetworkTable> _table;
+
+		#ifndef WML_DESKTOP_SUPPORT
     wpi::SmallVector<NTUtil::Slave<double>, 4> _ntbounds;
+		#endif
   };
 
   class PIDController {

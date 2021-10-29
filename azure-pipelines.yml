@@ -2,25 +2,31 @@
 trigger: 
 - master # Triggers when on master. Either pr or push
 
+variables:
+  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
+
 resources:
   containers:
-  - container: wpilib2020
-    image: wpilib/roborio-cross-ubuntu:2020-18.04
+  - container: wpilib2021
+    image: wpilib/roborio-cross-ubuntu:2021-18.04
   - container: raspbian
     image:  wpilib/raspbian-cross-ubuntu:10-18.04
   - container: bionic
     image: wpilib/aarch64-cross-ubuntu:bionic-18.04
 
 jobs:
-
-- job: linux
+- job: linux_master_publisher
   pool:
     vmImage: 'Ubuntu-latest'
-  container: bionic
+    container: bionic
   steps:
-  - template: azure-init.yml
+
+  # Init
   - script: git submodule update --init
   - script: git submodule update --remote -f
+  
+
+  # Get toolchains
   - task: Gradle@2
     inputs:
       workingDirectory: ''
@@ -30,6 +36,8 @@ jobs:
       testResultsFiles: '**/TEST-*.xml'
       tasks: 'installRoborioToolchain'
       options: '-PazureBuild'
+
+  # Build project
   - task: Gradle@2
     inputs:
       workingDirectory: ''
@@ -39,79 +47,51 @@ jobs:
       testResultsFiles: '**/TEST-*.xml'
       tasks: 'clean build'
       options: '-PazureBuild'
+
+  # Publish project if on master branch
+  - task: Gradle@2
+    condition: and(succeeded(), eq(variables.isMaster, 'true'))
+    inputs:
+      workingDirectory: ''
+      gradleWrapperFile: 'gradlew'
+      gradleOptions: '-Xmx8196m'
+      publishJUnitResults: false
+      testResultsFiles: '**/TEST-*.xml'
+      tasks: 'publish'
+      options: '-PazureBuild -PmasterPublish -PremotePublish -Ppublish_user=$(WML_Archiva_User) -Ppublish_pass=$(WML_Archiva_Token)'
+
+
+
+
+
+# Sub Builders and publishers (platform dependent)
+- job: roborio
+  pool:
+    vmImage: 'Ubuntu-latest'
+  container: 'wpilib2021'
+  steps:
+  - template: azure-init.yml
+  - template: azure-steps.yml
+
+- job: r_pi
+  pool:
+    vmImage: 'Ubuntu-latest'
+  container: 'raspbian'
+  steps:
+  - template: azure-init.yml
+  - template: azure-steps.yml
+
 
 - job: windows
   pool:
     vmImage: 'windows-2019'
   steps:
   - template: azure-init.yml
-  - script: git submodule update --init
-  - script: git submodule update --remote -f
-  - task: Gradle@2
-    inputs:
-      workingDirectory: ''
-      gradleWrapperFile: 'gradlew'
-      gradleOptions: '-Xmx4096m'
-      publishJUnitResults: false
-      testResultsFiles: '**/TEST-*.xml'
-      tasks: 'installRoborioToolchain'
-      options: '-PazureBuild'
-  - task: Gradle@2
-    inputs:
-      workingDirectory: ''
-      gradleWrapperFile: 'gradlew'
-      gradleOptions: '-Xmx4096m'
-      publishJUnitResults: false
-      testResultsFiles: '**/TEST-*.xml'
-      tasks: 'clean build'
-      options: '-PazureBuild'
+  - template: azure-steps.yml
 
 - job: mac
   pool:
     vmImage: 'macOS-10.14'
   steps:
   - template: azure-init.yml
-  - script: git submodule update --init
-  - script: git submodule update --remote -f
-  - task: Gradle@2
-    inputs:
-      workingDirectory: ''
-      gradleWrapperFile: 'gradlew'
-      gradleOptions: '-Xmx4096m'
-      publishJUnitResults: false
-      testResultsFiles: '**/TEST-*.xml'
-      tasks: 'installRoborioToolchain'
-      options: '-PazureBuild'
-  - task: Gradle@2
-    inputs:
-      workingDirectory: ''
-      gradleWrapperFile: 'gradlew'
-      gradleOptions: '-Xmx4096m'
-      publishJUnitResults: false
-      testResultsFiles: '**/TEST-*.xml'
-      tasks: 'clean build'
-      options: '-PazureBuild'
-
-- job: doxygen
-  pool:
-    vmImage: 'Ubuntu-latest'
-  steps:
-  - task: Gradle@2
-    inputs:
-      workingDirectory: ''
-      gradleWrapperFile: 'gradlew'
-      gradleOptions: '-Xmx4096m'
-      publishJUnitResults: false
-      testResultsFiles: '**/TEST-*.xml'
-      tasks: 'installRoborioToolchain'
-      options: '-PazureBuild'
-  - task: Gradle@2
-    inputs:
-      workingDirectory: ''
-      gradleWrapperFile: 'gradlew'
-      tasks: 'doxygen'
-      options: '-PazureBuild'
-  - task: PublishBuildArtifacts@1
-    inputs:
-      artifactName: 'doxygen'
-      pathtoPublish: build/docs
+  - template: azure-steps.yml
