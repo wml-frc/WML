@@ -1,13 +1,3 @@
----
-name: Pull Request
-about: Pull request changes into branch/project
-title: ''
-labels: ''
-assignees: ''
-
----
-
-
 **What this PR does**  
 
 **What does it fix/add?**  
