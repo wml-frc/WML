@@ -83,4 +83,8 @@ model {
 - I recommend looking at code that uses the library to get a better idea of what to do. (e.g. The Build environment we use for testing [Src](Robot/src/main))
 
 
+## Contributing to WML
+[CONTRIBUTING.md](CONTRIBUTING.md)
+
+
 <sub><sup>readme written by [@CJBuchel](https://github.com/CJBuchel), 30/10/21</sup></sub>
