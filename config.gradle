@@ -5,7 +5,7 @@ ext {
 
 	licenseFile = file("$rootDir/LICENSE")
 
-	cpp_version = 'c++20'
+	cpp_version = 'c++17'
 }
 
 // maven style url
