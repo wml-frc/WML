@@ -40,7 +40,7 @@
 	- Run `./gradlew build` to build and compile all gradle projects
 	- (Note: you can run `./gradlew <PROJECT>:build` to build a single project)
 
-3. Inside each projects `build.gradle` (I.e [build.gradle](WML-Core/build.gradle)) consists of options on how that project should compile. If desktop support is disabled then the project will only compile and publish shared and static linuxathena builds. If enabled, the project will build for both linuxathena and the current platforms build. I.e `windowsx86-64` & `linuxathena`.
+3. Inside each projects `build.gradle` (I.e [build.gradle](WML-Core/build.gradle)) consists of options on how that project should compile. If desktop support is disabled then the project will only compile and publish shared and static linuxathena builds. If enabled, the project will build for both linuxathena and the current platform. I.e `windowsx86-64` & `linuxathena`.
 
 
 ## Publishing
