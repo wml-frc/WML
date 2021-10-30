@@ -17,11 +17,13 @@
 - The vendordep JSON files come in multiple parts and all are optional. E.g `WML-Core` for the core components. `WML-Rev` for Rev support (Neo Motor's). And `UDP_TransferNT`, used for point to point networking with UDP. Mainly used for communications to and from [CJ-Vision](https://github.com/wml-frc/CJ-Vision) platforms.
 
 - JSON URLS
-	- WML-Core: https://buchel.family/repository/wml/first/WML-Core/WML-Core-Deps/latest/WML-Core-Deps-latest.json
-	- WML-Rev: https://buchel.family/repository/wml/first/WML-Rev/WML-Rev-Deps/latest/WML-Rev-Deps-latest.json
-	- UDP_TransferNT: https://buchel.family/repository/wml/first/UDP_TransferNT/UDP_TransferNT-Deps/latest/UDP_TransferNT-Deps-latest.json
+	- WML-Core: http://buchel.family/repository/wml/first/WML-Core/WML-Core-Deps/latest/WML-Core-Deps-latest.json
+	- WML-Rev: http://buchel.family/repository/wml/first/WML-Rev/WML-Rev-Deps/latest/WML-Rev-Deps-latest.json
+	- UDP_TransferNT: http://buchel.family/repository/wml/first/UDP_TransferNT/UDP_TransferNT-Deps/latest/UDP_TransferNT-Deps-latest.json
 
-- Replace both occurrences of `latest` with a version for a specific version. E.g https://buchel.family/repository/wml/first/WML-Core/WML-Core-Deps/2021.3.1/WML-Core-Deps-2021.3.1.json
+- Replace both occurrences of `latest` with a version for a specific version. E.g http://buchel.family/repository/wml/first/WML-Core/WML-Core-Deps/2021.3.1/WML-Core-Deps-2021.3.1.json
+
+- Note that when adding the vendordeps through vscode it must be `http` not `https`. As this may cause security issues on some devices. If downloading manually by placing the vendordep json into the `vendordep` folder then this does not apply.
 
 ## WML As Submodule
 

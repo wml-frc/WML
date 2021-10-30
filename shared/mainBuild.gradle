@@ -27,6 +27,27 @@ ext {
 	} else {
 		nullBuild = false
 	}
+
+	if (project.hasProperty("supportedPlatforms")) {
+		println "${nativeName}: Override Supported Platforms"
+		println "${nativeName}. Compiling for platforms: ${supportedPlatforms}"
+	} else {
+		println "${nativeName}: Using Default Supported Platforms"
+
+		// Assume if zipping src it has binaries
+		if (srcZip) {
+			supportedPlatforms = [
+				"linuxx86-64",
+				"windowsx86-64",
+				"osxx86-64",
+				"linuxathena",
+			]
+		} else {
+			supportedPlatforms = []
+		}
+
+		println "${nativeName}. Compiling for platforms: ${supportedPlatforms}"
+	}
 }
 
 // BINARY PUBLISHER & ARTIFACTS
