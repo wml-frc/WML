@@ -1,0 +1,39 @@
+steps:
+
+  # Init
+  - script: git submodule update --init
+  - script: git submodule update --remote -f
+
+  # Get toolchains
+  - task: Gradle@2
+    inputs:
+      workingDirectory: ''
+      gradleWrapperFile: 'gradlew'
+      gradleOptions: '-Xmx4096m'
+      publishJUnitResults: false
+      testResultsFiles: '**/TEST-*.xml'
+      tasks: 'installRoborioToolchain'
+      options: '-PazureBuild'
+
+  # Build project
+  - task: Gradle@2
+    inputs:
+      workingDirectory: ''
+      gradleWrapperFile: 'gradlew'
+      gradleOptions: '-Xmx4096m'
+      publishJUnitResults: false
+      testResultsFiles: '**/TEST-*.xml'
+      tasks: 'clean build'
+      options: '-PazureBuild'
+
+  # Publish project if on master branch
+  - task: Gradle@2
+    condition: and(succeeded(), eq(variables.isMaster, 'true'))
+    inputs:
+      workingDirectory: ''
+      gradleWrapperFile: 'gradlew'
+      gradleOptions: '-Xmx8196m'
+      publishJUnitResults: false
+      testResultsFiles: '**/TEST-*.xml'
+      tasks: 'publish'
+      options: '-PazureBuild -PremotePublish -Ppublish_user=$(WML_Archiva_User) -Ppublish_pass=$(WML_Archiva_Token)'

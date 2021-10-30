@@ -1,0 +1,15 @@
+ext {
+	// Maven URL
+	mavenURL = "https://buchel.family/repository/wml"
+	outputFolder = file("$rootProject.buildDir/outputs")
+
+	licenseFile = file("$rootDir/LICENSE")
+
+	cpp_version = 'c++20'
+}
+
+// maven style url
+
+// <url>/first/lib/cpp/version/files.zip
+
+// ${mavenURL}/${group}/${artifactGroupID}/${artifactLang}/${artifactVersion}/files.zip

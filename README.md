@@ -9,6 +9,22 @@
 ### Build Status
 [![Build Status](https://dev.azure.com/ConnorBuchel0890/WML/_apis/build/status/wml-frc.WML?branchName=master)](https://dev.azure.com/ConnorBuchel0890/WML/_build/latest?definitionId=7&branchName=master)
 
+## WML As FRC Vendor
+- WML Supports being included as a shared library.
+
+- Follow the documentation provided by FRC for adding 3rd party libraries https://docs.wpilib.org/pt/latest/docs/software/vscode-overview/3rd-party-libraries.html.
+
+- The vendordep JSON files come in multiple parts and all are optional. E.g `WML-Core` for the core components. `WML-Rev` for Rev support (Neo Motor's). And `UDP_TransferNT`, used for point to point networking with UDP. Mainly used for communications to and from [CJ-Vision](https://github.com/wml-frc/CJ-Vision) platforms.
+
+- JSON URLS
+	- WML-Core: https://buchel.family/repository/wml/first/WML-Core/WML-Core-Deps/latest/WML-Core-Deps-latest.json
+	- WML-Rev: https://buchel.family/repository/wml/first/WML-Rev/WML-Rev-Deps/latest/WML-Rev-Deps-latest.json
+	- UDP_TransferNT: https://buchel.family/repository/wml/first/UDP_TransferNT/UDP_TransferNT-Deps/latest/UDP_TransferNT-Deps-latest.json
+
+- Replace both occurrences of `latest` with a version for a specific version. E.g https://buchel.family/repository/wml/first/WML-Core/WML-Core-Deps/2021.3.1/WML-Core-Deps-2021.3.1.json
+
+## WML As Submodule
+
 ### Setting up WML in your own project
 - First you will need to 'install' the submodule to your root directory. Navigate to your root dir and install via `git submodule add https://github.com/wml-frc/WML.git`.
 
@@ -56,12 +72,19 @@ model {
 - Note that `:WML-Rev` is not required if you are not using Rev products (Neo Motor) 
 
 ### Doxygen
-- You can view the generated documentation by going to [azure](https://dev.azure.com/ConnorBuchel0890/WML/_build?definitionId=17&_a=summary) slecting the latest successful build. Then clicking the published artifact and downloading the zip folder.
+- You can view the generated documentation for each project via `https://buchel.family/repository/wml/first/<library>/<library>-Docs/<version>/<library>-<version>-documentation.zip`
+- E.g https://buchel.family/repository/wml/first/WML-Core/WML-Core-Docs/latest/WML-Core-Docs-latest-documentation.zip
+
+- You can naviage these docs and files manually too via https://buchel.family/repository/wml/first/
 
 ### Library examples
 - Added to the library is an [example folder](/examples/). More examples are planned, however, I am aware that there are not many examples currently (especially compared to the breadth of the content in the library).
 
-- I recommend looking at code that uses the library to get a better idea of what to do. (e.g. The Build environment we use for testing [Src](src/main))
+- I recommend looking at code that uses the library to get a better idea of what to do. (e.g. The Build environment we use for testing [Src](Robot/src/main))
 
 
-<sub><sup>readme written by [@CJBuchel](https://github.com/CJBuchel), 27/10/21</sup></sub>
+## Contributing to WML
+[CONTRIBUTING.md](CONTRIBUTING.md)
+
+
+<sub><sup>readme written by [@CJBuchel](https://github.com/CJBuchel), 30/10/21</sup></sub>

@@ -4,6 +4,7 @@
 #include <map>
 #include <utility>
 #include <vector>
+#include <stdexcept>
 
 #include "controllers/Controller.h"
 #include "controllers/Inputs.h"

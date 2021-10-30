@@ -1,8 +1,29 @@
+import static org.apache.tools.ant.taskdefs.condition.Os.*
+
 plugins {
-	id 'org.ysb33r.doxygen' version '0.7.0'
+	// cpp
 	id 'cpp'
+
+	// Publish library to maven
+	id 'maven-publish'
+
+	// Add basic gradle conventions like archiving
+	id 'base'
+
+	// Google test suite for native build
 	id 'google-test-test-suite'
+
+	// GradleRIO
 	id 'edu.wpi.first.GradleRIO'
+
+	// Doxygen
+	id 'org.ysb33r.doxygen' version '0.7.0'
+}
+
+if (project.hasProperty("remotePublish")) {
+	ext.localMaven = false
+} else {
+	ext.localMaven = true
 }
 
 allprojects {
@@ -23,6 +44,15 @@ allprojects {
 							it.buildable = false
 						}
 					}
+
+					// Toolchain defines (cpp version)
+					if (toolChain in [Gcc, Clang]) {
+						println "Using Gcc"
+						cppCompiler.args "-std=${cpp_version}"
+					} else if (toolChain in VisualCpp) {
+						cppCompiler.args "/std:${cpp_version}"
+					}
+					
 				}
 			}
 		}
@@ -31,66 +61,72 @@ allprojects {
 
 subprojects {
 	project.buildDir = rootProject.buildDir
-}
 
-def includeSrcInIncludeRoot = true
-
-// Set this to true to enable desktop support.
-def includeDesktopSupport = false
-
-dependencies {
-	simulation wpi.deps.sim.gui(wpi.platforms.desktop, true)
-	simulation wpi.deps.sim.driverstation(wpi.platforms.desktop, true)
-}
-
-model {
-	components {
-		
-		wmlBuildEnv(NativeExecutableSpec) { // frc user
-			targetPlatform wpi.platforms.roborio
-			if (includeDesktopSupport) {
-				targetPlatform wpi.platforms.desktop
-			}
-
-			sources.cpp {
-				source {
-					srcDir 'src/main/cpp' // robot
-					include '**/*.cpp', '**/*.cc'
-				}
-
-				exportedHeaders {
-					srcDir 'src/main/include' // robot
-
-					if (includeSrcInIncludeRoot) {
-						srcDir 'src/main/cpp' // robot
-					}
-				}
-			}
-
-			binaries.all {
-				lib project: ':WML-Core', library: 'WML-Core', linkage: 'shared'
-				lib project: ':WML-Rev', library: 'WML-Rev', linkage: 'shared'
-			}
-
-			wpi.deps.vendor.cpp(it)
-			wpi.deps.wpilib(it)
-		} // frc user
+	plugins.withType(CppPlugin).whenPluginAdded {
+		project.apply plugin: 'visual-studio'
 	}
 
-	testSuites {
-		wmlBuildEnvTest(GoogleTestTestSuiteSpec) {
-			testing $.components.wmlBuildEnv
+	ext.binaryPublishers = [:]
+	ext.binaryArtifacts = { scope, name ->
+		if (binaryPublishers[name] == null)
+			binaryPublishers[name] = []
+		binaryPublishers[name] << [scope: scope]
+	}
 
-			sources.cpp {
-				source {
-					srcDir 'src/test/cpp'
-					include '**/*.cpp'
+	project.model {
+		binaries {
+			withType(NativeBinarySpec) {
+
+				// Create classified binary zip task i.e -> maven_test-2021.3.1-cpp-linuxathena.zip
+				def bin = it
+				if (it.buildable && (it instanceof SharedLibraryBinary || it instanceof StaticLibraryBinary)) {
+					def sharedlib = bin instanceof SharedLibraryBinary
+					def staticlib = bin instanceof StaticLibraryBinary
+					def taskSuffix = "${component.name}${targetPlatform.name}${buildType.name}"
+					def source = (sharedlib ? bin.sharedLibraryFile : bin.staticLibraryFile)
+
+					def type = (sharedlib ? "" : "static")
+					def ziptask = task "zip${taskSuffix}${type}"(type: Zip) {
+						def allsrc = [source]
+						if (sharedlib && bin.targetPlatform.operatingSystem.isWindows()) {
+							allsrc << bin.sharedLibraryLinkFile
+						} else if (staticlib && bin.targetPlatform.operatingSystem.isWindows()) {
+							allsrc << bin.staticLibraryFile
+						}
+
+						destinationDirectory = outputFolder
+
+						ext.platformArc = targetPlatform.name
+						platformArc = platformArc.replace("${OS_NAME}", "")
+
+						from(allsrc as Set<File>) {
+							into("${OS_NAME}/${platformArc}/" + (sharedlib ? "shared" : "static"))
+						}
+
+						from(licenseFile) {
+							into("${OS_NAME}/${platformArc}/" + (sharedlib ? "shared" : "static"))
+						}
+
+						baseName = component.name
+						classifier = targetPlatform.name + (buildType.name == 'debug' ? "${type}debug" : "${type}")
+
+						dependsOn(build)
+						dependsOn bin.tasks.withType(AbstractLinkTask)
+					}
+
+
+					// Binary Publisher classifier
+					if (binaryPublishers[bin.component.name] != null) {
+						binaryPublishers[bin.component.name].each { entry ->
+							entry.scope.artifact(ziptask) {
+								classifier targetPlatform.name + (buildType.name == 'debug' ? "${type}debug" : "${type}")
+							}
+						}
+					}
+
+
 				}
 			}
-
-			wpi.deps.vendor.cpp(it)
-			wpi.deps.wpilib(it)
-			wpi.deps.googleTest(it)
 		}
 	}
 }
