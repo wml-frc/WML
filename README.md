@@ -72,7 +72,7 @@ model {
 - Note that `:WML-Rev` is not required if you are not using Rev products (Neo Motor) 
 
 ### Doxygen
-- You can view the generated documentation for each project by via `https://buchel.family/repository/wml/first/<library>/<library>-Docs/<version>/<library>-<version>-documentation.zip`
+- You can view the generated documentation for each project via `https://buchel.family/repository/wml/first/<library>/<library>-Docs/<version>/<library>-<version>-documentation.zip`
 - E.g https://buchel.family/repository/wml/first/WML-Core/WML-Core-Docs/latest/WML-Core-Docs-latest-documentation.zip
 
 - You can naviage these docs and files manually too via https://buchel.family/repository/wml/first/
