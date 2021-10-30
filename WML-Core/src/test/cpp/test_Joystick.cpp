@@ -315,21 +315,21 @@ TEST (testing_Joystick, GetButtonRise) {
   }
 }
 
-// TEST (testing_Joystick, GetButtonFall) {
-//   testing::Joystick raw(0);
-//   wml::controllers::SmartController joy(&raw, { 4, 12, 1 });
-//   joy.PairAxis({ -1, AxisMap::kYAxis }, { -1, AxisMap::kXAxis }, true);
+TEST (testing_Joystick, GetButtonFall) {
+  testing::Joystick raw(0);
+  wml::controllers::SmartController joy(&raw, { 4, 12, 1 });
+  joy.PairAxis({ -1, AxisMap::kYAxis }, { -1, AxisMap::kXAxis }, true);
 
-//   EXPECT_FALSE(joy.Get({ -1, 1 }, joy.ONFALL));
+  EXPECT_FALSE(joy.Get({ -1, 1 }, joy.ONFALL));
 
-//   for (int i = 0; i < 2; i++) {
-//     raw.SetButton(1, true);
-//     ASSERT_FALSE(joy.Get({ -1, 1 }, joy.ONFALL));
-//     ASSERT_FALSE(joy.Get({ -1, 1 }, joy.ONFALL));
+  for (int i = 0; i < 2; i++) {
+    raw.SetButton(1, true);
+    ASSERT_FALSE(joy.Get({ -1, 1 }, joy.ONFALL));
+    ASSERT_FALSE(joy.Get({ -1, 1 }, joy.ONFALL));
 
-//     raw.SetButton(1, false);
-//     ASSERT_TRUE(joy.Get({ -1, 1 }, joy.ONFALL));
-//     ASSERT_FALSE(joy.Get({ -1, 1 }, joy.ONFALL));
-//     ASSERT_FALSE(joy.Get({ -1, 1 }, joy.ONFALL));
-//   }
-// }
+    raw.SetButton(1, false);
+    ASSERT_TRUE(joy.Get({ -1, 1 }, joy.ONFALL));
+    ASSERT_FALSE(joy.Get({ -1, 1 }, joy.ONFALL));
+    ASSERT_FALSE(joy.Get({ -1, 1 }, joy.ONFALL));
+  }
+}
