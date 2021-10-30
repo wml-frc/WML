@@ -12,7 +12,7 @@ __NTUTIL__SLAVE__CTOR_FACTORY__(MainT, LongT)           \
 __NTUTIL__SLAVE__METHOD_FACTORY__(MainT, LongT)
 
 #define __NTUTIL__SLAVE__CTOR_FACTORY__(MainT, LongT)                                                                         \
-template <std::enable_if<std::is_convertible<T, MainT>::value>* = nullptr>                                                           \
+template <typename U = T, typename std::enable_if<std::is_same<U, MainT>::value>::type...>                                    \
 Slave(std::shared_ptr<nt::NetworkTable> table, std::string name, MainT *value) : _table(table), _name(name), _val(value) {    \
   _entry = table->GetEntry(name);                                                                                             \
   _entry.ForceSet##LongT(*value);                                                                                             \
@@ -21,9 +21,9 @@ Slave(std::shared_ptr<nt::NetworkTable> table, std::string name, MainT *value) :
   }, NT_NOTIFY_UPDATE);                                                                                                       \
 }
 
-#define __NTUTIL__SLAVE__METHOD_FACTORY__(MainT, LongT)                       \
-std::enable_if_t<std::is_convertible<T, MainT>::value>                        \
-Override(MainT newVal) { _entry.ForceSet##LongT(newVal); *_val = newVal; }
+#define __NTUTIL__SLAVE__METHOD_FACTORY__(MainT, LongT)                                     \
+template <typename U = T, typename std::enable_if<std::is_same<U, MainT>::value>::type...>  \
+void Override(MainT newVal) { _entry.ForceSet##LongT(newVal); *_val = newVal; }
 
 
 namespace wml {
@@ -42,14 +42,14 @@ namespace wml {
       __NTUTIL__SLAVE__MACRO_FACTORY__(std::vector<std::string>, StringArray)
 
 
-      template <std::enable_if<false>* = nullptr>
+      template <typename U = T, typename std::enable_if<!std::is_same<U, U>::value>::type...> // disabled
       Slave(std::shared_ptr<nt::NetworkTable> table, std::string name, void* *value); // T *value
 
       Slave(const Slave &other) : Slave(other._table, other._name, other._val) {}
       ~Slave() { _table->RemoveEntryListener(_listener); }
 
-      std::enable_if_t<false>
-      Override(void* newVal); // T newVal
+      template <typename U = T, typename std::enable_if<!std::is_same<U, U>::value>::type...> // disabled
+      void Override(void* newVal); // T newVal
       
      private:
       std::shared_ptr<nt::NetworkTable> _table;

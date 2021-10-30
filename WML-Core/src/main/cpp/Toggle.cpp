@@ -5,7 +5,21 @@ using namespace wml;
 Toggle::Toggle(ToggleEvent mode) {
   _mode = mode;
   _triggered = false;
-  _lstate = mode == ONCHANGE ? false : !mode; // requires ToggleEvent to have 0: ONFALL, 1: ONRISE
+
+  _lstate = false;
+  switch (mode) {
+   case ONCHANGE:
+    _lstate = false;
+    break;
+    
+   case ONFALL:
+    _lstate = true;
+    break;
+  
+   case ONRISE:
+    _lstate = false;
+    break;
+  }
 }
 
 Toggle::Toggle(ToggleEvent mode, bool initState) {
