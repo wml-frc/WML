@@ -1,4 +1,4 @@
-#ifndef WML_DESKTOP_SUPPORT
+// #ifndef WML_DESKTOP_SUPPORT
 
 #include "sensors/NavX.h"
 
@@ -35,4 +35,4 @@ AngularAxis NavXGyro::GetAxis() const {
   return _axis;
 }
 
-#endif
+// #endif

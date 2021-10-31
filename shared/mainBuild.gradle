@@ -28,6 +28,11 @@ ext {
 		nullBuild = false
 	}
 
+
+	//=====================
+	// Vendor Publish Ctrl
+	//=====================
+
 	if (project.hasProperty("supportedPlatforms")) {
 		println "${nativeName}: Override Supported Platforms"
 		println "${nativeName}. Compiling for platforms: ${supportedPlatforms}"
@@ -36,6 +41,7 @@ ext {
 
 		// Assume if zipping src it has binaries
 		if (srcZip) {
+			vendorSrcClassifier = 
 			supportedPlatforms = [
 				"linuxx86-64",
 				"windowsx86-64",
@@ -48,6 +54,27 @@ ext {
 
 		println "${nativeName}. Compiling for platforms: ${supportedPlatforms}"
 	}
+
+	cpp_optionalDependencies = [
+		groupId: artifactGroupID,
+		artifactId: baseID,
+		version: artifactVersion,
+		libName: "${nativeName}"
+	]
+
+	if (headerZip) {
+		cpp_optionalDependencies += [headerClassifier: "headers"]
+	}
+
+	if (srcZip) {
+		cpp_optionalDependencies += [sourcesClassifier: "sources"]
+	}
+
+	cpp_optionalDependencies += [
+		sharedLibrary: (project.hasProperty("sharedLib") ? sharedLib : true),
+		skipInvalidPlatforms: (project.hasProperty("skipPlatforms") ? skipPlatforms : true),
+		binaryPlatforms: supportedPlatforms
+	]
 }
 
 // BINARY PUBLISHER & ARTIFACTS

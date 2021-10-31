@@ -45,7 +45,7 @@ deploy {
 def includeSrcInIncludeRoot = true
 
 // Set this to true to enable desktop support.
-def includeDesktopSupport = false
+def includeDesktopSupport = true
 
 // Enable simulation gui support. Must check the box in vscode to enable support
 // upon debugging
