@@ -1,4 +1,3 @@
-// #ifndef WML_DESKTOP_SUPPORT
 #include "sensors/NavX.h"
 #include "AHRS.h"
 
@@ -57,5 +56,3 @@ double NavXGyro::GetRate() const {
 
   return 0;
 }
-
-// #endif

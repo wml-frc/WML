@@ -114,5 +114,3 @@ namespace sensors {
   };
 }  // namespace sensors
 }  // namespace wml
-
-// #endif // WML_DESKTOP_SUPPORT
