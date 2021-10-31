@@ -46,7 +46,7 @@ ext {
 				"linuxx86-64",
 				"windowsx86-64",
 				"osxx86-64",
-				"linuxathena",
+				"linuxathena"
 			]
 		} else {
 			supportedPlatforms = []
@@ -75,6 +75,12 @@ ext {
 		skipInvalidPlatforms: (project.hasProperty("skipPlatforms") ? skipPlatforms : true),
 		binaryPlatforms: supportedPlatforms
 	]
+
+	if (project.hasProperty("sharedLib")) {
+		lib_link = "shared"
+	} else {
+		lib_link = "static"
+	}
 }
 
 // BINARY PUBLISHER & ARTIFACTS
@@ -123,7 +129,7 @@ model {
 
 				if (req_proj_libs.size() >= 1) {
 					req_proj_libs.each { req_library ->
-						lib project: ":${req_library}", library: "${req_library}", linkage: "static"
+						lib project: ":${req_library}", library: "${req_library}", linkage: "${lib_link}"
 					}
 				}
 
@@ -164,11 +170,11 @@ model {
 			}
 
 			binaries.all {
-				lib library: "${nativeName}", linkage: 'static'
+				lib library: "${nativeName}", linkage: "${lib_link}"
 
 				if (req_proj_libs.size() >= 1) {
 					req_proj_libs.each { req_library ->
-						lib project: ":${req_library}", library: "${req_library}", linkage: "static"
+						lib project: ":${req_library}", library: "${req_library}", linkage: "${lib_link}"
 					}
 				}
 
