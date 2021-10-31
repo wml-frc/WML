@@ -7,10 +7,10 @@ Map<String, Object> vendorJson() {
 		version: artifactVersion,
 		uuid: "${artifactUUID}",
 		mavenUrls: [
-			mavenURL
+			mavenClientURL
 		],
 
-		jsonUrl: "${mavenURL}/${artifactGroupID_URL}/${depsName}/${artifactVersion}/${depsName}-${artifactVersion}.json",
+		jsonUrl: "${mavenClientURL}/${artifactGroupID_URL}/${depsName}/${artifactVersion}/${depsName}-${artifactVersion}.json",
 		cppDependencies: [
 			[
 				groupId: artifactGroupID,
@@ -20,12 +20,7 @@ Map<String, Object> vendorJson() {
 				headerClassifier: "headers",
 				sharedLibrary: true,
 				skipInvalidPlatforms: true,
-				binaryPlatforms: [
-					"linuxx86-64",
-					"windowsx86-64",
-					"osxx86-64",
-					"linuxathena",
-				]
+				binaryPlatforms: supportedPlatforms
 			]
 		]
 	]
@@ -38,10 +33,10 @@ Map<String, Object> vendorJsonLatest() {
 		version: artifactVersion,
 		uuid: "${artifactUUID}",
 		mavenUrls: [
-			mavenURL
+			mavenClientURL
 		],
 
-		jsonUrl: "${mavenURL}/${artifactGroupID_URL}/${depsName}/latest/${depsName}-latest.json",
+		jsonUrl: "${mavenClientURL}/${artifactGroupID_URL}/${depsName}/latest/${depsName}-latest.json",
 		cppDependencies: [
 			[
 				groupId: artifactGroupID,
@@ -52,12 +47,7 @@ Map<String, Object> vendorJsonLatest() {
 				sourcesClassifier: "sources",
 				sharedLibrary: true,
 				skipInvalidPlatforms: true,
-				binaryPlatforms: [
-					"linuxx86-64",
-					"windowsx86-64",
-					"osxx86-64",
-					"linuxathena",
-				]
+				binaryPlatforms: supportedPlatforms
 			]
 		]
 	]
