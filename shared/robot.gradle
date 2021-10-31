@@ -7,6 +7,7 @@ apply from: rootProject.file('config.gradle')
 
 ext {
 	teamID = teamNum
+	link = lib_link
 }
 
 // Define my targets (RoboRIO) and artifacts (deployable files)
@@ -66,10 +67,10 @@ model {
 	components {
 		
 		"${nativeName}"(NativeExecutableSpec) { // frc user
-			targetPlatform wpi.platforms.roborio
 			if (includeDesktopSupport) {
 				targetPlatform wpi.platforms.desktop
 			}
+			targetPlatform wpi.platforms.roborio
 
 			sources.cpp {
 				source {
@@ -89,7 +90,7 @@ model {
 			binaries.all {
 				if (req_proj_libs.size() >= 1) {
 					req_proj_libs.each { req_library ->
-						lib project: ":${req_library}", library: "${req_library}"
+						lib project: ":${req_library}", library: "${req_library}", linkage: "${lib_link}"
 					}
 				}
 
@@ -129,7 +130,7 @@ model {
 			binaries.all {
 				if (req_proj_libs.size() >= 1) {
 					req_proj_libs.each { req_library ->
-						lib project: ":${req_library}", library: "${req_library}", linkage: "static"
+						lib project: ":${req_library}", library: "${req_library}", linkage: "${lib_link}"
 					}
 				}
 
