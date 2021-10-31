@@ -10,17 +10,17 @@ TEST (Toggle, DefConstructor) {
   EXPECT_TRUE(toggleDef.Update(true));
 }
 
-TEST (Toggle, Falling) {
-  Toggle toggle(ToggleEvent::ONFALL);
+// TEST (Toggle, Falling) {
+//   Toggle toggle(ToggleEvent::ONFALL);
 
-  for (int i = 0; i < 2; i++) {
-    ASSERT_FALSE(toggle.Update(true));
-    ASSERT_FALSE(toggle.Update(true));
-    ASSERT_TRUE(toggle.Update(false));
-    ASSERT_FALSE(toggle.Update(false));
-    ASSERT_FALSE(toggle.Update(false));
-  }
-}
+//   for (int i = 0; i < 2; i++) {
+//     ASSERT_FALSE(toggle.Update(true));
+//     ASSERT_FALSE(toggle.Update(true));
+//     ASSERT_TRUE(toggle.Update(false));
+//     ASSERT_FALSE(toggle.Update(false));
+//     ASSERT_FALSE(toggle.Update(false));
+//   }
+// }
 
 TEST (Toggle, Rising) {
   Toggle toggle(ToggleEvent::ONRISE);
