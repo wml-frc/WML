@@ -1,6 +1,5 @@
 #pragma once
 
-#ifndef WML_DESKTOP_SUPPORT
 #include <frc/I2C.h>
 #include <frc/SPI.h>
 #include <frc/interfaces/Gyro.h>
@@ -115,5 +114,3 @@ namespace sensors {
   };
 }  // namespace sensors
 }  // namespace wml
-
-#endif // WML_DESKTOP_SUPPORT
