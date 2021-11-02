@@ -3,34 +3,52 @@
 using namespace wml;
 
 Toggle::Toggle(ToggleEvent mode) {
-  _mode = mode;
-  _triggered = false;
-
-  _lstate = false;
+  bool initState = false;
   switch (mode) {
    case ONCHANGE:
-    _lstate = false;
+    initState = false;
     break;
     
    case ONFALL:
-    _lstate = true;
+    initState = true;
     break;
   
    case ONRISE:
-    _lstate = false;
+    initState = false;
     break;
   }
+
+  _mode = mode;
+  _triggered = false;
+  _lastState = initState;
 }
 
 Toggle::Toggle(ToggleEvent mode, bool initState) {
   _mode = mode;
   _triggered = false;
-  _lstate = initState;
+  _lastState = initState;
 }
 
 bool Toggle::Update(bool val) {
-  _triggered = _lstate != val && !val != _mode;
-  _lstate = val;
+  if (_lastState == val) {
+    _triggered = false;
+  } else {
+    switch (_mode) {
+     case ONFALL:
+      _triggered = !val;
+      break;
+
+     case ONCHANGE:
+      _triggered = true;
+      break;
+
+     case ONRISE:
+      _triggered = val;
+      break;
+    }
+
+    _lastState = val;
+  }
 
   return _triggered;
 }

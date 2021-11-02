@@ -3,8 +3,8 @@
 namespace wml {
   enum ToggleEvent {
     ONFALL    = -1,
+    ONCHANGE  =  0,
     ONRISE    =  1,
-    ONCHANGE  =  2
   };
 
   class Toggle {
@@ -19,6 +19,6 @@ namespace wml {
   private:
     ToggleEvent _mode;
     bool _triggered;
-    bool _lstate;
+    bool _lastState;
   };
 } // ns wml
