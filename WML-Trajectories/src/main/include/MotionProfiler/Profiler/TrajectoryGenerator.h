@@ -24,13 +24,13 @@ namespace Profiler {
 		/**
 		 * Generate trajectory
 		 */
-		static int generate(std::shared_ptr<Trajectory> traj, std::shared_ptr<Segment> segments);
+		static int generate(std::shared_ptr<Trajectory> traj, std::vector<Segment> &segments);
 
 	 private:
-		static void trajectory_copy(std::shared_ptr<Segment> src, std::shared_ptr<Segment> dest, int len);
+		static void trajectory_copy(std::vector<Segment> src, std::vector<Segment> &dest);
 		static TrajectoryInfo trajectory_prepare(TrajectoryConfig config);
-		static int trajectory_create(TrajectoryInfo info, TrajectoryConfig config, std::shared_ptr<Segment> seg);
-		static int trajectory_fromSecondOrderFiler(int filter_1_l, int filter_2_l, double dt, double u, double v, double impulse, int len, std::shared_ptr<Segment> seg);
+		static int trajectory_fromSecondOrderFilter(int filter_1_l, int filter_2_l, double dt, double u, double v, double impulse, int len, std::vector<Segment> &seg);
+		static int trajectory_create(TrajectoryInfo info, TrajectoryConfig config, std::vector<Segment> &seg);
 	};
 
 } // profiler
