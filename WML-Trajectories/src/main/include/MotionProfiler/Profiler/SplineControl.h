@@ -1,7 +1,7 @@
 #pragma once
 
-#include "SplineUtil.h"
-#include "MathUtil.h"
+#include "MotionProfiler/Profiler/"
+#include "MotionProfiler/Profiler/MathUtil.h"
 
 namespace wml {
 namespace MotionProfiler {

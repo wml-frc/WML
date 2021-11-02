@@ -1,9 +1,9 @@
 #pragma once
 
-#include "SplineUtil.h"
-#include "Fit.h"
-#include "MathUtil.h"
-#include "SplineControl.h"
+#include "MotionProfiler/Profiler/SplineUtil.h"
+#include "MotionProfiler/Profiler/Fit.h"
+#include "MotionProfiler/Profiler/MathUtil.h"
+#include "MotionProfiler/Profiler/SplineControl.h"
 #include <vector>
 
 namespace wml {

@@ -11,6 +11,10 @@
 // Splines and Trajectories
 #include "Profiler/Fit.h"
 #include "Profiler/SplineControl.h"
+#include "Profiler/TrajectoryGenerator.h"
 
 // Modifiers
+#include "Profiler/Modifiers/Tank.h"
+#include "Profiler/Modifiers/Swerve.h"
 
+// Followers
