@@ -3,8 +3,11 @@ apply plugin: 'cpp'
 apply plugin: 'google-test-test-suite'
 apply plugin: 'edu.wpi.first.GradleRIO'
 
+apply from: rootProject.file('config.gradle')
+
 ext {
 	teamID = teamNum
+	link = lib_link
 }
 
 // Define my targets (RoboRIO) and artifacts (deployable files)
@@ -45,7 +48,7 @@ deploy {
 def includeSrcInIncludeRoot = true
 
 // Set this to true to enable desktop support.
-def includeDesktopSupport = false
+def includeDesktopSupport = true
 
 // Enable simulation gui support. Must check the box in vscode to enable support
 // upon debugging
@@ -64,10 +67,10 @@ model {
 	components {
 		
 		"${nativeName}"(NativeExecutableSpec) { // frc user
-			targetPlatform wpi.platforms.roborio
 			if (includeDesktopSupport) {
 				targetPlatform wpi.platforms.desktop
 			}
+			targetPlatform wpi.platforms.roborio
 
 			sources.cpp {
 				source {
@@ -87,7 +90,7 @@ model {
 			binaries.all {
 				if (req_proj_libs.size() >= 1) {
 					req_proj_libs.each { req_library ->
-						lib project: ":${req_library}", library: "${req_library}"
+						lib project: ":${req_library}", library: "${req_library}", linkage: "${lib_link}"
 					}
 				}
 
@@ -127,7 +130,7 @@ model {
 			binaries.all {
 				if (req_proj_libs.size() >= 1) {
 					req_proj_libs.each { req_library ->
-						lib project: ":${req_library}", library: "${req_library}", linkage: "static"
+						lib project: ":${req_library}", library: "${req_library}", linkage: "${lib_link}"
 					}
 				}
 
