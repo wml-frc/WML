@@ -18,3 +18,8 @@
 #include "Profiler/Modifiers/Swerve.h"
 
 // Followers
+#include "Profiler/Followers/DistanceFollower.h"
+#include "Profiler/Followers/EncoderFollower.h"
+
+// IO/Error
+#include "Profiler/IO.h"
