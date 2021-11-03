@@ -38,6 +38,20 @@
 #include <units/velocity.h>
 // #include <wpi/numbers>
 
+#include <vector>
+
+#include "WMLTrajectory.h"
+
+
+using namespace wml::MotionProfiler::Profiler;
+
+// WML TRAJ
+std::vector<Waypoint> points;
+std::shared_ptr<Trajectory> cand;
+std::vector<Segment> trajectory;
+std::vector<Segment> trajectoryLeft;
+std::vector<Segment> trajectoryRight;
+// END WML TRAJ
 
 frc::Field2d m_field;
 
@@ -64,7 +78,30 @@ frc::DifferentialDriveOdometry m_odometry{m_gyro.GetRotation2d(), frc::Pose2d{4_
 
 void Robot::RobotInit() {
 	frc::SmartDashboard::PutData("Field", &m_field);
+
+	points.push_back({-4, -1, MathUtil::d2r(45)});
+	points.push_back({-1, -2, 0});
+	points.push_back({2, 4, 0});
+
+	cand = std::make_shared<Trajectory>();
+
+	if (Profiler::prepare(points, Fit::Type::HERMITE_CUBIC, SplineControl::Samples::kHigh, 0.001, 15.0, 10.0, 60.0, cand) == -1) {
+		std::cout << "Profiler Error" << std::endl;
+	}
+
+	int length = cand->length;
+	trajectory.resize(length);
+
+	TrajectoryGenerator::generate(cand, trajectory);
+
+	trajectoryLeft.resize(length);
+	trajectoryRight.resize(length);
+
+	double base_width = 0.6;
+
+	Modifiers::Tank::modify_tank(trajectory, trajectoryLeft, trajectoryRight, base_width);
 }
+
 void Robot::RobotPeriodic() {
 	m_odometry.Update(m_gyro.GetRotation2d(), units::meter_t(m_leftEncoder.GetDistance()), units::meter_t(m_rightEncoder.GetDistance()));
 	m_field.SetRobotPose(m_odometry.GetPose());

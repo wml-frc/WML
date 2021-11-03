@@ -1,6 +1,6 @@
 ext {
 	nativeName = 'Robot'
-	req_proj_libs = ['WML-Core', 'WML-Rev', 'UDP_TransferNT']
+	req_proj_libs = ['WML-Core', 'WML-Rev', 'UDP_TransferNT', 'WML-Trajectories']
 	req_libs = []
 	teamNum = 0000
 

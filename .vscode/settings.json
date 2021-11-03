@@ -7,7 +7,12 @@
     "ranges": "cpp",
     "functional": "cpp",
     "tuple": "cpp",
-    "utility": "cpp"
+    "utility": "cpp",
+    "*.inc": "cpp",
+    "matrixfunctions": "cpp",
+    "limits": "cpp",
+    "streambuf": "cpp",
+    "typeinfo": "cpp"
   }
 
 }
