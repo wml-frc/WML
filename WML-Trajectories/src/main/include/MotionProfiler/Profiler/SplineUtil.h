@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <memory>
 #include <vector>
 
@@ -28,6 +29,14 @@ namespace Profiler {
 	struct Spline {
 		double a,b,c,d,e;
 		double x_offset, y_offset, angle_offset, knot_distance, arc_length;
+
+		// Spline() {
+		// 	std::cout << "Constructed Spline" << std::endl;
+		// }
+
+		~Spline() {
+			std::cout << "Deconstructed Spline" << std::endl;
+		}
 	};
 
 	/**
@@ -35,6 +44,14 @@ namespace Profiler {
 	 */
 	struct Segment {
 		double dt, x, y, position, velocity, acceleration, jerk, heading;
+
+		// Segment() {
+		// 	std::cout << "Constructed Segment" << std::endl;
+		// }
+
+		~Segment() {
+			std::cout << "Deconstructed Segment" << std::endl;
+		}
 	};
 
 	/**
@@ -64,6 +81,14 @@ namespace Profiler {
 		int path_length;
 		TrajectoryInfo info;
 		TrajectoryConfig config;
+
+		Trajectory() {
+			std::cout << "Constructed Trajectory" << std::endl;
+		}
+
+		~Trajectory() {
+			std::cout << "Deconstructed Trajectory" << std::endl;
+		}
 	};
 
 } // profiler

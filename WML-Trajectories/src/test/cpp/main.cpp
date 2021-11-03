@@ -2,8 +2,8 @@
 
 #include "gtest/gtest.h"
 
-int main() {
-	std::cout << "Trajectory Test Start" << std::endl;
-
-	return 0;
+int main(int argc, char** argv) {
+	// std::cout << "Trajectory Test Start" << std::endl;
+	::testing::InitGoogleTest(&argc, argv);
+	return RUN_ALL_TESTS();
 }

@@ -23,3 +23,23 @@
 
 // IO/Error
 #include "Profiler/IO.h"
+
+
+namespace wml {
+namespace MotionProfiler {
+namespace Profiler {
+
+	class Profiler : 
+		public MathUtil, 
+		public Fit, 
+		public SplineControl, 
+		public TrajectoryGenerator,
+		public Modifiers::Tank,
+		public Modifiers::Swerve,
+		public Followers::DistanceFollower,
+		public Followers::EncoderFollower
+	{};
+
+} // profiler
+} // mp
+} // wml
