@@ -74,7 +74,7 @@ frc::sim::AnalogGyroSim m_gyroSim{m_gyro};
 frc::PWMSparkMax m_leftMotor{0};
 frc::PWMSparkMax m_rightMotor{1};
 
-frc::DifferentialDriveOdometry m_odometry{m_gyro.GetRotation2d(), frc::Pose2d{4_m, 8_m, 0_rad}};
+frc::DifferentialDriveOdometry m_odometry{m_gyro.GetRotation2d(), frc::Pose2d{1_m, 4_m, 0_rad}};
 
 void Robot::RobotInit() {
 	frc::SmartDashboard::PutData("Field", &m_field);
