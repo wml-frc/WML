@@ -1,5 +1,3 @@
-#pragma once
-
 // Standard Includes
 #include <string>
 #include <stdint.h>
@@ -26,7 +24,6 @@
 #include <wpi/SmallString.h>
 
 // REV
-#include <rev/CANSparkMax.h>
 #include <WMLRev.h>
 
 // WML
@@ -54,37 +51,36 @@
 #include <strategy/Strategy.h>
 #include <sensors/BinarySensor.h>
 
-// WML SIM
-#include <Usage.h>
-
 // UDP Transfer NT
 #include <UDP_TransferNT.h>
 
-struct RobotMap {
+// WML Startup
+#include <startup.h>
 
-	// Controllers
-	wml::controllers::XboxController xbox1{ 0 };
-	wml::controllers::XboxController xbox2{ 1 };
-	wml::controllers::SmartControllerGroup contGroup{ xbox1, xbox2};
 
-	struct DriveSystem {
+class Robot : public frc::TimedRobot {
+ public:
+	void RobotInit() override {}
+	
+	void RobotPeriodic() override {}
 
-		// Drive motors {port, encoderTicks}
-		wml::TalonFX RD{0, 2048}, LD{1, 2048}; //right drive and left drive 
+	void AutonomousInit() override {}
 
-		// Motor Grouping
-		wml::actuators::MotorVoltageController leftMotors = wml::actuators::MotorVoltageController::Group(RD);
-		wml::actuators::MotorVoltageController rightMotors = wml::actuators::MotorVoltageController::Group(LD);
+	void AutonomousPeriodic() override {}
 
-		// Gearboxes
-		wml::Gearbox LGearbox{&leftMotors, &RD};
-		wml::Gearbox RGearbox{&rightMotors, &LD};
+	void TeleopInit() override {}
 
-		wml::sensors::NavX navx{};
-		wml::sensors::NavXGyro gyro{navx.Angular(wml::sensors::AngularAxis::YAW)};
+	void TeleopPeriodic() override {}
 
-		wml::DrivetrainConfig drivetrainConfig{LGearbox, RGearbox};
-		wml::control::PIDGains gainsVelocity{"Drivetrain Velocity", 1};
-		wml::Drivetrain drivetrain{drivetrainConfig, gainsVelocity};
-	}; DriveSystem driveSystem;
+	void DisabledInit() override {}
+
+	void DisabledPeriodic() override {}
+
+	void TestInit() override {}
+
+	void TestPeriodic() override {}
+
+ private:
 };
+
+WML_ROBOT_MAIN(Robot)
