@@ -15,4 +15,4 @@ ext {
 	headerZip = true
 }
 
-apply from: rootProject.file('shared/mainBuild.gradle')
+apply from: project.file('../shared/mainBuild.gradle')

@@ -20,4 +20,4 @@ ext {
 	testSrcLoc = 'UDP_TransferNT/UDP_TransferNT/test'
 }
 
-apply from: rootProject.file('shared/mainBuild.gradle')
+apply from: project.file('../shared/mainBuild.gradle')
