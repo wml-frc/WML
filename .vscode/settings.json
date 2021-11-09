@@ -1,5 +1,18 @@
 {
-	"files.associations": {
-		"stdexcept": "cpp"
-	}
+  "files.associations": {
+    "array": "cpp",
+    "*.tcc": "cpp",
+    "memory": "cpp",
+    "istream": "cpp",
+    "ranges": "cpp",
+    "functional": "cpp",
+    "tuple": "cpp",
+    "utility": "cpp",
+    "*.inc": "cpp",
+    "matrixfunctions": "cpp",
+    "limits": "cpp",
+    "streambuf": "cpp",
+    "typeinfo": "cpp"
+  }
+
 }
