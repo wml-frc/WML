@@ -39,6 +39,6 @@ include 'WML-Trajectories'
 include 'UDP_TransferNT'
 
 // Robot includes (not published)
-include "Robot"
+include "Test"
 
 rootProject.name = 'WML'
