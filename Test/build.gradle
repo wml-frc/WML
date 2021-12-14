@@ -4,7 +4,7 @@ ext {
 	req_libs = []
 	teamNum = 0000
 
-	lib_link = "shared"
+	lib_link = "static"
 }
 
 apply from: project.file('../shared/robot.gradle')
