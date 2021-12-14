@@ -1,7 +1,7 @@
 apply plugin: 'maven-publish'
 
-apply from: rootProject.file('shared/prePublish.gradle')
-apply from: rootProject.file('shared/vendor.gradle')
+apply from: project.file('../shared/prePublish.gradle')
+apply from: project.file('../shared/vendor.gradle')
 
 
 publishing {

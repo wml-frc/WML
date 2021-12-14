@@ -152,6 +152,8 @@ model {
 	}
 }
 
+task sim(dependsOn: "simulate${nativeName}${wpi.platforms.desktop.capitalize()}DebugExecutable")
+
 doxygen {
 	executables {
 		doxygen version : '1.8.13'

@@ -6,7 +6,13 @@ apply plugin: 'google-test-test-suite'
 apply plugin: 'edu.wpi.first.GradleRIO'
 apply plugin: 'base'
 
-apply from: rootProject.file('config.gradle')
+apply from: project.file('../config.gradle')
+
+if (project.hasProperty("remotePublish")) {
+	ext.localMaven = false
+} else {
+	ext.localMaven = true
+}
 
 ext {
 	projectGroup = 'first'
@@ -213,4 +219,4 @@ if (project.hasProperty("masterPublish")) {
 	}
 }
 
-apply from: rootProject.file('shared/publish.gradle')
+apply from: project.file('../shared/publish.gradle')

@@ -35,6 +35,7 @@ pluginManagement {
 // WML includes
 include 'WML-Core'
 include 'WML-Rev'
+include 'WML-Trajectories'
 include 'UDP_TransferNT'
 
 // Robot includes (not published)
