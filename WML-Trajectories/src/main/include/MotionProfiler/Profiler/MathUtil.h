@@ -2,6 +2,10 @@
 
 #include <math.h>
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323
+#endif
+
 #ifndef TAU
 #define TAU M_PI*2
 #endif

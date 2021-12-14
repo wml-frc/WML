@@ -91,7 +91,7 @@ jobs:
 
 - job: mac
   pool:
-    vmImage: 'macOS-latest'
+    vmImage: 'macOS-10.15'
   steps:
   - template: azure-init.yml
   - template: azure-steps.yml
