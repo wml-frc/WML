@@ -3,7 +3,7 @@ ext {
 	req_proj_libs = []
 	req_libs = []
 	lang = 'cpp'
-	projectVersion = '2021.3.1'
+	projectVersion = '2021.1.2'
 	baseUUID = '99d9ec36-9d96-4cbb-819d-836e8614a9fb'
 
 	desktopSupport = true
