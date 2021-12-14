@@ -8,5 +8,5 @@ repositories {
 }
 
 dependencies {
-	compile 'edu.wpi.first:GradleRIO:2021.1.2'
+	compile 'edu.wpi.first:GradleRIO:2021.3.1'
 }
