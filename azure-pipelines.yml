@@ -84,14 +84,14 @@ jobs:
 
 - job: windows
   pool:
-    vmImage: 'windows-2019'
+    vmImage: 'windows-latest'
   steps:
   - template: azure-init.yml
   - template: azure-steps.yml
 
 - job: mac
   pool:
-    vmImage: 'macOS-10.14'
+    vmImage: 'macOS-latest'
   steps:
   - template: azure-init.yml
   - template: azure-steps.yml
