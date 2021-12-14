@@ -22,7 +22,7 @@
             "version": "4.0.428",
             "headerClassifier": "headers",
             "sourcesClassifier": "sources",
-            "sharedLibrary": false,
+            "sharedLibrary": true,
             "libName": "navx_frc",
             "skipInvalidPlatforms": true,
             "binaryPlatforms": [
