@@ -1,9 +1,10 @@
 # Azure Tester
 trigger: 
 - master # Triggers when on master. Either pr or push
+- maven-publish
 
 variables:
-  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
+  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/master') || eq(variables['Build.SourceBranch'], 'refs/heads/maven-publish')]
 
 resources:
   containers:
