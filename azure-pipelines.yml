@@ -4,7 +4,7 @@ trigger:
 - maven-publish
 
 variables:
-  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/master' || 'refs/heads/maven-publish')]
+  isMaster: $[or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/maven-publish'))]
 
 resources:
   containers:
