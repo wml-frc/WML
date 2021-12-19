@@ -10,13 +10,12 @@ publishing {
 			if (localMaven) {
 				println "${nativeName}: Using Local Maven"
 				name = "all_wml_maven"
-				mavenPublishURL = "${rootProject.buildDir}/maven"
-				mavenClientURL = mavenPublishURL
-				url = mavenPublishURL
+				mavenURL = "${rootProject.buildDir}/maven"
+				url = mavenURL
 			} else {
 				println "${nativeName}: Using Remote maven - I sure hope you know what your doing"
-				println "Publishing to: ${mavenPublishURL}"
-				url = mavenPublishURL
+				println "Publishing to: ${mavenURL}"
+				url = mavenURL
 				credentials {
 					username = project.getProperty("publish_user")
 					password = project.getProperty("publish_pass")

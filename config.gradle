@@ -1,7 +1,7 @@
 ext {
 	// Maven URLs
-	mavenPublishURL = "https://buchel.family/repository/wml" // maven only publishes via secure lines
-	mavenClientURL = "http://buchel.family/repository/wml" // client maven only works without ssl security
+	mavenURL = "https://buchel.family/repository/wml" // maven only publishes via secure lines
+	// mavenURL = "http://buchel.family/repository/wml" // client maven only works without ssl security
 	outputFolder = file("$rootProject.buildDir/outputs")
 
 	licenseFile = file("$rootDir/LICENSE")
