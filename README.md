@@ -17,13 +17,13 @@
 - The vendordep JSON files come in multiple parts and all are optional. E.g `WML-Core` for the core components. `WML-Rev` for Rev support (Neo Motor's). And `UDP_TransferNT`, used for point to point networking with UDP. Mainly used for communications to and from [CJ-Vision](https://github.com/wml-frc/CJ-Vision) platforms.
 
 - JSON URLS
-	- WML-Core: http://buchel.family/repository/wml/first/WML-Core/WML-Core-Deps/latest/WML-Core-Deps-latest.json
-	- WML-Rev: http://buchel.family/repository/wml/first/WML-Rev/WML-Rev-Deps/latest/WML-Rev-Deps-latest.json
-	- UDP_TransferNT: http://buchel.family/repository/wml/first/UDP_TransferNT/UDP_TransferNT-Deps/latest/UDP_TransferNT-Deps-latest.json
+	- WML-Core: https://buchel.family/repository/wml/first/WML-Core/WML-Core-Deps/latest/WML-Core-Deps-latest.json
+	- WML-Rev: https://buchel.family/repository/wml/first/WML-Rev/WML-Rev-Deps/latest/WML-Rev-Deps-latest.json
+	- UDP_TransferNT: https://buchel.family/repository/wml/first/UDP_TransferNT/UDP_TransferNT-Deps/latest/UDP_TransferNT-Deps-latest.json
 
-- Replace both occurrences of `latest` with a version for a specific version. E.g http://buchel.family/repository/wml/first/WML-Core/WML-Core-Deps/2021.3.1/WML-Core-Deps-2021.3.1.json
+- Replace both occurrences of `latest` with a version for a specific version. E.g https://buchel.family/repository/wml/first/WML-Core/WML-Core-Deps/2021.3.2/WML-Core-Deps-2021.3.2.json
 
-- Note that when adding the vendordeps through vscode it must be `http` not `https`. As this may cause security issues on some devices. If downloading manually by placing the vendordep json into the `vendordep` folder then this does not apply.
+- Note that when adding the vendordeps through vscode with older versions (gradlerio `2021.2.1`) it must be `http` not `https`. As this may cause security issues on some devices. If downloading manually by placing the vendordep json into the `vendordep` folder then this does not apply.
 
 ## WML As Submodule
 
@@ -77,16 +77,15 @@ model {
 - You can view the generated documentation for each project via `https://buchel.family/repository/wml/first/<library>/<library>-Docs/<version>/<library>-<version>-documentation.zip`
 - E.g https://buchel.family/repository/wml/first/WML-Core/WML-Core-Docs/latest/WML-Core-Docs-latest-documentation.zip
 
-- You can naviage these docs and files manually too via https://buchel.family/repository/wml/first/
+- You can also naviage the files and docs manually via https://buchel.family/repository/wml/first/
 
 ### Library examples
 - Added to the library is an [example folder](/examples/). More examples are planned, however, I am aware that there are not many examples currently (especially compared to the breadth of the content in the library).
 
-- I recommend looking at code that uses the library to get a better idea of what to do. (e.g. The Build environment we use for testing [Src](Robot/src/main))
-
+- I recommend looking at code that uses the library to get a better idea of what to do. (e.g. CurtinFRC's code -> [Code](https://github.com/CurtinFRC/2021-GameChangers))
 
 ## Contributing to WML
 [CONTRIBUTING.md](CONTRIBUTING.md)
 
 
-<sub><sup>readme written by [@CJBuchel](https://github.com/CJBuchel), 30/10/21</sup></sub>
+<sub><sup>readme written by [@CJBuchel](https://github.com/CJBuchel), 20/12/21</sup></sub>
