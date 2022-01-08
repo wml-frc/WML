@@ -1,6 +1,6 @@
 #include "WMLCtre.h"
 
-#include <frc/PowerDistributionPanel.h>
+#include <frc/PowerDistribution.h>
 #include <frc/RobotController.h>
 
 using namespace wml;

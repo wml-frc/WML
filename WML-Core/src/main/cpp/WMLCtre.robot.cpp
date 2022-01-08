@@ -83,8 +83,8 @@ TalonSrx::Configuration TalonSrx::SaveConfig() {
 
 // Victor SPX
 
-inline can::VictorSPX *NativeSpx(const VictorSpx *srx) {
-  return static_cast<can::VictorSPX *>(srx->_handle);
+inline can::VictorSPX *NativeSpx(const VictorSpx *spx) {
+  return static_cast<can::VictorSPX *>(spx->_handle);
 }
 
 VictorSpx::VictorSpx(actuators::Port port) : actuators::MotorVoltageController(this), _port(port) {

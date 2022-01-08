@@ -1,6 +1,7 @@
 #pragma once
 
 #include <frc/RobotBase.h>
+#include <functional>
 
 namespace wml {
 

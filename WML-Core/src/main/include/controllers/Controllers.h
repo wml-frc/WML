@@ -2,6 +2,7 @@
 
 #include <utility>
 #include <vector>
+#include <functional>
 
 #include "controllers/SmartController.h"
 
