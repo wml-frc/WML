@@ -18,7 +18,7 @@ std::string files::GetDeployDirectory(std::string project) {
   } else {
     frc::filesystem::GetLaunchDirectory();
 
-    // fs::path::append(result);
+    // fs::path::append(result, project, "src", "main", "deploy");
     return std::string(result.c_str());
   }
 }
