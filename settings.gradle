@@ -7,7 +7,7 @@ pluginManagement {
 
 		// FRC Maven
 		gradlePluginPortal()
-		String frcYear = '2021'
+		String frcYear = '2022'
 		File frcHome
 		if (OperatingSystem.current().isWindows()) {
 			String publicFolder = System.getenv('PUBLIC')

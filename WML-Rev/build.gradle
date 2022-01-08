@@ -3,7 +3,7 @@ ext {
 	req_proj_libs = ['WML-Core']
 	req_libs = []
 	lang = 'cpp'
-	projectVersion = '2021.3.2'
+	projectVersion = '2022.1.1'
 	baseUUID = '099da10d-4f49-445b-821d-921cd2507f1c'
 
 	desktopSupport = true
