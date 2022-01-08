@@ -1,6 +1,7 @@
 #pragma once
 
-#include <frc/filters/LinearDigitalFilter.h>
+// #include <frc/filters/LinearDigitalFilter.h>
+#include <frc/filter/LinearFilter.h>
 #include <wpi/circular_buffer.h>
 
 #include <functional>

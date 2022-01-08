@@ -1,6 +1,7 @@
 #pragma once
 
-#include <frc/PowerDistributionPanel.h>
+// #include <frc/PowerDistributionPanel.h> // 2021
+#include <frc/PowerDistribution.h>
 #include <frc/SpeedController.h>
 #include <frc/SpeedControllerGroup.h>
 
@@ -38,7 +39,7 @@ namespace actuators {
     /**
      * Get the current output.
      */
-    virtual double GetCurrent() { return frc::PowerDistributionPanel(0).GetCurrent(GetPhysicalPort()); };
+    virtual double GetCurrent() { return frc::PowerDistribution().GetCurrent(GetPhysicalPort()); };
   };
 
   /**
