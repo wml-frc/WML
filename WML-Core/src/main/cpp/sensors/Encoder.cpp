@@ -27,7 +27,7 @@ int DigitalEncoder::GetEncoderRawTicks() {
 }
 
 double DigitalEncoder::GetEncoderTickVelocity() {
-  return 1.0 / _nativeEncoder.GetPeriod();
+  return 1.0 / _nativeEncoder.GetPeriod().value();
 }
 
 int DigitalEncoder::GetChannelA() {

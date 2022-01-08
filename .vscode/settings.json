@@ -12,7 +12,16 @@
     "matrixfunctions": "cpp",
     "limits": "cpp",
     "streambuf": "cpp",
-    "typeinfo": "cpp"
+    "typeinfo": "cpp",
+    "*.mac": "cpp",
+    "numbers": "cpp",
+    "cholesky": "cpp",
+    "core": "cpp",
+    "eigenvalues": "cpp",
+    "householder": "cpp",
+    "jacobi": "cpp",
+    "lu": "cpp",
+    "qr": "cpp"
   }
 
 }

@@ -28,7 +28,6 @@ namespace wml {
       void Set(tRumble rumble, double value);
 
       void Update() { for (auto cont : m_conts) cont.get().Update(); };
-
       SmartController &GetController(int cont);
 
      private:

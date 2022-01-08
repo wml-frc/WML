@@ -2,9 +2,7 @@
 
 #include <frc/RobotBase.h>
 #include <frc/Filesystem.h>
-
-#include <wpi/FileSystem.h>
-#include <wpi/Path.h>
+#include <wpi/SmallString.h>
 
 #include <cstdarg>
 
@@ -15,11 +13,12 @@ std::string files::GetDeployDirectory(std::string project) {
   // we have to do it ourself.
   wpi::SmallString<256> result;
   if (frc::RobotBase::IsReal()) {
-    frc::filesystem::GetDeployDirectory(result);
+    frc::filesystem::GetDeployDirectory();
     return std::string(result.c_str());
   } else {
-    frc::filesystem::GetLaunchDirectory(result);
-    wpi::sys::path::append(result, project, "src", "main", "deploy");
+    frc::filesystem::GetLaunchDirectory();
+
+    // fs::path::append(result);
     return std::string(result.c_str());
   }
 }
