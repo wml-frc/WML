@@ -4,3 +4,9 @@ steps:
   inputs:
     sourceFolder: '/Users/vsts/.gradle/init.d/'
     contents: 'log-gradle-version-plugin.gradle'
+
+- task: JavaToolInstaller@0
+  inputs:
+    versionSpec: '11'
+    jdkArchitectureOption: 'x64'
+    jdkSourceOption: 'PreInstalled'
