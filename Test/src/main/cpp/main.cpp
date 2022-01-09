@@ -8,10 +8,10 @@
 #include <frc/DoubleSolenoid.h>
 #include <frc/GenericHID.h>
 
-#include <frc/SpeedControllerGroup.h>
-#include <frc/Spark.h>
-#include <frc/PowerDistributionPanel.h>
-#include <frc/PWMSparkMax.h>
+// #include <frc/SpeedControllerGroup.h>
+// #include <frc/Spark.h>
+#include <frc/PowerDistribution.h>
+// #include <frc/PWMSparkMax.h>
 #include <frc/Servo.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/AnalogInput.h>
@@ -20,7 +20,7 @@
 #include <frc/Filesystem.h>
 #include <frc/trajectory/TrajectoryUtil.h>
 #include <networktables/NetworkTableInstance.h>
-#include <wpi/Path.h>
+// #include <wpi/Path.h>
 #include <wpi/SmallString.h>
 
 // REV

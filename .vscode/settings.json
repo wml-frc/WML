@@ -24,6 +24,7 @@
     "qr": "cpp",
     "chrono": "cpp",
     "thread": "cpp"
-  }
+  },
+  "java.configuration.updateBuildConfiguration": "disabled"
 
 }
