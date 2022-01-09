@@ -1,14 +1,13 @@
 #pragma once
 
-// #include <frc/PowerDistributionPanel.h> // 2021
 #include <frc/PowerDistribution.h>
-#include <frc/SpeedController.h>
-#include <frc/SpeedControllerGroup.h>
+#include <frc/motorcontrol/MotorController.h>
+#include <frc/motorcontrol/MotorControllerGroup.h>
 
 namespace wml {
 namespace actuators { 
   /**
-   * A VoltageController is analagous to a SpeedController, but in terms of voltage instead
+   * A VoltageController is analagous to a motorController, but in terms of voltage instead
    * of speed.
    */
   class VoltageController {
@@ -43,12 +42,12 @@ namespace actuators {
   };
 
   /**
-   * The MotorVoltageController is an adapter for an frc::SpeedController to
+   * The MotorVoltageController is an adapter for an frc::motorController to
    * a VoltageController.
    */
   class MotorVoltageController : public VoltageController {
    public:
-    MotorVoltageController(frc::SpeedController *speedController);
+    MotorVoltageController(frc::MotorController *motorController);
 
     void SetVoltage(double voltage) override;
     double GetVoltage() override;
@@ -61,7 +60,7 @@ namespace actuators {
     double GetBusVoltage();
 
     /**
-     * Create a MotorVoltageController with a given frc::SpeedController
+     * Create a MotorVoltageController with a given frc::motorController
      * subclass. Please note that this creates an unsafe pointer (will never dealloc)
      */
     template<typename T, typename ...Args>
@@ -69,14 +68,14 @@ namespace actuators {
       T *t = new T(args...);  // Be warned, does not deallocate!
       return MotorVoltageController{t};
     }
-
+    
     template<typename ...Args>
     static MotorVoltageController Group(Args& ...args) {
-      return Of<frc::SpeedControllerGroup>(args...);
+      return Of<frc::MotorControllerGroup>(args...);
     }
 
    private:
-    frc::SpeedController *_speedController;
+    frc::MotorController *_motorController;
   };
 }
 }  // namespace wml

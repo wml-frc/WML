@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include <frc/SpeedController.h>
+#include <frc/motorcontrol/MotorController.h>
 
 #ifndef Phoenix_No_WPI
 #define Phoenix_WPI
@@ -61,7 +61,7 @@ namespace wml {
   /**
    * Wrapper around the CTRE Talon SRX.
    */
-  class TalonSrx : public wml::actuators::MotorVoltageController, public frc::SpeedController, public wml::sensors::Encoder {
+  class TalonSrx : public wml::actuators::MotorVoltageController, public frc::MotorController, public wml::sensors::Encoder {
    public:
     using Configuration = ctre::phoenix::motorcontrol::can::TalonSRXConfiguration;
     using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
@@ -192,7 +192,7 @@ namespace wml {
   /**
    * Curtin FRC Wrapper around the CTRE Victor SPX.
    */
-  class VictorSpx : public wml::actuators::MotorVoltageController, public frc::SpeedController {
+  class VictorSpx : public wml::actuators::MotorVoltageController, public frc::MotorController {
    public:
     using Configuration = ctre::phoenix::motorcontrol::can::VictorSPXConfiguration;
     using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
@@ -294,7 +294,7 @@ namespace wml {
     double _value;
   };
 
-  class TalonFX : public wml::actuators::MotorVoltageController, public frc::SpeedController, public wml::sensors::Encoder {
+  class TalonFX : public wml::actuators::MotorVoltageController, public frc::MotorController, public wml::sensors::Encoder {
    public:
     using Configuration = ctre::phoenix::motorcontrol::can::TalonFXConfiguration;
     using ControlMode = ctre::phoenix::motorcontrol::ControlMode;

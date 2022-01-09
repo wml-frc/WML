@@ -21,7 +21,9 @@
     "householder": "cpp",
     "jacobi": "cpp",
     "lu": "cpp",
-    "qr": "cpp"
+    "qr": "cpp",
+    "chrono": "cpp",
+    "thread": "cpp"
   }
 
 }

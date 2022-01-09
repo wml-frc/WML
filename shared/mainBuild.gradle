@@ -104,7 +104,7 @@ model {
 	components {
 		"${nativeName}"(NativeLibrarySpec) {
 			if (desktopSupport) {
-				// targetPlatform wpi.platforms.desktop
+				targetPlatform wpi.platforms.desktop
 			}
 
 			targetPlatform wpi.platforms.roborio
