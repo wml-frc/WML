@@ -4,18 +4,57 @@
 #pragma once
 
 #include <frc/SpeedController.h>
-#include <ctre/phoenix/motorcontrol/can/TalonSRX.h>
-#include <ctre/phoenix/motorcontrol/can/VictorSPX.h>
-// #include <ctre/phoenix/motorcontrol/can/TalonFX.h>
-#include <ctre/phoenix/motorcontrol/can/WPI_TalonFX.h>
 
-// #include <ctre/Phoenix.h>
+#ifndef Phoenix_No_WPI
+#define Phoenix_WPI
+#endif
+
+#include "ctre/phoenix/CANifier.h"
+#include "ctre/phoenix/ErrorCode.h"
+#include "ctre/phoenix/paramEnum.h"
+#include "ctre/phoenix/HsvToRgb.h"
+#include "ctre/phoenix/LinearInterpolation.h"
+#include "ctre/phoenix/led/CANdle.h"
+#include "ctre/phoenix/motion/BufferedTrajectoryPointStream.h"
+#include "ctre/phoenix/motion/MotionProfileStatus.h"
+#include "ctre/phoenix/motion/TrajectoryPoint.h"
+#include "ctre/phoenix/motorcontrol/can/TalonFX.h"
+#include "ctre/phoenix/motorcontrol/can/TalonSRX.h"
+#include "ctre/phoenix/motorcontrol/can/VictorSPX.h"
+#include "ctre/phoenix/motorcontrol/DemandType.h"
+#include "ctre/phoenix/motorcontrol/Faults.h"
+#include "ctre/phoenix/motorcontrol/FollowerType.h"
+#include "ctre/phoenix/motorcontrol/IMotorController.h"
+#include "ctre/phoenix/motorcontrol/IMotorControllerEnhanced.h"
+#include "ctre/phoenix/motorcontrol/InvertType.h"
+#include "ctre/phoenix/motorcontrol/SensorCollection.h"
+#include "ctre/phoenix/music/Orchestra.h"
+#include "ctre/phoenix/sensors/CANCoder.h"
+#include "ctre/phoenix/sensors/PigeonIMU.h"
+#include "ctre/phoenix/sensors/Pigeon2.h"
+#include "ctre/phoenix/signals/MovingAverage.h"
+#include "ctre/phoenix/tasking/Schedulers/ConcurrentScheduler.h"
+#include "ctre/phoenix/tasking/ILoopable.h"
+#include "ctre/phoenix/tasking/IProcessable.h"
+#include "ctre/phoenix/Utilities.h"
+
+#ifdef Phoenix_WPI
+#include "ctre/phoenix/motorcontrol/can/WPI_TalonFX.h"
+#include "ctre/phoenix/motorcontrol/can/WPI_TalonSRX.h"
+#include "ctre/phoenix/motorcontrol/can/WPI_VictorSPX.h"
+#include "ctre/phoenix/sensors/WPI_CANCoder.h"
+#include "ctre/phoenix/sensors/WPI_PigeonIMU.h"
+#include "ctre/phoenix/sensors/WPI_Pigeon2.h"
+#include "ctre/phoenix/tasking/ButtonMonitor.h"
+#endif
 
 #include <functional>
 
 #include "sensors/Encoder.h"
 #include "actuators/Port.h"
 #include "actuators/VoltageController.h"
+
+#define WML_CTRE_CAN ctre::phoenix::motorcontrol::can
 
 namespace wml {
 
@@ -67,8 +106,6 @@ namespace wml {
      * Stop the motor
      */
     void StopMotor() override;
-
-    void PIDWrite(double output) override;
 
     /**
      * Set the speed of the Talon SRX, in the range -1 Full Reverse, 0 Neutral and 1 Full Forward
@@ -201,8 +238,6 @@ namespace wml {
      */
     void StopMotor() override;
 
-    void PIDWrite(double output) override;
-
     /**
      * Set the speed of the Victor SPX, in the range -1 Full Reverse, 0 Neutral and 1 Full Forward
      * 
@@ -264,6 +299,12 @@ namespace wml {
     using Configuration = ctre::phoenix::motorcontrol::can::TalonFXConfiguration;
     using ControlMode = ctre::phoenix::motorcontrol::ControlMode;
 
+    /**
+     * @brief Construct a TalonFX Motor controller
+     * 
+     * @param port // CAN Port for motor controller
+     * @param encoderTicksPerRotation // Ticks per rotation [default = 2048]
+     */
     TalonFX(actuators::Port port, int encoderTicksPerRotation = 2048);
     ~TalonFX();
 
@@ -280,8 +321,6 @@ namespace wml {
     void Disable() override;
 
     void StopMotor() override;
-
-    void PIDWrite(double output) override;
 
     void Set(double speed) override;
 

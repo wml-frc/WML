@@ -11,10 +11,6 @@ void TalonSrx::StopMotor() {
   Disable();
 }
 
-void TalonSrx::PIDWrite(double output) {
-  Set(output);
-}
-
 double TalonSrx::Get() const {
   return _value;
 }
@@ -40,10 +36,6 @@ void VictorSpx::StopMotor() {
   Disable();
 }
 
-void VictorSpx::PIDWrite(double output) {
-  Set(output);
-}
-
 double VictorSpx::Get() const {
   return _value;
 }
@@ -59,10 +51,6 @@ void VictorSpx::ModifyConfig(std::function<void(VictorSpx::Configuration &)> fun
 
 void TalonFX::StopMotor() {
   Disable();
-}
-
-void TalonFX::PIDWrite(double output) {
-  Set(output);
 }
 
 double TalonFX::Get() const {
