@@ -88,11 +88,21 @@ jobs:
     vmImage: 'windows-latest'
   steps:
   - template: azure-init.yml
+  - task: JavaToolInstaller@0
+    inputs:
+      versionSpec: '17'
+      jdkArchitectureOption: 'x64'
+      jdkSourceOption: 'PreInstalled'
   - template: azure-steps.yml
 
 - job: mac
   pool:
-    vmImage: 'macOS-10.15'
+    vmImage: 'macOS-latest'
   steps:
   - template: azure-init.yml
+  - task: JavaToolInstaller@0
+    inputs:
+      versionSpec: '17'
+      jdkArchitectureOption: 'x64'
+      jdkSourceOption: 'PreInstalled'
   - template: azure-steps.yml
