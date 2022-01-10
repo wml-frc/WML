@@ -1,23 +1,37 @@
 #pragma once
 
+#include "PlatformDetector.h"
 #include <type_traits>
 #include <string>
 #include <vector>
 
 #include <networktables/NetworkTable.h>
 
+#ifdef WML_PLATFORM_MACOS
+  #define __NTUTIL__SLAVE__METHOD_FACTORY__(MainT, LongT) \
+  __NTUTIL__SLAVE__SET_FACTORY__(MainT, LongT)            \
+  __NTUTIL__SLAVE__GET_FACTORY__(MainT, LongT)
 
-#define __NTUTIL__SLAVE__METHOD_FACTORY__(MainT, LongT) \
-__NTUTIL__SLAVE__SET_FACTORY__(MainT, LongT)            \
-__NTUTIL__SLAVE__GET_FACTORY__(MainT, LongT)
+  #define __NTUTIL__SLAVE__SET_FACTORY__(MainT, LongT)                                        \
+  template <typename U = T, typename std::enable_if<std::is_same<U, MainT>::value>::type...>  \
+  void ForceSetValue(MainT value) {}
 
-#define __NTUTIL__SLAVE__SET_FACTORY__(MainT, LongT)                                        \
-template <typename U = T, typename std::enable_if<std::is_same<U, MainT>::value>::type...>  \
-void ForceSetValue(MainT value) { _entry.ForceSet##LongT(value); }
+  #define __NTUTIL__SLAVE__GET_FACTORY__(MainT, LongT)                                        \
+  template <typename U = T, typename std::enable_if<std::is_same<U, MainT>::value>::type...>  \
+  void UpdateVar(MainT *var, const nt::EntryNotification &event) {}
+#else
+  #define __NTUTIL__SLAVE__METHOD_FACTORY__(MainT, LongT) \
+  __NTUTIL__SLAVE__SET_FACTORY__(MainT, LongT)            \
+  __NTUTIL__SLAVE__GET_FACTORY__(MainT, LongT)
 
-#define __NTUTIL__SLAVE__GET_FACTORY__(MainT, LongT)                                        \
-template <typename U = T, typename std::enable_if<std::is_same<U, MainT>::value>::type...>  \
-void UpdateVar(MainT *var, const nt::EntryNotification &event) { *var = event.value->Get##LongT(); }
+  #define __NTUTIL__SLAVE__SET_FACTORY__(MainT, LongT)                                        \
+  template <typename U = T, typename std::enable_if<std::is_same<U, MainT>::value>::type...>  \
+  void ForceSetValue(MainT value) { _entry.ForceSet##LongT(value); }
+
+  #define __NTUTIL__SLAVE__GET_FACTORY__(MainT, LongT)                                        \
+  template <typename U = T, typename std::enable_if<std::is_same<U, MainT>::value>::type...>  \
+  void UpdateVar(MainT *var, const nt::EntryNotification &event) { *var = event.value->Get##LongT(); }
+#endif
 
 
 namespace wml {

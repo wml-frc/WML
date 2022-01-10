@@ -3,16 +3,13 @@ import org.gradle.internal.os.OperatingSystem
 pluginManagement {
 	repositories {
 		mavenLocal()
-		mavenCentral()
-
-		// FRC Maven
 		gradlePluginPortal()
-		String frcYear = '2021'
+		String frcYear = '2022'
 		File frcHome
 		if (OperatingSystem.current().isWindows()) {
 			String publicFolder = System.getenv('PUBLIC')
 			if (publicFolder == null) {
-				publicFolder = "C:\\Users\\Public"
+					publicFolder = "C:\\Users\\Public"
 			}
 			def homeRoot = new File(publicFolder, "wpilib")
 			frcHome = new File(homeRoot, frcYear)
@@ -26,10 +23,9 @@ pluginManagement {
 			name 'frcHome'
 			url frcHomeMaven
 		}
-
-		jcenter() // because maven wack aparently.... stupid java
 	}
 }
+
 
 
 // WML includes

@@ -35,7 +35,8 @@ bool StrategyController::Schedule(std::shared_ptr<Strategy> strategy, bool force
 void StrategyController::Update(double dt) {
   if (dt < 0) {
     // Automatic dt finding with system clock
-    double t = frc::GetTime();
+		double t = frc::GetTime().value();
+    // double t = frc::GetTime();
     if (_last_update_time > 0.01) {
       dt = t - _last_update_time;
     } else {

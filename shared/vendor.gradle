@@ -7,10 +7,10 @@ Map<String, Object> vendorJson() {
 		version: artifactVersion,
 		uuid: "${artifactUUID}",
 		mavenUrls: [
-			mavenClientURL
+			mavenURL
 		],
 
-		jsonUrl: "${mavenClientURL}/${artifactGroupID_URL}/${depsName}/${artifactVersion}/${depsName}-${artifactVersion}.json",
+		jsonUrl: "${mavenURL}/${artifactGroupID_URL}/${depsName}/${artifactVersion}/${depsName}-${artifactVersion}.json",
 		cppDependencies: [
 			cpp_optionalDependencies
 		]
@@ -24,10 +24,10 @@ Map<String, Object> vendorJsonLatest() {
 		version: artifactVersion,
 		uuid: "${artifactUUID}",
 		mavenUrls: [
-			mavenClientURL
+			mavenURL
 		],
 
-		jsonUrl: "${mavenClientURL}/${artifactGroupID_URL}/${depsName}/latest/${depsName}-latest.json",
+		jsonUrl: "${mavenURL}/${artifactGroupID_URL}/${depsName}/latest/${depsName}-latest.json",
 		cppDependencies: [
 			cpp_optionalDependencies
 		]

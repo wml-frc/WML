@@ -3,17 +3,14 @@
 #include "WMLCtre.h"
 
 using namespace wml;
-using namespace ctre::phoenix::motorcontrol;
-
 
 // Talon SRX
-
-inline can::TalonSRX *NativeSrx(const TalonSrx *srx) {
-  return static_cast<can::TalonSRX *>(srx->_handle);
+inline WML_CTRE_CAN::TalonSRX *NativeSrx(const TalonSrx *srx) {
+  return static_cast<WML_CTRE_CAN::TalonSRX *>(srx->_handle);
 }
 
 TalonSrx::TalonSrx(actuators::Port port, int encoderTicksPerRotation) : actuators::MotorVoltageController(this), Encoder::Encoder(encoderTicksPerRotation), _port(port) {
-  _handle = (void *)new can::TalonSRX(port);
+  _handle = (void *)new WML_CTRE_CAN::TalonSRX(port);
 }
 
 TalonSrx::~TalonSrx() {
@@ -83,12 +80,12 @@ TalonSrx::Configuration TalonSrx::SaveConfig() {
 
 // Victor SPX
 
-inline can::VictorSPX *NativeSpx(const VictorSpx *srx) {
-  return static_cast<can::VictorSPX *>(srx->_handle);
+inline WML_CTRE_CAN::VictorSPX *NativeSpx(const VictorSpx *spx) {
+  return static_cast<WML_CTRE_CAN::VictorSPX *>(spx->_handle);
 }
 
 VictorSpx::VictorSpx(actuators::Port port) : actuators::MotorVoltageController(this), _port(port) {
-  _handle = (void *)new can::VictorSPX(port);
+  _handle = (void *)new WML_CTRE_CAN::VictorSPX(port);
 }
 
 VictorSpx::~VictorSpx() {
@@ -142,12 +139,12 @@ VictorSpx::Configuration VictorSpx::SaveConfig() {
 // TalonFx 
 
 
-inline can::TalonFX *NativeFX(const TalonFX *fx) {
-  return static_cast<can::TalonFX *>(fx->_handle);
+inline WML_CTRE_CAN::TalonFX *NativeFX(const TalonFX *fx) {
+  return static_cast<WML_CTRE_CAN::TalonFX *>(fx->_handle);
 }
 
 TalonFX::TalonFX(actuators::Port port, int encoderTicksPerRotation) : actuators::MotorVoltageController(this), Encoder::Encoder(encoderTicksPerRotation), _port(port) {
-  _handle = (void *)new can::TalonFX(port);
+  _handle = (void *)new WML_CTRE_CAN::TalonFX(port);
 }
 
 TalonFX::~TalonFX() {

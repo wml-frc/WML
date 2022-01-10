@@ -4,12 +4,12 @@ using namespace wml;
 
 // SPARK MAX
 
-SparkMax::SparkMax(actuators::Port port, MotorType motorType, rev::CANEncoder::EncoderType encoderType, int encoderTicksPerRotation) : actuators::MotorVoltageController(this), Encoder::Encoder(encoderTicksPerRotation), _handle(port, (rev::CANSparkMax::MotorType)motorType), _port(port) {
-  if (encoderTicksPerRotation > 0) _encoder = new rev::CANEncoder(_handle, encoderType, encoderTicksPerRotation);
+SparkMax::SparkMax(actuators::Port port, MotorType motorType, rev::SparkMaxRelativeEncoder::Type encoderType, int encoderTicksPerRotation) : actuators::MotorVoltageController(this), Encoder::Encoder(encoderTicksPerRotation), _handle(port, (rev::CANSparkMax::MotorType)motorType), _port(port) {
+  if (encoderTicksPerRotation > 0) *_encoder = _handle.GetEncoder(encoderType, encoderTicksPerRotation);
   _motorType = motorType;
 }
 
-SparkMax::SparkMax(actuators::Port port, MotorType motorType, int encoderTicksPerRotation) : SparkMax(port, motorType, rev::CANEncoder::EncoderType::kHallSensor, encoderTicksPerRotation) {}
+SparkMax::SparkMax(actuators::Port port, MotorType motorType, int encoderTicksPerRotation) : SparkMax(port, motorType, rev::SparkMaxRelativeEncoder::Type::kHallSensor, encoderTicksPerRotation) {}
 
 // SparkMax::~SparkMax() {
 //   delete _handle;
@@ -51,10 +51,6 @@ void SparkMax::ZeroEncoder() {
 
 void SparkMax::StopMotor() {
   _handle.StopMotor();
-}
-
-void SparkMax::PIDWrite(double output) {
-  Set(output);
 }
 
 double SparkMax::Get() const {

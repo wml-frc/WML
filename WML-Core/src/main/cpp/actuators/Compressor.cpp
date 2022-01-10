@@ -2,9 +2,9 @@
 
 void wml::actuators::Compressor::UpdateActuator(double dt) {
   if (_state == actuators::kForward) { // charge
-    Start();
+    EnableDigital();
   } else { // off
-    Stop();
+    Disable();
   }
 }
 
