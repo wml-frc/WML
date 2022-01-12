@@ -1,55 +1,59 @@
 import groovy.json.JsonOutput
 
 Map<String, Object> vendorJson() {
-	return [
-		fileName: "${nativeName}.json",
-		name: "${nativeName}",
-		version: artifactVersion,
-		uuid: "${artifactUUID}",
-		mavenUrls: [
-			mavenURL
-		],
-
-		jsonUrl: "${mavenURL}/${artifactGroupID_URL}/${depsName}/${artifactVersion}/${depsName}-${artifactVersion}.json",
-		cppDependencies: [
-			cpp_optionalDependencies
-		]
-	]
+  return [
+    fileName: "${nativeName}.json",
+    name: "${nativeName}",
+    version: artifactVersion,
+    uuid: "${artifactUUID}",
+    mavenUrls: [
+      mavenURL
+    ],
+    
+    jsonUrl: "${mavenURL}/${artifactGroupID_URL}/${depsName}/${artifactVersion}/${depsName}-${artifactVersion}.json",
+    javaDependencies: [],
+    jniDependencies: [],
+    cppDependencies: [
+      cpp_optionalDependencies
+    ]
+  ]
 }
 
 Map<String, Object> vendorJsonLatest() {
-	return [
-		fileName: "${nativeName}-latest.json",
-		name: "${nativeName}",
-		version: artifactVersion,
-		uuid: "${artifactUUID}",
-		mavenUrls: [
-			mavenURL
-		],
+  return [
+    fileName: "${nativeName}-latest.json",
+    name: "${nativeName}",
+    version: artifactVersion,
+    uuid: "${artifactUUID}",
+    mavenUrls: [
+      mavenURL
+    ],
 
-		jsonUrl: "${mavenURL}/${artifactGroupID_URL}/${depsName}/latest/${depsName}-latest.json",
-		cppDependencies: [
-			cpp_optionalDependencies
-		]
-	]
+    jsonUrl: "${mavenURL}/${artifactGroupID_URL}/${depsName}/latest/${depsName}-latest.json",
+    javaDependencies: [],
+    jniDependencies: [],
+    cppDependencies: [
+      cpp_optionalDependencies
+    ]
+  ]
 }
 
 String vendorJsonString() {
-	return JsonOutput.prettyPrint(JsonOutput.toJson(vendorJson()))
+  return JsonOutput.prettyPrint(JsonOutput.toJson(vendorJson()))
 }
 
 String vendorJsonLatestString() {
-	return JsonOutput.prettyPrint(JsonOutput.toJson(vendorJsonLatest()))
+  return JsonOutput.prettyPrint(JsonOutput.toJson(vendorJsonLatest()))
 }
 
 task generateVendorDepsJson() {
-	def outfile = new File(rootProject.buildDir, "${nativeName}.json")
-	def outfileLatest = new File(rootProject.buildDir, "${nativeName}-latest.json")
-	outputs.file(outfile)
-	outputs.file(outfileLatest)
+  def outfile = new File(rootProject.buildDir, "${nativeName}.json")
+  def outfileLatest = new File(rootProject.buildDir, "${nativeName}-latest.json")
+  outputs.file(outfile)
+  outputs.file(outfileLatest)
 
-	doLast {
-		outfile.text = vendorJsonString()
-		outfileLatest.text = vendorJsonLatestString()
-	}
+  doLast {
+    outfile.text = vendorJsonString()
+    outfileLatest.text = vendorJsonLatestString()
+  }
 }
