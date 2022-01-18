@@ -57,30 +57,35 @@
 // WML Startup
 #include <startup.h>
 
+wml::SparkMax *m_motor;
 
 class Robot : public frc::TimedRobot {
- public:
-	void RobotInit() override {}
-	
-	void RobotPeriodic() override {}
+public:
+  void RobotInit() override {
+    m_motor = new wml::SparkMax(99, wml::SparkMax::MotorType::kNEO);
+  }
+  
+  void RobotPeriodic() override {
+    m_motor->Set(0.5);
+  }
 
-	void AutonomousInit() override {}
+  void AutonomousInit() override {}
 
-	void AutonomousPeriodic() override {}
+  void AutonomousPeriodic() override {}
 
-	void TeleopInit() override {}
+  void TeleopInit() override {}
 
-	void TeleopPeriodic() override {}
+  void TeleopPeriodic() override {}
 
-	void DisabledInit() override {}
+  void DisabledInit() override {}
 
-	void DisabledPeriodic() override {}
+  void DisabledPeriodic() override {}
 
-	void TestInit() override {}
+  void TestInit() override {}
 
-	void TestPeriodic() override {}
+  void TestPeriodic() override {}
 
- private:
+private:
 };
 
 WML_ROBOT_MAIN(Robot)

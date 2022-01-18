@@ -1,10 +1,10 @@
 ext {
-	nativeName = 'TestRobot'
-	req_proj_libs = ['WML-Core', 'WML-Rev', 'WML-Trajectories', 'UDP_TransferNT']
-	req_libs = []
-	teamNum = 0000
+  nativeName = 'TestRobot'
+  req_proj_libs = ['WML-Core', 'WML-Rev', 'WML-Trajectories', 'UDP_TransferNT']
+  req_libs = []
+  teamNum = 0000
 
-	lib_link = "static"
+  lib_link = "shared"
 }
 
 apply from: project.file('../shared/robot.gradle')
