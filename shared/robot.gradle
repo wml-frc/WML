@@ -13,56 +13,27 @@ ext {
 // Define my targets (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project EmbeddedTools.
 deploy {
-<<<<<<< HEAD
   targets {
-    roboRIO("roborio") {
+    roborio(getTargetTypeClass('RoboRIO')) {
       // Team number is loaded either from the .wpilib/wpilib_preferences.json
       // or from command line. If not found an exception will be thrown.
       // You can use getTeamOrDefault(team) instead of getTeamNumber if you
       // want to store a team number in this file.
       team = teamNum
+
+      
+      artifacts {
+        frcCpp(getArtifactTypeClass('FRCNativeArtifact')) { // <- wtf is this WPI
+        }
+
+        frcStaticFileDeploy(getArtifactTypeClass('FileTreeArtifact')) {
+          files = project.fileTree('src/main/deploy')
+          directory = '/home/lvuser/deploy'
+        }
+      }
     }
   }
 
-  artifacts {
-    frcNativeArtifact('frcCpp') {
-      targets << "roborio"
-      component = 'frcUserProgram'
-      // Debug can be overridden by command line, for use with VSCode
-      debug = frc.getDebugOrDefault(false)
-    }
-    // Built in artifact to deploy arbitrary files to the roboRIO.
-    fileTreeArtifact('frcStaticFileDeploy') {
-      // The directory below is the local directory to deploy
-      files = fileTree(dir: 'src/main/deploy')
-      // Deploy to RoboRIO target, into /home/lvuser/deploy
-      targets << "roborio"
-      directory = '/home/lvuser/deploy'
-    }
-  }
-=======
-	targets {
-		roborio(getTargetTypeClass('RoboRIO')) {
-			// Team number is loaded either from the .wpilib/wpilib_preferences.json
-			// or from command line. If not found an exception will be thrown.
-			// You can use getTeamOrDefault(team) instead of getTeamNumber if you
-			// want to store a team number in this file.
-			team = teamNum
-
-			
-			artifacts {
-				frcCpp(getArtifactTypeClass('FRCNativeArtifact')) { // <- wtf is this WPI
-				}
-
-				frcStaticFileDeploy(getArtifactTypeClass('FileTreeArtifact')) {
-					files = project.fileTree('src/main/deploy')
-					directory = '/home/lvuser/deploy'
-				}
-			}
-		}
-	}
-
->>>>>>> e81c4eaab614a3b6f62f661fa1b9d078075b8a38
 }
 
 def deployArtifact = deploy.targets.roborio.artifacts.frcCpp
@@ -80,13 +51,13 @@ wpi.sim.addDriverstation()
 
 
 model {
-	components {
-		
-		"${nativeName}"(NativeExecutableSpec) { // frc user
-			targetPlatform wpi.platforms.roborio
-			if (includeDesktopSupport) {
-				targetPlatform wpi.platforms.desktop
-			}
+  components {
+    
+    "${nativeName}"(NativeExecutableSpec) { // frc user
+      targetPlatform wpi.platforms.roborio
+      if (includeDesktopSupport) {
+        targetPlatform wpi.platforms.desktop
+      }
 
       sources.cpp {
         source {
@@ -94,10 +65,10 @@ model {
           include '**/*.cpp', '**/*.cc'
         }
 
-				exportedHeaders {
-					srcDir 'src/main/include' // robot
-				}
-			}
+        exportedHeaders {
+          srcDir 'src/main/include' // robot
+        }
+      }
 
       binaries.all {
         if (req_proj_libs.size() >= 1) {
@@ -117,19 +88,19 @@ model {
         }
       }
 
-			// Specify this component for deploying.
-			deployArtifact.component = it
+      // Specify this component for deploying.
+      deployArtifact.component = it
 
-			// Enable run tasks for this component
-			wpi.cpp.enableExternalTasks(it)
+      // Enable run tasks for this component
+      wpi.cpp.enableExternalTasks(it)
 
-			// Enable simulation for this component
-			wpi.sim.enable(it)
-			// Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
-			wpi.cpp.vendor.cpp(it)
-			wpi.cpp.deps.wpilib(it)
-		}
-	}
+      // Enable simulation for this component
+      wpi.sim.enable(it)
+      // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
+      wpi.cpp.vendor.cpp(it)
+      wpi.cpp.deps.wpilib(it)
+    }
+  }
 
   testSuites {
     "${nativeName}Test"(GoogleTestTestSuiteSpec) {
@@ -165,14 +136,14 @@ model {
         }
       }
 
-			// Enable run tasks for this component
-			wpi.cpp.enableExternalTasks(it)
+      // Enable run tasks for this component
+      wpi.cpp.enableExternalTasks(it)
 
-			wpi.cpp.vendor.cpp(it)
-			wpi.cpp.deps.wpilib(it)
-			wpi.cpp.deps.googleTest(it)
-		}
-	}
+      wpi.cpp.vendor.cpp(it)
+      wpi.cpp.deps.wpilib(it)
+      wpi.cpp.deps.googleTest(it)
+    }
+  }
 }
 
 task sim(dependsOn: "simulate${nativeName}${wpi.platforms.desktop.capitalize()}DebugExecutable")
