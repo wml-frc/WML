@@ -180,6 +180,7 @@ model {
       }
 
       binaries.all {
+
         lib library: "${nativeName}", linkage: "${lib_link}"
 
         if (req_proj_libs.size() >= 1) {

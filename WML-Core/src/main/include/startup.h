@@ -2,6 +2,7 @@
 
 #include <frc/RobotBase.h>
 #include <functional>
+#include <iostream>
 
 namespace wml {
 
@@ -20,6 +21,7 @@ class RobotStartup {
  */
 template <class RobotClass>
 int StartRobot() {
+  std::cout << "**********   WML-STARTUP   **********\n********** CJ Magic Applied **********\n";
   RobotStartup::Start(frc::StartRobot<RobotClass>);
   return 0;
 }

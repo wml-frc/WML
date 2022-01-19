@@ -3,7 +3,8 @@ apply plugin: 'cpp'
 apply plugin: 'google-test-test-suite'
 apply plugin: 'edu.wpi.first.GradleRIO'
 
-apply from: rootProject.file('config.gradle')
+apply from: project.file('../config.gradle')
+apply from: project.file('../shared/platform.gradle')
 
 ext {
   teamID = teamNum
@@ -73,7 +74,11 @@ model {
       binaries.all {
         if (req_proj_libs.size() >= 1) {
           req_proj_libs.each { req_library ->
-            lib project: ":${req_library}", library: "${req_library}", linkage: "${lib_link}"
+            if (targetPlatform.name == wpi.platforms.roborio) {
+              lib project: ":${req_library}", library: "${req_library}", linkage: "shared"
+            } else {
+              lib project: ":${req_library}", library: "${req_library}", linkage: "${lib_link}"
+            }
           }
         }
 
