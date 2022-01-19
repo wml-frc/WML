@@ -17,10 +17,10 @@ namespace wml {
   class SparkMax : public wml::actuators::MotorVoltageController, public frc::MotorController, public wml::sensors::Encoder {
    public:
     enum class MotorType {
-      kBrushed = (int)rev::CANSparkMax::MotorType::kBrushed,
-      kBrushless = (int)rev::CANSparkMax::MotorType::kBrushless,
+      kBrushed = (int)rev::CANSparkMaxLowLevel::MotorType::kBrushed,
+      kBrushless = (int)rev::CANSparkMaxLowLevel::MotorType::kBrushless,
 
-      kNEO = kBrushless,
+      kNEO = kBrushless
     };
 
     /**
@@ -93,10 +93,13 @@ namespace wml {
     void ZeroEncoder() override;
     
    private:
+    rev::SparkMaxRelativeEncoder _GetRevEncoder() { return _handle.GetEncoder(_encoderType, _encoderTicksPerRotation); }
     rev::CANSparkMax _handle;
-    rev::SparkMaxRelativeEncoder *_encoder = nullptr;
+    // rev::SparkMaxRelativeEncoder *_encoder = nullptr;
     
     actuators::Port _port;
+    rev::SparkMaxRelativeEncoder::Type _encoderType;
+    int _encoderTicksPerRotation;
     MotorType _motorType;
     double _value;
   };

@@ -5,7 +5,13 @@ using namespace wml;
 // SPARK MAX
 
 SparkMax::SparkMax(actuators::Port port, MotorType motorType, rev::SparkMaxRelativeEncoder::Type encoderType, int encoderTicksPerRotation) : actuators::MotorVoltageController(this), Encoder::Encoder(encoderTicksPerRotation), _handle(port, (rev::CANSparkMax::MotorType)motorType), _port(port) {
-  if (encoderTicksPerRotation > 0) *_encoder = _handle.GetEncoder(encoderType, encoderTicksPerRotation);
+  if (encoderTicksPerRotation > 0) {
+    _encoderTicksPerRotation = encoderTicksPerRotation;
+  } else {
+    _encoderTicksPerRotation = 42;
+  }
+
+  _encoderType = encoderType;
   _motorType = motorType;
 }
 
@@ -36,15 +42,15 @@ void SparkMax::Set(double speed) {
 }
 
 double SparkMax::GetSensorPosition() {
-  return _encoder->GetPosition();
+  return _GetRevEncoder().GetPosition();
 }
 
 double SparkMax::GetSensorVelocity() {
-  return _encoder->GetVelocity();
+  return _GetRevEncoder().GetVelocity();
 }
 
 void SparkMax::ZeroEncoder() {
-  _encoder->SetPosition(0);
+  _GetRevEncoder().SetPosition(0);
 }
 
 // not .robot

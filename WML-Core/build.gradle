@@ -1,18 +1,18 @@
 ext {
-	nativeName = 'WML-Core'
-	req_proj_libs = []
-	req_libs = []
-	lang = 'cpp'
-	projectVersion = '2022.1.0-beta'
-	baseUUID = 'a6d30c03-12a8-476d-8fdc-41dacdb7790f'
+  nativeName = 'WML-Core'
+  req_proj_libs = []
+  req_libs = []
+  lang = 'cpp'
+  projectVersion = '2022.1.1'
+  baseUUID = 'a6d30c03-12a8-476d-8fdc-41dacdb7790f'
 
-	desktopSupport = true
+  desktopSupport = true
 
-	overrideSrc = false
-	overrideTestSrc = false
+  overrideSrc = false
+  overrideTestSrc = false
 
-	srcZip = true
-	headerZip = true
+  srcZip = true
+  headerZip = true
 }
 
 apply from: project.file('../shared/mainBuild.gradle')
