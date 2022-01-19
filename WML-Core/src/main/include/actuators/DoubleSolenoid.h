@@ -5,23 +5,25 @@
 #include "actuators/BinaryActuator.h"
 
 namespace wml {
-  namespace actuators {
-    class DoubleSolenoid : protected frc::DoubleSolenoid, public BinaryActuator {
-     public:
-      static constexpr double StandardActuationTime = 0.2;
-      DoubleSolenoid(int forwardChannel, int reverseChannel, double actuationTime, std::string name = "<DoubleSolenoid>", BinaryActuatorState initialState = actuators::kReverse) : frc::DoubleSolenoid(forwardChannel, reverseChannel), BinaryActuator(name, initialState), _actuationTime(actuationTime) {};
-      DoubleSolenoid(int pcmID, int forwardChannel, int reverseChannel, double actuationTime, std::string name = "<DoubleSolenoid>", BinaryActuatorState initialState = actuators::kReverse) : frc::DoubleSolenoid(pcmID, forwardChannel, reverseChannel), BinaryActuator(name, initialState), _actuationTime(actuationTime) {};
+	namespace actuators {
+		class DoubleSolenoid : protected frc::DoubleSolenoid, public BinaryActuator {
+		public:
 
-      virtual void UpdateActuator(double dt) override;
-      virtual void Stop() final {};
-      virtual bool IsDone() override;
+			static constexpr double StandardActuationTime = 0.2;
+			DoubleSolenoid(int forwardChannel, int reverseChannel, double actuationTime, std::string name = "<DoubleSolenoid>", BinaryActuatorState initialState = actuators::kReverse) : frc::DoubleSolenoid(frc::PneumaticsModuleType::CTREPCM, forwardChannel, reverseChannel), BinaryActuator(name, initialState), _actuationTime(actuationTime) {};
+			DoubleSolenoid(PneumaticsModuleType pcmType, int forwardChannel, int reverseChannel, double actuationTime, std::string name = "<DoubleSolenoid>", BinaryActuatorState initialState = actuators::kReverse) : frc::DoubleSolenoid((frc::PneumaticsModuleType)pcmType, forwardChannel, reverseChannel), BinaryActuator(name, initialState), _actuationTime(actuationTime) {};
+			DoubleSolenoid(int pcmID, PneumaticsModuleType pcmType, int forwardChannel, int reverseChannel, double actuationTime, std::string name = "<DoubleSolenoid>", BinaryActuatorState initialState = actuators::kReverse) : frc::DoubleSolenoid(pcmID, (frc::PneumaticsModuleType)pcmType, forwardChannel, reverseChannel), BinaryActuator(name, initialState), _actuationTime(actuationTime) {};
 
-     protected:
-      virtual void Init() override;
+			virtual void UpdateActuator(double dt) override;
+			virtual void Stop() final {};
+			virtual bool IsDone() override;
 
-     private:
-      double _actuationTime;
-      double _timer;
-    };
-  } // ns actuators
+		protected:
+			virtual void Init() override;
+
+		private:
+			double _actuationTime;
+			double _timer;
+		};
+	} // ns actuators
 } // ns wml

@@ -7,8 +7,9 @@
 
 int main(int argc, char** argv) {
   // Fixes wpilibsuite#1550
+  
   frc::DriverStation::GetInstance();
-  frc::Wait(0.25);
+  frc::Wait((units::second_t)1);
 
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

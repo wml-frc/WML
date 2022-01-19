@@ -5,7 +5,7 @@
 #include <string>
 #include <utility>
 
-#include <frc/SpeedController.h>
+#include <frc/motorcontrol/MotorController.h>
 #include <frc/interfaces/Gyro.h>
 #include <frc/GenericHID.h>
 

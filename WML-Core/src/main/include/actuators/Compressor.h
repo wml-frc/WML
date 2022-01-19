@@ -8,8 +8,8 @@ namespace wml {
   namespace actuators {
     class Compressor : protected frc::Compressor, public BinaryActuator {
       public:
-      Compressor(std::string name = "<Compressor>", BinaryActuatorState initialState = actuators::kReverse) : frc::Compressor(), BinaryActuator(name, initialState) { SetClosedLoopControl(false); };
-      Compressor(int pcmID, std::string name = "<Compressor>", BinaryActuatorState initialState = actuators::kReverse) : frc::Compressor(pcmID), BinaryActuator(name, initialState) { SetClosedLoopControl(false); };
+      Compressor(std::string name = "<Compressor>", BinaryActuatorState initialState = actuators::kReverse) : frc::Compressor(frc::PneumaticsModuleType::CTREPCM), BinaryActuator(name, initialState) { EnableDigital(); };
+      Compressor(int pcmID, PneumaticsModuleType pcmType, std::string name = "<Compressor>", BinaryActuatorState initialState = actuators::kReverse) : frc::Compressor(pcmID, (frc::PneumaticsModuleType)pcmType), BinaryActuator(name, initialState) { EnableDigital(); };
 
       virtual void UpdateActuator(double dt) override;
       virtual void Stop() final {};

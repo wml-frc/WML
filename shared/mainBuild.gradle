@@ -1,4 +1,4 @@
-import edu.wpi.first.toolchain.NativePlatforms
+// import edu.wpi.first.toolchain.NativePlatforms
 
 apply plugin: 'org.ysb33r.doxygen'
 apply plugin: 'cpp'
@@ -41,7 +41,7 @@ ext {
 
   if (project.hasProperty("supportedPlatforms")) {
     println "${nativeName}: Override Supported Platforms"
-    println "${nativeName}. Compiling for platforms: ${supportedPlatforms}"
+    println "${nativeName}. Compiles for platforms: ${supportedPlatforms}"
   } else {
     println "${nativeName}: Using Default Supported Platforms"
 
@@ -100,16 +100,15 @@ ext.binaryArtifacts = { scope, name ->
   binaryPublishers[name] << [scope: scope]
 }
 
-
-
 model {
   components {
     "${nativeName}"(NativeLibrarySpec) {
       if (desktopSupport) {
-        targetPlatform NativePlatforms.desktop
+        targetPlatform wpi.platforms.desktop
       }
 
-      targetPlatform NativePlatforms.roborio
+      targetPlatform wpi.platforms.roborio
+
       sources {
         cpp {
           source {
@@ -131,7 +130,6 @@ model {
       }
 
       binaries.all {
-        // println targetPlatform.name
 
         if (req_proj_libs.size() >= 1) {
           req_proj_libs.each { req_library ->
@@ -150,8 +148,14 @@ model {
         }
       }
 
-      wpi.deps.vendor.cpp(it)
-      wpi.deps.wpilib(it)
+      // Enable run tasks for this component
+      wpi.cpp.enableExternalTasks(it)
+
+      // Enable simulation for this component
+      wpi.sim.enable(it)
+      // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
+      wpi.cpp.vendor.cpp(it)
+      wpi.cpp.deps.wpilib(it)
     }
   }
 
@@ -195,10 +199,11 @@ model {
         }
       }
 
-      wpi.deps.vendor.cpp(it)
-      wpi.deps.wpilib(it)
-      wpi.deps.googleTest(it)
+      wpi.cpp.enableExternalTasks(it)
 
+      wpi.cpp.vendor.cpp(it)
+      wpi.cpp.deps.wpilib(it)
+      wpi.cpp.deps.googleTest(it)
     }
   }
 }
