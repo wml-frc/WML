@@ -92,7 +92,14 @@
     "system_error": "cpp",
     "unordered_map": "cpp",
     "memory_resource": "cpp",
-    "stop_token": "cpp"
+    "stop_token": "cpp",
+    "hash_map": "cpp",
+    "hash_set": "cpp",
+    "list": "cpp",
+    "unordered_set": "cpp",
+    "set": "cpp",
+    "future": "cpp",
+    "cinttypes": "cpp"
   },
   "java.configuration.updateBuildConfiguration": "disabled"
 
