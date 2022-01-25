@@ -29,7 +29,7 @@ namespace wml {
      * @param port The device ID of the SPARK MAX on the CAN Bus.
      */
     SparkMax(actuators::Port port, MotorType motorType, rev::SparkMaxRelativeEncoder::Type encoderType, int encoderTicksPerRotation);
-    SparkMax(actuators::Port port, MotorType motorType, int encoderTicksPerRotation = -1);
+    SparkMax(actuators::Port port, MotorType motorType, int encoderTicksPerRotation = 42);
     // ~SparkMax();
 
     /**
@@ -95,9 +95,8 @@ namespace wml {
    private:
     rev::CANSparkMax _handle;
     rev::SparkMaxRelativeEncoder _encoder = _handle.GetEncoder();
-    
+
     actuators::Port _port;
-    int _encoderTicksPerRotation;
     double _value;
   };
 }
