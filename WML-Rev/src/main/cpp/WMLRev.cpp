@@ -10,9 +10,6 @@ SparkMax::SparkMax(actuators::Port port, MotorType motorType, rev::SparkMaxRelat
   } else {
     _encoderTicksPerRotation = 42;
   }
-
-  _encoderType = encoderType;
-  _motorType = motorType;
 }
 
 SparkMax::SparkMax(actuators::Port port, MotorType motorType, int encoderTicksPerRotation) : SparkMax(port, motorType, rev::SparkMaxRelativeEncoder::Type::kHallSensor, encoderTicksPerRotation) {}
@@ -42,15 +39,15 @@ void SparkMax::Set(double speed) {
 }
 
 double SparkMax::GetSensorPosition() {
-  return _GetRevEncoder().GetPosition();
+  return _encoder.GetPosition();
 }
 
 double SparkMax::GetSensorVelocity() {
-  return _GetRevEncoder().GetVelocity();
+  return _encoder.GetVelocity();
 }
 
 void SparkMax::ZeroEncoder() {
-  _GetRevEncoder().SetPosition(0);
+  _encoder.SetPosition(0);
 }
 
 // not .robot
