@@ -57,18 +57,13 @@
 // WML Startup
 #include <startup.h>
 
-wml::SparkMax *m_motor;
-
 class Robot : public frc::TimedRobot {
 public:
   void RobotInit() override {
-    // m_motor = new wml::SparkMax(99, wml::SparkMax::MotorType::kNEO);
     std::cout << "Robot Init" << std::endl;
   }
   
-  void RobotPeriodic() override {
-    // m_motor->Set(0.5);
-  }
+  void RobotPeriodic() override {}
 
   void AutonomousInit() override {}
 

@@ -93,14 +93,11 @@ namespace wml {
     void ZeroEncoder() override;
     
    private:
-    rev::SparkMaxRelativeEncoder _GetRevEncoder() { return _handle.GetEncoder(_encoderType, _encoderTicksPerRotation); }
     rev::CANSparkMax _handle;
-    // rev::SparkMaxRelativeEncoder *_encoder = nullptr;
+    rev::SparkMaxRelativeEncoder _encoder = _handle.GetEncoder();
     
     actuators::Port _port;
-    rev::SparkMaxRelativeEncoder::Type _encoderType;
     int _encoderTicksPerRotation;
-    MotorType _motorType;
     double _value;
   };
 }
