@@ -196,7 +196,9 @@ model {
         }
 
         if (desktopSupport) {
-          cppCompiler.define "WML_DESKTOP_SUPPORT"
+          if (targetPlatform == wpi.platforms.desktop) {
+            cppCompiler.define "WML_DESKTOP_SUPPORT"
+          }
         }
       }
 
