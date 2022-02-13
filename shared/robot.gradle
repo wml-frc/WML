@@ -40,7 +40,7 @@ deploy {
 def deployArtifact = deploy.targets.roborio.artifacts.frcCpp
 
 // Set this to true to enable desktop support.
-def includeDesktopSupport = false
+def includeDesktopSupport = true
 
 // Set to true to run simulation in debug mode
 wpi.cpp.debugSimulation = false
@@ -88,9 +88,9 @@ model {
           }
         }
 
-        if (includeDesktopSupport) {
-          cppCompiler.define "WML_DESKTOP_SUPPORT"
-        }
+        // if (includeDesktopSupport) {
+        //   cppCompiler.define "WML_DESKTOP_SUPPORT"
+        // }
       }
 
       // Specify this component for deploying.
@@ -136,9 +136,9 @@ model {
           }
         }
 
-        if (includeDesktopSupport) {
-          cppCompiler.define "WML_DESKTOP_SUPPORT"
-        }
+        // if (includeDesktopSupport) {
+        //   cppCompiler.define "WML_DESKTOP_SUPPORT"
+        // }
       }
 
       // Enable run tasks for this component

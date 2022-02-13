@@ -1,5 +1,5 @@
 ext {
-  nativeName = 'TestRobot'
+  nativeName = 'TestBot'
   req_proj_libs = ['WML-Core', 'WML-Rev', 'UDP_TransferNT']
   req_libs = []
   teamNum = 4788

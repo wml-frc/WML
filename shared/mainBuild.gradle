@@ -144,7 +144,9 @@ model {
         }
 
         if (desktopSupport) {
-          cppCompiler.define "WML_DESKTOP_SUPPORT"
+          if (targetPlatform.name != wpi.platforms.roborio) {
+            cppCompiler.define "WML_DESKTOP_SUPPORT"
+          }
         }
       }
 
@@ -196,7 +198,7 @@ model {
         }
 
         if (desktopSupport) {
-          if (targetPlatform == wpi.platforms.desktop) {
+          if (targetPlatform.name != wpi.platforms.roborio) {
             cppCompiler.define "WML_DESKTOP_SUPPORT"
           }
         }
