@@ -6,7 +6,7 @@ ext {
   projectVersion = '2022.2.1'
   baseUUID = 'd7e51e9d-c0f6-4f51-96f1-cf2beab44a24'
 
-  desktopSupport = true
+  desktopSupport = false
 
   overrideSrc = true
   overrideTestSrc = true
