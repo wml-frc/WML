@@ -60,15 +60,19 @@
 
 #include <sensors/NavX.h>
 
-wml::sensors::NavX navX{};
-wml::sensors::NavXGyro gyro{navX.Angular(wml::sensors::AngularAxis::YAW)};
+wml::sensors::NavX *navX;
+wml::sensors::NavXGyro *gyro;
 class Robot : public frc::TimedRobot {
 public:
   void RobotInit() override {
     std::cout << "Robot Init" << std::endl;
+    navX = new wml::sensors::NavX();
+    gyro = new wml::sensors::NavXGyro(navX->Angular(wml::sensors::AngularAxis::YAW));
   }
   
-  void RobotPeriodic() override {}
+  void RobotPeriodic() override {
+    std::cout << "NavX: " << gyro->GetAngle() << std::endl;
+  }
 
   void AutonomousInit() override {}
 
@@ -77,7 +81,6 @@ public:
   void TeleopInit() override {}
 
   void TeleopPeriodic() override {
-    std::cout << "NavX: " << gyro.GetAngle() << std::endl;
   }
 
   void DisabledInit() override {}
