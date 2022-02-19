@@ -9,7 +9,7 @@ class MockCountingStrategy : public Strategy {
  public:
   MockCountingStrategy(int *start_count, int *periodic_count, int *stop_count)
               : start_count(start_count), periodic_count(periodic_count), stop_count(stop_count) {}
-
+  
   std::string GetStrategyName() override {
     return "MockStrategy";
   }
@@ -119,4 +119,28 @@ TEST_F(StrategyBuilderTest, AnyTimeout) {
 TEST_F(StrategyBuilderTest, MultiSystemResource) {
   ASSERT_THROW(StrategyBuilder{}.Start()->Add(makeStrat())->Add(makeStrat())->Build(), std::invalid_argument);
   ASSERT_NO_THROW(StrategyBuilder{}.Start()->Add(makeStrat())->Add(makeStratB())->Build());
+}
+
+TEST_F(StrategyBuilderTest, Passive) {
+  auto normalStrat = makeStrat();
+  normalStrat->stopAfterSingle = false;
+  auto passiveStrat = makeStratB();
+  passiveStrat->stopAfterSingle = false;
+  passiveStrat->SetPassive(true);
+
+  auto it = StrategyBuilder{}.Start()->Add(normalStrat)->Add(passiveStrat)->Build();
+  controller.Schedule(it);
+  controller.Update(1.0);
+
+  ASSERT_EQ(it->GetStrategyState(), StrategyState::RUNNING);
+  ASSERT_EQ(normalStrat->GetStrategyState(), StrategyState::RUNNING);
+  ASSERT_EQ(passiveStrat->GetStrategyState(), StrategyState::RUNNING);
+
+  normalStrat->SetDone();
+
+  controller.Update(1.0);
+
+  ASSERT_EQ(normalStrat->GetStrategyState(), StrategyState::DONE);
+  ASSERT_EQ(passiveStrat->GetStrategyState(), StrategyState::DONE);
+  ASSERT_EQ(it->GetStrategyState(), StrategyState::DONE);
 }
