@@ -84,6 +84,15 @@ class Strategy {
   }
 
   /**
+   * Set whether this Strategy is passive. Passive strategies have no concept of being 'done', 
+   * but are cancelled immediately if all other strategies in the current queue, e.g. spinning
+   * up a flywheel while following a path. Passive strategies only exist within queues.
+   */
+  void SetPassive(bool passive) {
+    _is_passive = passive;
+  }
+
+  /**
    * Get whether this Strategy can be interrupted by other Strategies.
    */
   bool CanBeInterrupted() {
@@ -183,7 +192,7 @@ class Strategy {
   }
 
   void Update(double dt) {
-    if (_strategy_state != StrategyState::RUNNING) {
+    if (_strategy_state == StrategyState::INITIALIZED) {
       Start();
     }
 
@@ -215,6 +224,7 @@ class Strategy {
   double _timeout = 0;
   bool _can_reuse = false;
   bool _can_interrupt = false;
+  bool _is_passive = false;
   StrategyState _strategy_state = StrategyState::INITIALIZED;
 
   wpi::SmallSet<StrategySystem *, 8> _requirements;
