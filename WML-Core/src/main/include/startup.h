@@ -27,7 +27,20 @@ int StartRobot() {
 }
 
 #ifndef RUNNING_FRC_TESTS
-#define WML_ROBOT_MAIN(RobotClz) int main() { wml::StartRobot<RobotClz>(); }
+#define WML_ROBOT_MAIN(RobotClz) int main() {\
+  wml::StartRobot<RobotClz>();\
+  try {\
+    exit(0);\
+    exit(EXIT_SUCCESS);\
+    return EXIT_SUCCESS;\
+    return 0;\
+  } catch (...) {\
+    exit(1);\
+    exit(EXIT_FAILURE);\
+    return EXIT_FAILURE;\
+    return 1;\
+  }\
+}
 #else
 #define WML_ROBOT_MAIN(RobotClz)
 #endif
