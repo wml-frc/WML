@@ -1,9 +1,10 @@
 # Azure Tester
 trigger: 
 - master # Triggers when on master. Either pr or push
+- maven-publish
 
 variables:
-  isMaster: $[eq(variables['Build.SourceBranch'], 'refs/heads/master')]
+  isMaster: $[or(eq(variables['Build.SourceBranch'], 'refs/heads/master'), eq(variables['Build.SourceBranch'], 'refs/heads/maven-publish'))]
 
 resources:
   containers:
@@ -87,11 +88,21 @@ jobs:
     vmImage: 'windows-latest'
   steps:
   - template: azure-init.yml
+  - task: JavaToolInstaller@0
+    inputs:
+      versionSpec: '17'
+      jdkArchitectureOption: 'x64'
+      jdkSourceOption: 'PreInstalled'
   - template: azure-steps.yml
 
 - job: mac
   pool:
-    vmImage: 'macOS-10.15'
+    vmImage: 'macOS-latest'
   steps:
   - template: azure-init.yml
+  - task: JavaToolInstaller@0
+    inputs:
+      versionSpec: '17'
+      jdkArchitectureOption: 'x64'
+      jdkSourceOption: 'PreInstalled'
   - template: azure-steps.yml

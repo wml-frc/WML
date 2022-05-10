@@ -35,7 +35,8 @@ bool StrategyController::Schedule(std::shared_ptr<Strategy> strategy, bool force
 void StrategyController::Update(double dt) {
   if (dt < 0) {
     // Automatic dt finding with system clock
-    double t = frc::GetTime();
+		double t = frc::GetTime().value();
+    // double t = frc::GetTime();
     if (_last_update_time > 0.01) {
       dt = t - _last_update_time;
     } else {
@@ -67,6 +68,7 @@ bool StrategyController::DoSchedule(std::shared_ptr<Strategy> strategy, bool for
   if (strategy->GetStrategyState() != StrategyState::INITIALIZED && strategy->GetStrategyState() != StrategyState::CANCELLED && !strategy->_can_reuse) {
     throw std::invalid_argument("Cannot reuse a Strategy that has SetCanBeReused(false)");
   }
+
 
   // Assert that systems exist, and that they may have an interrupted strategy
   for (StrategySystem *sys : strategy->GetRequirements()) {

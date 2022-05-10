@@ -1,6 +1,6 @@
 #pragma once
 
-#include <frc/SpeedController.h>
+#include <frc/motorcontrol/MotorController.h>
 #include <rev/CANSparkMax.h>
 #include <rev/CANEncoder.h>
 
@@ -14,13 +14,13 @@ namespace wml {
   /**
    * Wrapper around the REV SPARK MAX
    */
-  class SparkMax : public wml::actuators::MotorVoltageController, public frc::SpeedController, public wml::sensors::Encoder {
+  class SparkMax : public wml::actuators::MotorVoltageController, public frc::MotorController, public wml::sensors::Encoder {
    public:
     enum class MotorType {
-      kBrushed = (int)rev::CANSparkMax::MotorType::kBrushed,
-      kBrushless = (int)rev::CANSparkMax::MotorType::kBrushless,
+      kBrushed = (int)rev::CANSparkMaxLowLevel::MotorType::kBrushed,
+      kBrushless = (int)rev::CANSparkMaxLowLevel::MotorType::kBrushless,
 
-      kNEO = kBrushless,
+      kNEO = kBrushless
     };
 
     /**
@@ -28,8 +28,8 @@ namespace wml {
      * 
      * @param port The device ID of the SPARK MAX on the CAN Bus.
      */
-    SparkMax(actuators::Port port, MotorType motorType, rev::CANEncoder::EncoderType encoderType, int encoderTicksPerRotation);
-    SparkMax(actuators::Port port, MotorType motorType, int encoderTicksPerRotation = -1);
+    SparkMax(actuators::Port port, MotorType motorType, rev::SparkMaxRelativeEncoder::Type encoderType, int encoderTicksPerRotation);
+    SparkMax(actuators::Port port, MotorType motorType, int encoderTicksPerRotation = 42);
     // ~SparkMax();
 
     /**
@@ -59,8 +59,6 @@ namespace wml {
      * Stop the motor
      */
     void StopMotor() override;
-
-    void PIDWrite(double output) override;
 
     /**
      * Set the speed of the SPARK MAX, in the range -1 Full Reverse, 0 Neutral and 1 Full Forward
@@ -96,10 +94,9 @@ namespace wml {
     
    private:
     rev::CANSparkMax _handle;
-    rev::CANEncoder *_encoder = nullptr;
-    
+    rev::SparkMaxRelativeEncoder _encoder = _handle.GetEncoder();
+
     actuators::Port _port;
-    MotorType _motorType;
     double _value;
   };
 }

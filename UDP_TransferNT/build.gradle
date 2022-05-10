@@ -1,23 +1,23 @@
 ext {
-	nativeName = 'UDP_TransferNT'
-	req_proj_libs = []
-	req_libs = []
-	lang = 'cpp'
-	projectVersion = '2021.3.2'
-	baseUUID = 'd7e51e9d-c0f6-4f51-96f1-cf2beab44a24'
+  nativeName = 'UDP_TransferNT'
+  req_proj_libs = []
+  req_libs = []
+  lang = 'cpp'
+  projectVersion = '2022.2.1'
+  baseUUID = 'd7e51e9d-c0f6-4f51-96f1-cf2beab44a24'
 
-	desktopSupport = true
+  desktopSupport = true
 
-	overrideSrc = true
-	overrideTestSrc = true
+  overrideSrc = true
+  overrideTestSrc = true
 
-	srcZip = false
-	headerZip = true
+  srcZip = false
+  headerZip = true
 
-	srcLoc = 'UDP_TransferNT/UDP_TransferNT/include'
-	headersLoc = 'UDP_TransferNT/UDP_TransferNT/include'
+  srcLoc = 'UDP_TransferNT/UDP_TransferNT/include'
+  headersLoc = 'UDP_TransferNT/UDP_TransferNT/include'
 
-	testSrcLoc = 'UDP_TransferNT/UDP_TransferNT/test'
+  testSrcLoc = 'UDP_TransferNT/UDP_TransferNT/test'
 }
 
 apply from: project.file('../shared/mainBuild.gradle')

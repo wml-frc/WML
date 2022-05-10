@@ -13,9 +13,10 @@ namespace wml {
     class ConstructableGenericHID : public frc::GenericHID { // Constructable GenericHID class
      public:
       using frc::GenericHID::GenericHID;
-
-      virtual double GetX(JoystickHand hand = kRightHand) const override { return GetRawAxis(1); };
-      virtual double GetY(JoystickHand hand = kRightHand) const override { return GetRawAxis(0); };
+      // virtual double GetX(JoystickHand hand = kRightHand) const override { return GetRawAxis(1); };
+      // virtual double GetY(JoystickHand hand = kRightHand) const override { return GetRawAxis(0); };
+      double GetX() { return GetRawAxis(1); };
+      double GetY() { return GetRawAxis(0); };
     };
 
     class GenericHID { // frc::GenericHID wrapper

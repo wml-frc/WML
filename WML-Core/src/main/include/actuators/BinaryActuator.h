@@ -1,12 +1,14 @@
 #pragma once
 
 #include <string>
+#include <frc/PneumaticsModuleType.h>
 
 #include "devices/StateDevice.h"
 
 namespace wml {
   namespace actuators {
     enum BinaryActuatorState { kReverse = 0, kForward };
+		enum PneumaticsModuleType { kCTRE = 0, kREV};
 
     class BinaryActuator : public devices::StateDevice<BinaryActuatorState> {
      public:

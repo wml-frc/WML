@@ -4,22 +4,22 @@
 
 using namespace wml;
 
-actuators::MotorVoltageController::MotorVoltageController(frc::SpeedController *sc) : _speedController(sc) { }
+actuators::MotorVoltageController::MotorVoltageController(frc::MotorController *sc) : _motorController(sc) { }
 
 void actuators::MotorVoltageController::SetVoltage(double voltage) {
-  _speedController->Set(voltage / GetBusVoltage());
+  _motorController->Set(voltage / GetBusVoltage());
 } 
 
 double actuators::MotorVoltageController::GetVoltage() {
-  return _speedController->Get() * GetBusVoltage();
+  return _motorController->Get() * GetBusVoltage();
 }
 
 void actuators::MotorVoltageController::SetInverted(bool invert) {
-  _speedController->SetInverted(invert);
+  _motorController->SetInverted(invert);
 }
 
 bool actuators::MotorVoltageController::GetInverted() {
-  return _speedController->GetInverted();
+  return _motorController->GetInverted();
 }
 
 double actuators::MotorVoltageController::GetBusVoltage() {

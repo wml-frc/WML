@@ -38,7 +38,7 @@ class StrategyBuilder {
    * Parallel actions may not share the same system, they must be mutually exclusive.
    */
   template<typename T, typename ...Args>
-  StrategyBuilder *Add(const Args ... args) {
+  StrategyBuilder *Add(const Args& ... args) {
     return Add(std::make_shared<T>(args...));
   }
 

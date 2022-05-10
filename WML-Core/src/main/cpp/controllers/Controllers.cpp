@@ -41,5 +41,5 @@ void wml::controllers::SmartControllerGroup::Set(tRumble rumble, double value) {
 
 
 wml::controllers::SmartController &wml::controllers::SmartControllerGroup::GetController(int cont) {
-  return m_conts[cont - 1];
+  return m_conts[cont];
 }

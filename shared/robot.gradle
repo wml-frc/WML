@@ -3,163 +3,162 @@ apply plugin: 'cpp'
 apply plugin: 'google-test-test-suite'
 apply plugin: 'edu.wpi.first.GradleRIO'
 
-apply from: rootProject.file('config.gradle')
+apply from: project.file('../config.gradle')
+apply from: project.file('../shared/platform.gradle')
 
 ext {
-	teamID = teamNum
-	link = lib_link
+  teamID = teamNum
+  link = lib_link
 }
 
 // Define my targets (RoboRIO) and artifacts (deployable files)
 // This is added by GradleRIO's backing project EmbeddedTools.
 deploy {
-	targets {
-		roboRIO("roborio") {
-			// Team number is loaded either from the .wpilib/wpilib_preferences.json
-			// or from command line. If not found an exception will be thrown.
-			// You can use getTeamOrDefault(team) instead of getTeamNumber if you
-			// want to store a team number in this file.
-			team = teamNum
-		}
-	}
+  targets {
+    roborio(getTargetTypeClass('RoboRIO')) {
+      // Team number is loaded either from the .wpilib/wpilib_preferences.json
+      // or from command line. If not found an exception will be thrown.
+      // You can use getTeamOrDefault(team) instead of getTeamNumber if you
+      // want to store a team number in this file.
+      team = teamNum
 
-	artifacts {
-		frcNativeArtifact('frcCpp') {
-			targets << "roborio"
-			component = 'frcUserProgram'
-			// Debug can be overridden by command line, for use with VSCode
-			debug = frc.getDebugOrDefault(false)
-		}
-		// Built in artifact to deploy arbitrary files to the roboRIO.
-		fileTreeArtifact('frcStaticFileDeploy') {
-			// The directory below is the local directory to deploy
-			files = fileTree(dir: 'src/main/deploy')
-			// Deploy to RoboRIO target, into /home/lvuser/deploy
-			targets << "roborio"
-			directory = '/home/lvuser/deploy'
-		}
-	}
+      
+      artifacts {
+        frcCpp(getArtifactTypeClass('FRCNativeArtifact')) { // <- wtf is this WPI
+        }
+
+        frcStaticFileDeploy(getArtifactTypeClass('FileTreeArtifact')) {
+          files = project.fileTree('src/main/deploy')
+          directory = '/home/lvuser/deploy'
+        }
+      }
+    }
+  }
+
 }
 
-// Set this to true to include the src folder in the include directories passed
-// to the compiler. Some eclipse project imports depend on this behavior.
-// We recommend leaving this disabled if possible. Note for eclipse project
-// imports this is enabled by default. For new projects, its disabled
-def includeSrcInIncludeRoot = true
+def deployArtifact = deploy.targets.roborio.artifacts.frcCpp
 
 // Set this to true to enable desktop support.
 def includeDesktopSupport = true
 
-// Enable simulation gui support. Must check the box in vscode to enable support
-// upon debugging
-dependencies {
-	simulation wpi.deps.sim.gui(wpi.platforms.desktop, true)
-	simulation wpi.deps.sim.driverstation(wpi.platforms.desktop, true)
-}
+// Set to true to run simulation in debug mode
+wpi.cpp.debugSimulation = false
 
-// Simulation configuration (e.g. environment variables).
-sim {
-	// Sets the websocket client remote host.
-	// envVar "HALSIMWS_HOST", "10.0.0.2"
-}
+// Default enable simgui
+wpi.sim.addGui().defaultEnabled = true
+// Enable DS but not by default
+wpi.sim.addDriverstation()
+
 
 model {
-	components {
-		
-		"${nativeName}"(NativeExecutableSpec) { // frc user
-			if (includeDesktopSupport) {
-				targetPlatform wpi.platforms.desktop
-			}
-			targetPlatform wpi.platforms.roborio
+  components {
+    
+    "${nativeName}"(NativeExecutableSpec) { // frc user
+      targetPlatform wpi.platforms.roborio
+      if (includeDesktopSupport) {
+        targetPlatform wpi.platforms.desktop
+      }
 
-			sources.cpp {
-				source {
-					srcDir 'src/main/cpp' // robot
-					include '**/*.cpp', '**/*.cc'
-				}
+      sources.cpp {
+        source {
+          srcDir 'src/main/cpp' // robot
+          include '**/*.cpp', '**/*.cc'
+        }
 
-				exportedHeaders {
-					srcDir 'src/main/include' // robot
+        exportedHeaders {
+          srcDir 'src/main/include' // robot
+        }
+      }
 
-					if (includeSrcInIncludeRoot) {
-						srcDir 'src/main/cpp' // robot
-					}
-				}
-			}
+      binaries.all {
+        if (req_proj_libs.size() >= 1) {
+          req_proj_libs.each { req_library ->
+            if (targetPlatform.name == wpi.platforms.roborio) {
+              lib project: ":${req_library}", library: "${req_library}", linkage: "shared"
+            } else {
+              lib project: ":${req_library}", library: "${req_library}", linkage: "${lib_link}"
+            }
+          }
+        }
 
-			binaries.all {
-				if (req_proj_libs.size() >= 1) {
-					req_proj_libs.each { req_library ->
-						lib project: ":${req_library}", library: "${req_library}", linkage: "${lib_link}"
-					}
-				}
+        if (req_libs.size() >= 1) {
+          req_libs.each { req_library ->
+            lib library: "${req_library}"
+          }
+        }
 
-				if (req_libs.size() >= 1) {
-					req_libs.each { req_library ->
-						lib library: "${req_library}"
-					}
-				}
+        // if (includeDesktopSupport) {
+        //   cppCompiler.define "WML_DESKTOP_SUPPORT"
+        // }
+      }
 
-				if (includeDesktopSupport) {
-					cppCompiler.define "WML_DESKTOP_SUPPORT"
-				}
-			}
+      // Specify this component for deploying.
+      deployArtifact.component = it
 
-			// Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
-			wpi.deps.vendor.cpp(it)
-			wpi.deps.wpilib(it)
-		} // frc user
-	}
+      // Enable run tasks for this component
+      wpi.cpp.enableExternalTasks(it)
 
-	testSuites {
-		"${nativeName}Test"(GoogleTestTestSuiteSpec) {
-			for(NativeComponentSpec c : $.components) {
-				if (c.name == nativeName) {
-					testing c
-					break
-				}
-			}
+      // Enable simulation for this component
+      wpi.sim.enable(it)
+      // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
+      wpi.cpp.vendor.cpp(it)
+      wpi.cpp.deps.wpilib(it)
+    }
+  }
 
-			sources.cpp {
-				source {
-					srcDir 'src/test/cpp'
-					include '**/*.cpp'
-				}
-			}
+  testSuites {
+    "${nativeName}Test"(GoogleTestTestSuiteSpec) {
+      for(NativeComponentSpec c : $.components) {
+        if (c.name == nativeName) {
+          testing c
+          break
+        }
+      }
 
-			binaries.all {
-				if (req_proj_libs.size() >= 1) {
-					req_proj_libs.each { req_library ->
-						lib project: ":${req_library}", library: "${req_library}", linkage: "${lib_link}"
-					}
-				}
+      sources.cpp {
+        source {
+          srcDir 'src/test/cpp'
+          include '**/*.cpp'
+        }
+      }
 
-				if (req_libs.size() >= 1) {
-					req_libs.each { req_library ->
-						lib library: "${req_library}"
-					}
-				}
+      binaries.all {
+        if (req_proj_libs.size() >= 1) {
+          req_proj_libs.each { req_library ->
+            lib project: ":${req_library}", library: "${req_library}", linkage: "${lib_link}"
+          }
+        }
 
-				if (includeDesktopSupport) {
-					cppCompiler.define "WML_DESKTOP_SUPPORT"
-				}
-			}
+        if (req_libs.size() >= 1) {
+          req_libs.each { req_library ->
+            lib library: "${req_library}"
+          }
+        }
 
-			wpi.deps.vendor.cpp(it)
-			wpi.deps.wpilib(it)
-			wpi.deps.googleTest(it)
-		}
-	}
+        // if (includeDesktopSupport) {
+        //   cppCompiler.define "WML_DESKTOP_SUPPORT"
+        // }
+      }
+
+      // Enable run tasks for this component
+      wpi.cpp.enableExternalTasks(it)
+
+      wpi.cpp.vendor.cpp(it)
+      wpi.cpp.deps.wpilib(it)
+      wpi.cpp.deps.googleTest(it)
+    }
+  }
 }
 
 task sim(dependsOn: "simulate${nativeName}${wpi.platforms.desktop.capitalize()}DebugExecutable")
 
 doxygen {
-	executables {
-		doxygen version : '1.8.13'
-	}
+  executables {
+    doxygen version : '1.8.13'
+  }
 
-	generate_html true
-	source project.file('src/main/include')
-	outputDir new File(buildDir,"docs/${nativeName}/doxygen")
+  generate_html true
+  source project.file('src/main/include')
+  outputDir new File(buildDir,"docs/${nativeName}/doxygen")
 }

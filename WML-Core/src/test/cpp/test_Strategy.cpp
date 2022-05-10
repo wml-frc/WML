@@ -264,7 +264,12 @@ TEST_F(StrategyTest, ThrowsIfReuseFalse) {
   strat->Requires(&sysA);
 
   ASSERT_TRUE(controller.Schedule(strat));
+  ASSERT_EQ(strat->GetStrategyState(), StrategyState::RUNNING);
+  strat->SetDone();
+  ASSERT_EQ(strat->GetStrategyState(), StrategyState::DONE);
+  controller.Update();
   ASSERT_THROW(controller.Schedule(strat), std::invalid_argument);
+  ASSERT_EQ(strat->GetStrategyState(), StrategyState::DONE);
 }
 
 TEST_F(StrategyTest, AllowReuseIfTrue) {
@@ -275,5 +280,10 @@ TEST_F(StrategyTest, AllowReuseIfTrue) {
   strat->Requires(&sysA);
 
   ASSERT_TRUE(controller.Schedule(strat));
+  ASSERT_EQ(strat->GetStrategyState(), StrategyState::RUNNING);
+  strat->SetDone();
+  ASSERT_EQ(strat->GetStrategyState(), StrategyState::DONE);
+  controller.Update();
   ASSERT_NO_THROW(controller.Schedule(strat));
+  ASSERT_EQ(strat->GetStrategyState(), StrategyState::RUNNING);
 }

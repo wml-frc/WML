@@ -8,10 +8,10 @@
 #include <frc/DoubleSolenoid.h>
 #include <frc/GenericHID.h>
 
-#include <frc/SpeedControllerGroup.h>
-#include <frc/Spark.h>
-#include <frc/PowerDistributionPanel.h>
-#include <frc/PWMSparkMax.h>
+// #include <frc/SpeedControllerGroup.h>
+// #include <frc/Spark.h>
+#include <frc/PowerDistribution.h>
+// #include <frc/PWMSparkMax.h>
 #include <frc/Servo.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/AnalogInput.h>
@@ -20,7 +20,7 @@
 #include <frc/Filesystem.h>
 #include <frc/trajectory/TrajectoryUtil.h>
 #include <networktables/NetworkTableInstance.h>
-#include <wpi/Path.h>
+// #include <wpi/Path.h>
 #include <wpi/SmallString.h>
 
 // REV
@@ -58,29 +58,40 @@
 #include <startup.h>
 
 
+#include <sensors/NavX.h>
+
+wml::sensors::NavX *navX;
+wml::sensors::NavXGyro *gyro;
 class Robot : public frc::TimedRobot {
- public:
-	void RobotInit() override {}
-	
-	void RobotPeriodic() override {}
+public:
+  void RobotInit() override {
+    std::cout << "Robot Init" << std::endl;
+    navX = new wml::sensors::NavX();
+    gyro = new wml::sensors::NavXGyro(navX->Angular(wml::sensors::AngularAxis::YAW));
+  }
+  
+  void RobotPeriodic() override {
+    std::cout << "NavX: " << gyro->GetAngle() << std::endl;
+  }
 
-	void AutonomousInit() override {}
+  void AutonomousInit() override {}
 
-	void AutonomousPeriodic() override {}
+  void AutonomousPeriodic() override {}
 
-	void TeleopInit() override {}
+  void TeleopInit() override {}
 
-	void TeleopPeriodic() override {}
+  void TeleopPeriodic() override {
+  }
 
-	void DisabledInit() override {}
+  void DisabledInit() override {}
 
-	void DisabledPeriodic() override {}
+  void DisabledPeriodic() override {}
 
-	void TestInit() override {}
+  void TestInit() override {}
 
-	void TestPeriodic() override {}
+  void TestPeriodic() override {}
 
- private:
+private:
 };
 
 WML_ROBOT_MAIN(Robot)

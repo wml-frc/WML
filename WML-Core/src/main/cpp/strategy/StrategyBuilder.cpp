@@ -11,10 +11,19 @@ StrategyQueue::StrategyQueue() : Strategy() {
 }
 
 std::string StrategyQueue::GetStrategyName() {
+  auto &front = _queue.front();
+  std::string front_names_joined = "";
+
+  for (auto it = front.begin(); it != front.end(); it++) {
+    front_names_joined += (*it)->GetStrategyName();
+    if (it != front.end() - 1)
+      front_names_joined += ", ";
+  }
+
   if (!_custom_name.empty()) {
-    return "StrategyQueue[" + _custom_name + ", n(queued): " + std::to_string(_queue.size()) + "]";
+    return "StrategyQueue[" + _custom_name + ", n(queued): " + std::to_string(_queue.size()) + ", " + front_names_joined + "]";
   } else {
-    return "StrategyQueue[n(queued): " + std::to_string(_queue.size()) + "]";
+    return "StrategyQueue[n(queued): " + std::to_string(_queue.size()) + ", " + front_names_joined + "]";
   }
 }
 
@@ -25,11 +34,16 @@ void StrategyQueue::OnUpdate(double dt) {
     bool allFinished = true;
     for (auto strat : _queue.front()) {
       strat->Update(dt);
-      if (!strat->IsFinished())
+      if (!strat->IsFinished() && !strat->_is_passive)
         allFinished = false;
     }
 
     if (allFinished) {
+      // Finish any passive strategies
+      for (auto strat : _queue.front()) {
+        if (!strat->IsFinished())
+          strat->SetDone();
+      }
       _queue.pop_front();
       if (_queue.empty())
         SetDone();
