@@ -7,7 +7,7 @@
 ## A modularity-based library designed for use in the FIRST Robotics Competition.
 
 ### Build Status
-[![Build Status](https://dev.azure.com/ConnorBuchel0890/WML/_apis/build/status/wml-frc.WML?branchName=master)](https://dev.azure.com/ConnorBuchel0890/WML/_build/latest?definitionId=7&branchName=master)
+[![Build Status](https://dev.azure.com/ConnorBuchel0890/WML/_apis/build/status/wml-frc.WML?branchName=master)](https://dev.azure.com/ConnorBuchel0890/WML/_build/latest?definitionId=17&branchName=master)
 
 ## WML As FRC Vendor
 - WML Supports being included as a shared library.
